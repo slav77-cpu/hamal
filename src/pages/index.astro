@@ -1,0 +1,19 @@
+---
+// Временна страница за етап 1 — само за да се видят горната лента, футърът и лентата за контакт.
+// В етап 2 се заменя с началната страница по т. 4 от заданието.
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+import { inCity } from '../lib/format';
+---
+
+<Base
+  title={`Хамалски услуги ${inCity(site.city)} | ${site.name}`}
+  description={`Хамалски услуги ${inCity(site.city)}: преместване, бус с хамали, извозване и монтаж на мебели.`}
+>
+  <section class="container-page py-16">
+    <h1 class="text-3xl font-bold sm:text-5xl">Хамалски услуги {inCity(site.city)}</h1>
+    <p class="mt-4 max-w-prose text-lg text-muted">
+      Скелет на сайта (етап 1). Началната страница идва в етап 2.
+    </p>
+  </section>
+</Base>

@@ -4,17 +4,18 @@
 
 ## Стек
 
-- Astro + TypeScript, статичен build в `dist/`
-- React само за `Calculator.tsx` и `QuoteForm.tsx`
-- Tailwind CSS
+- Astro 7 + TypeScript, статичен build в `dist/`
+- Preact (вместо React от SPEC.md — същият синтаксис, много по-малко JS) само за `Calculator.tsx` и `QuoteForm.tsx`
+- Tailwind CSS 4 (цветовете са в `@theme` в `src/styles/global.css`), шрифт Onest от `@fontsource-variable`
+- Иконите се вграждат при build: `src/components/Icon.astro` (Lucide + логата на Viber/WhatsApp от Simple Icons)
 - Хостинг: Render Static Site. Без бекенд и без база данни.
 
 ## Команди
 
 - `npm run dev` — локален сървър
-- `npm run build` — build в `dist/`
+- `npm run build` — проверка на типовете (`astro check`) и build в `dist/`
 - `npm run preview` — преглед на build-а
-- `npm test` — тестове на калкулатора (Vitest, от етап 4 нататък)
+- `npm test` — тестове (Vitest) в `tests/`: данни, форматиране, линкове, общите части на страницата; към всеки етап се добавят нови
 
 ## Правила
 
@@ -25,6 +26,15 @@
 - Първо за телефон. На телефон лентата „Обади се | Viber | WhatsApp“ стои долу на всички страници.
 - Без бисквитки: аналитика с Umami, без вграден Google Maps.
 - Не добавяй нищо извън обхвата в `SPEC.md` (админ панел, резервации, плащане, английска версия).
+
+## Решения по неясни места в SPEC.md (одобрени)
+
+- Цената „от“ на всяка услуга е в `pricing.servicesFrom` по slug; `services.ts` няма числа.
+- Пакетите в ценоразписа се смятат по формулата на калкулатора от `pricing.jobs`: хамали = `porters`, „до … ч“ = `hours[1]`, „от … €“ = долната граница от `estimatePrice` (партер, в града, без допълнителни).
+- „от … €/час“ на първия екран е `pricing.porterPerHour`.
+- Редовете „Демонтаж и монтаж“ и „Извозване“ в ценоразписа са `pricing.extras.*.price` — същите числа, които калкулаторът добавя.
+- Числата се показват през `src/lib/format.ts` (0 → „… €“); контактите — през `src/lib/links.ts`.
+- Git: commit след всеки одобрен етап.
 
 ## Как работим
 

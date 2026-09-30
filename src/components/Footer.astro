@@ -1,0 +1,106 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { contact } from '../lib/links';
+import { inCity } from '../lib/format';
+import { mainLinks, serviceLinks } from '../lib/nav';
+
+const pageLinks = [...mainLinks, { href: '/poveritelnost', label: 'Политика за поверителност' }];
+
+const legal = [
+  { label: 'Наименование', value: site.legalName },
+  { label: 'Седалище и адрес на управление', value: site.registeredAddress },
+  { label: 'Адрес на дейност', value: site.businessAddress },
+  { label: 'ЕИК', value: site.eik },
+  {
+    label: 'Регистрация по ДДС',
+    value: site.vatNumber ?? 'Не е регистрирана по ДДС',
+  },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-ink text-slate-300">
+  <div class="container-page grid gap-10 py-12 md:grid-cols-4">
+    <div class="md:col-span-2">
+      <p class="text-lg font-bold text-white">{site.name}</p>
+      <p class="mt-1">Хамалски услуги {inCity(site.city)}</p>
+
+      <ul class="mt-5 space-y-3">
+        <li>
+          <a href={contact.tel} class="inline-flex items-center gap-3 hover:text-white" data-umami-event="call_click">
+            <Icon name="phone" class="size-5 text-brand" />
+            <span class="font-semibold text-white">{contact.phoneText}</span>
+          </a>
+        </li>
+        <li>
+          <a href={contact.email} class="inline-flex items-center gap-3 hover:text-white">
+            <Icon name="mail" class="size-5 text-brand" />
+            {site.email}
+          </a>
+        </li>
+        <li class="flex items-start gap-3">
+          <Icon name="clock" class="size-5 shrink-0 text-brand" />
+          <span>
+            <span class="sr-only">Работно време: </span>
+            {site.hours}
+          </span>
+        </li>
+        <li class="flex items-start gap-3">
+          <Icon name="map-pin" class="size-5 shrink-0 text-brand" />
+          <span>
+            <span class="sr-only">Адрес на дейност: </span>
+            {site.businessAddress}
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <nav aria-labelledby="footer-services">
+      <h2 id="footer-services" class="font-semibold text-white">Услуги</h2>
+      <ul class="mt-3 space-y-2">
+        {
+          serviceLinks.map((link) => (
+            <li>
+              <a href={link.href} class="hover:text-white hover:underline">
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav aria-labelledby="footer-pages">
+      <h2 id="footer-pages" class="font-semibold text-white">Страници</h2>
+      <ul class="mt-3 space-y-2">
+        {
+          pageLinks.map((link) => (
+            <li>
+              <a href={link.href} class="hover:text-white hover:underline">
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="container-page py-6 text-sm text-slate-400">
+      <dl class="grid gap-x-8 gap-y-2 sm:grid-cols-2">
+        {
+          legal.map((item) => (
+            <div>
+              <dt class="inline">{item.label}:</dt>{' '}
+              <dd class="inline text-slate-300">{item.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="mt-6">© {year} {site.name}</p>
+    </div>
+  </div>
+</footer>

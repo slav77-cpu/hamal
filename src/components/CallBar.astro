@@ -1,0 +1,35 @@
+---
+// Лепкава лента „Обади се | Viber | WhatsApp“ — само на телефон, на всички страници.
+import Icon from './Icon.astro';
+import { contact } from '../lib/links';
+---
+
+<nav
+  class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-3 bg-ink pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_16px_rgb(15_23_42/0.15)] md:hidden"
+  aria-label="Бърз контакт"
+>
+  <a
+    href={contact.tel}
+    class="flex h-14 items-center justify-center gap-1.5 max-[359px]:text-[13px] bg-brand text-sm font-semibold text-ink active:bg-brand-hover"
+    data-umami-event="call_click"
+  >
+    <Icon name="phone" class="size-5" />
+    Обади се
+  </a>
+  <a
+    href={contact.viber}
+    class="flex h-14 items-center justify-center gap-1.5 max-[359px]:text-[13px] bg-viber text-sm font-semibold text-white active:bg-viber-hover"
+    data-umami-event="viber_click"
+  >
+    <Icon name="viber" class="size-5" />
+    Viber
+  </a>
+  <a
+    href={contact.whatsapp}
+    class="flex h-14 items-center justify-center gap-1.5 max-[359px]:text-[13px] bg-whatsapp text-sm font-semibold text-white active:bg-whatsapp-hover"
+    data-umami-event="whatsapp_click"
+  >
+    <Icon name="whatsapp" class="size-5" />
+    WhatsApp
+  </a>
+</nav>
