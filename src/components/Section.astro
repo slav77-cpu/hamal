@@ -1,0 +1,32 @@
+---
+// Секция на страница: заглавие H2, кратък увод и съдържание.
+interface Props {
+  id: string;
+  title: string;
+  intro?: string;
+  tone?: 'white' | 'surface' | 'dark';
+}
+
+const { id, title, intro, tone = 'white' } = Astro.props;
+
+const bg = {
+  white: 'bg-white',
+  surface: 'bg-surface',
+  dark: 'bg-ink text-white',
+}[tone];
+---
+
+<section id={id} aria-labelledby={`${id}-title`} class={bg}>
+  <div class="container-page py-14 sm:py-20">
+    <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+      <div>
+        <h2 id={`${id}-title`} class="text-2xl font-bold sm:text-3xl">{title}</h2>
+        {intro && <p class:list={['mt-3 max-w-2xl text-lg', tone === 'dark' ? 'text-slate-300' : 'text-muted']}>{intro}</p>}
+      </div>
+      <slot name="action" />
+    </div>
+    <div class="mt-8">
+      <slot />
+    </div>
+  </div>
+</section>

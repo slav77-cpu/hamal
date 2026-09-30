@@ -1,19 +1,189 @@
 ---
-// Временна страница за етап 1 — само за да се видят горната лента, футърът и лентата за контакт.
-// В етап 2 се заменя с началната страница по т. 4 от заданието.
+// Начална страница — секциите по реда от т. 4 на заданието.
+import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import ContactButtons from '../components/ContactButtons.astro';
+import Faq from '../components/Faq.astro';
+import Gallery from '../components/Gallery.astro';
+import Icon from '../components/Icon.astro';
+import Reviews from '../components/Reviews.astro';
+import Section from '../components/Section.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { faq } from '../data/faq';
+import { gallery, heroPhoto } from '../data/photos';
+import { pricing } from '../data/pricing';
+import { services } from '../data/services';
 import { site } from '../data/site';
-import { inCity } from '../lib/format';
+import { formatPriceFrom, inCity } from '../lib/format';
+import { priceDisclaimer, priceRow } from '../lib/price-list';
+
+const city = inCity(site.city);
+const hourly = `${formatPriceFrom(pricing.porterPerHour)}/час`;
+
+// „Цени накратко“ — най-търсените редове от ценоразписа
+const topPrices = (['porter', 'van', 'floor', 'junkRemoval'] as const).map(priceRow);
+const minOrder = priceRow('minOrder');
+
+const steps = [
+  { title: 'Обаждате се или пращате снимки', text: 'Обадете се или пратете снимки на багажа във Viber или WhatsApp.' },
+  { title: 'Получавате цена', text: 'Казваме ви цената и уговаряме ден и час, преди да започнем.' },
+  { title: 'Идваме в уговорения ден', text: 'Хамалите и бусът идват навреме на адреса.' },
+  { title: 'Плащате след работа', text: 'Плащате, когато всичко е пренесено.' },
+];
 ---
 
 <Base
-  title={`Хамалски услуги ${inCity(site.city)} | ${site.name}`}
-  description={`Хамалски услуги ${inCity(site.city)}: преместване, бус с хамали, извозване и монтаж на мебели.`}
+  title={`Хамалски услуги ${site.city} — ${hourly} | ${site.name}`}
+  description={`Хамалски услуги ${city}: преместване на дом и офис, бус с хамали, извозване и монтаж на мебели. Цени ${hourly}. Обадете се или пратете снимки във Viber.`}
 >
-  <section class="container-page py-16">
-    <h1 class="text-3xl font-bold sm:text-5xl">Хамалски услуги {inCity(site.city)}</h1>
-    <p class="mt-4 max-w-prose text-lg text-muted">
-      Скелет на сайта (етап 1). Началната страница идва в етап 2.
-    </p>
+  <!-- 2. Първи екран -->
+  <section class="bg-surface">
+    <div class="container-page grid items-center gap-8 py-10 md:grid-cols-2 md:gap-12 md:py-16">
+      <div>
+        <h1 class="text-4xl leading-tight font-extrabold tracking-tight sm:text-5xl">Хамалски услуги {city}</h1>
+        <p class="mt-4 text-lg text-muted sm:text-xl">{site.tagline}</p>
+        <p class="mt-6 inline-flex items-baseline gap-2 rounded-xl bg-brand/30 px-4 py-2">
+          <span class="text-2xl font-bold">{hourly}</span>
+          <span class="text-muted">на хамалин</span>
+        </p>
+        <ContactButtons channels={['call', 'viber']} class="mt-6 max-w-md" />
+      </div>
+      <Picture
+        src={heroPhoto.src}
+        alt={heroPhoto.alt}
+        formats={['avif', 'webp']}
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 768px) 50vw, 100vw"
+        loading="eager"
+        fetchpriority="high"
+        class="aspect-4/3 w-full rounded-2xl object-cover"
+      />
+    </div>
   </section>
+
+  <!-- 3. Услуги -->
+  <Section id="uslugi" title="Услуги" intro="Изберете услуга — на страницата ѝ има цени, какво е включено и отговори на честите въпроси.">
+    <a href="/uslugi" slot="action" class="inline-flex items-center gap-1 font-semibold underline">
+      Всички услуги <Icon name="arrow-right" class="size-4" />
+    </a>
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        services.map((service) => (
+          <li>
+            <ServiceCard service={service} />
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <!-- 4. Цени накратко -->
+  <Section id="ceni" title="Цени" tone="surface">
+    <a href="/ceni" slot="action" class="inline-flex items-center gap-1 font-semibold underline">
+      Целият ценоразпис <Icon name="arrow-right" class="size-4" />
+    </a>
+    <ul class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+      {
+        topPrices.map((row) => (
+          <li class="flex flex-col rounded-2xl border border-line bg-white p-5">
+            <span class="text-muted">{row.label}</span>
+            <span class="mt-2 text-2xl font-bold">{row.price}</span>
+            <span class="text-sm text-muted">{row.unit}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-6 space-y-1 text-muted">
+      <p>{minOrder.label}: <strong class="text-ink">{minOrder.price}</strong></p>
+      <p>{site.vatNote}</p>
+      <p>{priceDisclaimer}</p>
+    </div>
+    <a
+      href="/ceni#kalkulator"
+      class="mt-6 inline-flex min-h-13 items-center gap-2 rounded-xl bg-ink px-6 text-lg font-semibold text-white hover:bg-slate-800"
+    >
+      <Icon name="calculator" class="size-6" />
+      Изчисли цена
+    </a>
+  </Section>
+
+  <!-- 5. Как работим -->
+  <Section id="kak-rabotim" title="Как работим">
+    <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        steps.map((step, i) => (
+          <li class="flex gap-4 rounded-2xl border border-line p-5 sm:block">
+            <span class="grid size-10 shrink-0 place-items-center rounded-full bg-brand text-lg font-bold" aria-hidden="true">
+              {i + 1}
+            </span>
+            <div>
+              <h3 class="text-lg font-semibold sm:mt-4">{step.title}</h3>
+              <p class="mt-1 text-muted">{step.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+
+  <!-- 6. Защо нас -->
+  <Section id="zashto-nas" title="Защо нас" tone="dark">
+    <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        site.whyUs.map((fact) => (
+          <li class="flex gap-4 sm:block">
+            <Icon name="badge-check" class="size-8 shrink-0 text-brand" />
+            <div>
+              <h3 class="text-lg font-semibold sm:mt-3">{fact.title}</h3>
+              <p class="mt-1 text-slate-300">{fact.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <!-- 7. Снимки от реални обекти -->
+  <Section id="snimki" title="Снимки от реални обекти">
+    <Gallery photos={gallery} />
+  </Section>
+
+  <!-- 8. Отзиви -->
+  <Section id="otzivi" title="Отзиви" tone="surface">
+    <Reviews />
+  </Section>
+
+  <!-- 9. Райони -->
+  <Section id="rayoni" title="Райони, в които работим">
+    <ul class="flex flex-wrap gap-2">
+      {
+        site.areas.map((area) => (
+          <li class="flex items-center gap-1.5 rounded-full border border-line bg-surface px-4 py-2">
+            <Icon name="map-pin" class="size-4 text-muted" />
+            {area}
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-5 text-muted">Не виждате вашия район? Обадете се — ще ви кажем дали идваме и на каква цена.</p>
+  </Section>
+
+  <!-- 10. Често задавани въпроси -->
+  <Section id="vaprosi" title="Често задавани въпроси" tone="surface">
+    <div class="max-w-3xl">
+      <Faq items={faq} />
+    </div>
+  </Section>
+
+  <!-- 11. Финален призив -->
+  <Section id="zapitvane" title="Обади се сега" intro="Кажете какво местите и откъде докъде, а ние ще ви кажем цената и свободните дни." tone="dark">
+    <div class="grid gap-10 md:grid-cols-2">
+      <ContactButtons tone="dark" class="max-w-md" />
+      <div
+        class="grid min-h-48 place-items-center rounded-2xl border-2 border-dashed border-white/25 p-6 text-center text-slate-300"
+      >
+        Тук ще е формата за запитване (етап 5)
+      </div>
+    </div>
+  </Section>
 </Base>

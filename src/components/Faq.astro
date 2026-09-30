@@ -1,0 +1,25 @@
+---
+// Въпроси и отговори като разгъващ се списък — работи без JavaScript.
+import Icon from './Icon.astro';
+import type { FaqItem } from '../data/faq';
+
+interface Props {
+  items: FaqItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="divide-y divide-line rounded-2xl border border-line bg-white">
+  {
+    items.map((item) => (
+      <details class="group px-5">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-lg font-semibold [&::-webkit-details-marker]:hidden">
+          {item.q}
+          <Icon name="chevron-down" class="size-5 shrink-0 transition-transform group-open:rotate-180" />
+        </summary>
+        <p class="-mt-1 pb-5 text-muted">{item.a}</p>
+      </details>
+    ))
+  }
+</div>

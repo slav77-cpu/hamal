@@ -1,0 +1,37 @@
+---
+// Отзиви от reviews.ts и линк към Google профила от site.ts.
+import Icon from './Icon.astro';
+import { reviews } from '../data/reviews';
+import { site } from '../data/site';
+---
+
+<ul class="grid gap-4 md:grid-cols-3">
+  {
+    reviews.map((review) => (
+      <li class="rounded-2xl border border-line bg-white p-6">
+        <figure class="flex h-full flex-col">
+          <blockquote class="flex-1 text-lg">„{review.text}“</blockquote>
+          <figcaption class="mt-4 font-semibold">{review.name}</figcaption>
+        </figure>
+      </li>
+    ))
+  }
+</ul>
+
+<p class="mt-6">
+  {
+    site.googleProfileUrl ? (
+      <a
+        href={site.googleProfileUrl}
+        class="inline-flex items-center gap-2 font-semibold underline"
+        target="_blank"
+        rel="noopener"
+      >
+        Всички отзиви в Google
+        <Icon name="arrow-right" class="size-4" />
+      </a>
+    ) : (
+      <span class="text-muted">[Линк към Google профила]</span>
+    )
+  }
+</p>

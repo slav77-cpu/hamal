@@ -1,0 +1,95 @@
+---
+// Бутони „Обади се“ / Viber / WhatsApp с номера като текст и подкана за снимки.
+// Viber работи само с инсталирано приложение, затова номерът винаги се вижда.
+import Icon, { type IconName } from './Icon.astro';
+import { contact } from '../lib/links';
+
+type Channel = 'call' | 'viber' | 'whatsapp';
+
+interface Props {
+  channels?: Channel[];
+  showPhone?: boolean;
+  photosNote?: boolean;
+  tone?: 'light' | 'dark';
+  class?: string;
+}
+
+const {
+  channels = ['call', 'viber', 'whatsapp'],
+  showPhone = true,
+  photosNote = true,
+  tone = 'light',
+  class: className,
+} = Astro.props;
+
+const buttons: Record<Channel, { href: string; label: string; icon: IconName; event: string; class: string }> = {
+  call: {
+    href: contact.tel,
+    label: 'Обади се',
+    icon: 'phone',
+    event: 'call_click',
+    class: 'bg-brand text-ink hover:bg-brand-hover',
+  },
+  viber: {
+    href: contact.viber,
+    label: 'Viber',
+    icon: 'viber',
+    event: 'viber_click',
+    class: 'bg-viber text-white hover:bg-viber-hover',
+  },
+  whatsapp: {
+    href: contact.whatsapp,
+    label: 'WhatsApp',
+    icon: 'whatsapp',
+    event: 'whatsapp_click',
+    class: 'bg-whatsapp text-white hover:bg-whatsapp-hover',
+  },
+};
+
+const muted = tone === 'dark' ? 'text-slate-300' : 'text-muted';
+const strong = tone === 'dark' ? 'text-white' : 'text-ink';
+// При три бутона „Обади се“ е на цял ред, а Viber и WhatsApp — под него
+const callFullRow = channels.length > 2;
+---
+
+<div class={className}>
+  <div class="flex flex-wrap gap-3">
+    {
+      channels.map((channel) => {
+        const b = buttons[channel];
+        return (
+          <a
+            href={b.href}
+            class:list={[
+              'flex min-h-13 flex-1 basis-36 items-center justify-center gap-2 rounded-xl px-5 text-lg font-semibold transition-colors',
+              channel === 'call' && callFullRow && 'basis-full',
+              b.class,
+            ]}
+            data-umami-event={b.event}
+          >
+            <Icon name={b.icon} class="size-6" />
+            {b.label}
+          </a>
+        );
+      })
+    }
+  </div>
+  {
+    showPhone && (
+      <p class:list={['mt-4', muted]}>
+        Телефон:{' '}
+        <a href={contact.tel} class:list={['text-lg font-semibold underline', strong]} data-umami-event="call_click">
+          {contact.phoneText}
+        </a>
+      </p>
+    )
+  }
+  {
+    photosNote && (
+      <p class:list={['mt-2 flex items-center gap-2', muted]}>
+        <Icon name="camera" class="size-5 shrink-0" />
+        Пратете снимки на багажа за точна цена
+      </p>
+    )
+  }
+</div>

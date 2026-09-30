@@ -1,0 +1,28 @@
+---
+// Галерия със снимки: AVIF/WebP в няколко размера, зареждат се чак когато стигнете до тях.
+import { Picture } from 'astro:assets';
+import type { Photo } from '../data/photos';
+
+interface Props {
+  photos: Photo[];
+}
+
+const { photos } = Astro.props;
+---
+
+<ul class="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3">
+  {
+    photos.map((photo) => (
+      <li>
+        <Picture
+          src={photo.src}
+          alt={photo.alt}
+          formats={['avif', 'webp']}
+          widths={[400, 800]}
+          sizes="(min-width: 768px) 33vw, 50vw"
+          class="aspect-4/3 w-full rounded-xl object-cover"
+        />
+      </li>
+    ))
+  }
+</ul>
