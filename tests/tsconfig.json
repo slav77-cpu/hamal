@@ -1,0 +1,7 @@
+{
+  // Тестовете ползват vitest и linkedom (devDependencies), затова са извън проверката в `npm run build` —
+  // така build-ът на Render минава и без dev пакети. Този файл е за редактора.
+  "extends": "../tsconfig.json",
+  "include": ["../.astro/types.d.ts", "../src/**/*", "./**/*", "../vitest.config.ts"],
+  "exclude": []
+}
