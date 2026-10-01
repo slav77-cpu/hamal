@@ -2,13 +2,16 @@
 // Начална страница — секциите по реда от т. 4 на заданието.
 import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import CallToAction from '../components/CallToAction.astro';
 import ContactButtons from '../components/ContactButtons.astro';
 import Faq from '../components/Faq.astro';
 import Gallery from '../components/Gallery.astro';
 import Icon from '../components/Icon.astro';
+import Placeholder from '../components/Placeholder.astro';
 import Reviews from '../components/Reviews.astro';
 import Section from '../components/Section.astro';
 import ServiceCard from '../components/ServiceCard.astro';
+import WhyUs from '../components/WhyUs.astro';
 import { faq } from '../data/faq';
 import { gallery, heroPhoto } from '../data/photos';
 import { pricing } from '../data/pricing';
@@ -128,19 +131,7 @@ const steps = [
 
   <!-- 6. Защо нас -->
   <Section id="zashto-nas" title="Защо нас" tone="dark">
-    <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {
-        site.whyUs.map((fact) => (
-          <li class="flex gap-4 sm:block">
-            <Icon name="badge-check" class="size-8 shrink-0 text-brand" />
-            <div>
-              <h3 class="text-lg font-semibold sm:mt-3">{fact.title}</h3>
-              <p class="mt-1 text-slate-300">{fact.text}</p>
-            </div>
-          </li>
-        ))
-      }
-    </ul>
+    <WhyUs tone="dark" />
   </Section>
 
   <!-- 7. Снимки от реални обекти -->
@@ -176,14 +167,7 @@ const steps = [
   </Section>
 
   <!-- 11. Финален призив -->
-  <Section id="zapitvane" title="Обади се сега" intro="Кажете какво местите и откъде докъде, а ние ще ви кажем цената и свободните дни." tone="dark">
-    <div class="grid gap-10 md:grid-cols-2">
-      <ContactButtons tone="dark" class="max-w-md" />
-      <div
-        class="grid min-h-48 place-items-center rounded-2xl border-2 border-dashed border-white/25 p-6 text-center text-slate-300"
-      >
-        Тук ще е формата за запитване (етап 5)
-      </div>
-    </div>
-  </Section>
+  <CallToAction>
+    <Placeholder text="Тук ще е формата за запитване (етап 5)" tone="dark" />
+  </CallToAction>
 </Base>

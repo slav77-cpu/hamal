@@ -1,0 +1,106 @@
+---
+// Контакти: бутони, данни за връзка, райони, статична карта (без вграден Google Maps) и форма.
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import ContactButtons from '../components/ContactButtons.astro';
+import Icon from '../components/Icon.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Placeholder from '../components/Placeholder.astro';
+import { areaMapPhoto } from '../data/photos';
+import { site } from '../data/site';
+import { formatPhone, inCity } from '../lib/format';
+import { contact } from '../lib/links';
+
+const city = inCity(site.city);
+
+const details = [
+  { icon: 'phone', label: 'Телефон', value: contact.phoneText, href: contact.tel, event: 'call_click' },
+  { icon: 'viber', label: 'Viber', value: formatPhone(site.viber), href: contact.viber, event: 'viber_click' },
+  { icon: 'whatsapp', label: 'WhatsApp', value: formatPhone(site.whatsapp), href: contact.whatsapp, event: 'whatsapp_click' },
+  { icon: 'mail', label: 'Имейл', value: site.email, href: contact.email },
+  { icon: 'clock', label: 'Работно време', value: site.hours },
+  { icon: 'map-pin', label: 'Адрес', value: site.businessAddress },
+] as const;
+
+// Статичната карта води към Google Maps, щом има линк в site.ts
+const MapLink = site.googleMapsUrl ? 'a' : 'div';
+const mapLinkProps = site.googleMapsUrl ? { href: site.googleMapsUrl, target: '_blank', rel: 'noopener' } : {};
+---
+
+<Base
+  title={`Контакти — хамалски услуги ${city} | ${site.name}`}
+  description={`Телефон, Viber и WhatsApp на ${site.name} — хамалски услуги ${city}. Работно време, райони и форма за запитване.`}
+>
+  <PageHeader
+    title="Контакти"
+    intro="Най-бързо е по телефона. Може и да пратите снимки на багажа във Viber или WhatsApp — така цената е по-точна."
+  >
+    <ContactButtons class="mt-6 max-w-md" />
+  </PageHeader>
+
+  <!-- На телефон формата е веднага след данните за връзка; на компютър е в дясната колона -->
+  <div class="container-page grid gap-12 py-14 sm:py-20 md:grid-cols-2">
+    <section aria-labelledby="danni-title" class="md:col-start-1">
+      <h2 id="danni-title" class="text-2xl font-bold">Данни за връзка</h2>
+      <dl class="mt-6 space-y-4">
+        {
+          details.map((item) => (
+            <div class="relative pl-10">
+              <dt class="text-sm text-muted">
+                <Icon name={item.icon} class="absolute top-0.5 left-0 size-6 text-muted" />
+                {item.label}
+              </dt>
+              <dd class="text-lg font-semibold">
+                {'href' in item ? (
+                  <a href={item.href} class="underline" data-umami-event={'event' in item ? item.event : undefined}>
+                    {item.value}
+                  </a>
+                ) : (
+                  item.value
+                )}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section id="zapitvane" aria-labelledby="zapitvane-title" class="md:col-start-2 md:row-span-3 md:row-start-1">
+      <h2 id="zapitvane-title" class="text-2xl font-bold">Изпрати запитване</h2>
+      <p class="mt-3 text-muted">Оставете телефон и ще ви се обадим.</p>
+      <div class="mt-6">
+        <Placeholder text="Тук ще е формата за запитване (етап 5)" />
+      </div>
+    </section>
+
+    <section aria-labelledby="rayoni-title" class="md:col-start-1">
+      <h2 id="rayoni-title" class="text-2xl font-bold">Райони</h2>
+      <ul class="mt-4 flex flex-wrap gap-2">
+        {site.areas.map((area) => <li class="rounded-full border border-line bg-surface px-4 py-2">{area}</li>)}
+      </ul>
+    </section>
+
+    <section aria-labelledby="karta-title" class="md:col-start-1">
+      <h2 id="karta-title" class="text-2xl font-bold">Къде сме</h2>
+      <MapLink {...mapLinkProps} class="mt-4 block">
+        <Picture
+          src={areaMapPhoto.src}
+          alt={areaMapPhoto.alt}
+          formats={['avif', 'webp']}
+          widths={[400, 800]}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          class="aspect-3/2 w-full rounded-2xl object-cover"
+        />
+        {
+          site.googleMapsUrl ? (
+            <span class="mt-2 inline-flex items-center gap-1 font-semibold underline">
+              Отвори в Google Maps <Icon name="arrow-right" class="size-4" />
+            </span>
+          ) : (
+            <span class="mt-2 block text-muted">[Линк към Google Maps]</span>
+          )
+        }
+      </MapLink>
+    </section>
+  </div>
+</Base>

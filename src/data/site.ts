@@ -43,6 +43,16 @@ export const site = {
     { title: '[Факт 4]', text: '[Кратко пояснение]' }, // TODO
   ],
 
+  // /za-nas — няколко абзаца за фирмата
+  about: [
+    '[От кога работи фирмата и с какво се занимава]', // TODO
+    '[Колко души е екипът, какви бусове има, какво ви отличава]', // TODO
+  ],
+
+  // /poveritelnost
+  dataRetention: '[Срок, за който се пазят запитванията]', // TODO
+  privacyUpdated: '[Дата на последна промяна]', // TODO
+
   googleProfileUrl: '', // TODO: линк към Google профила с отзивите
   googleMapsUrl: '', // TODO: линк към адреса в Google Maps
 } as const;

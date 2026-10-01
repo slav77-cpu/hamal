@@ -1,0 +1,52 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import CallToAction from '../components/CallToAction.astro';
+import Gallery from '../components/Gallery.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Reviews from '../components/Reviews.astro';
+import Section from '../components/Section.astro';
+import WhyUs from '../components/WhyUs.astro';
+import { gallery, heroPhoto } from '../data/photos';
+import { site } from '../data/site';
+import { inCity } from '../lib/format';
+
+const city = inCity(site.city);
+---
+
+<Base
+  title={`За нас — хамалски услуги ${city} | ${site.name}`}
+  description={`${site.name} — хамалски услуги ${city}. Кои сме, как работим и снимки от реални обекти.`}
+>
+  <PageHeader title="За нас" intro={`${site.name} — хамалски услуги ${city}.`} />
+
+  <Section id="koi-sme" title="Кои сме">
+    <div class="grid items-start gap-8 md:grid-cols-2 md:gap-12">
+      <div class="max-w-prose space-y-4 text-lg">
+        {site.about.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+      <Picture
+        src={heroPhoto.src}
+        alt={heroPhoto.alt}
+        formats={['avif', 'webp']}
+        widths={[480, 800, 1200]}
+        sizes="(min-width: 768px) 50vw, 100vw"
+        class="aspect-4/3 w-full rounded-2xl object-cover"
+      />
+    </div>
+  </Section>
+
+  <Section id="zashto-nas" title="Защо нас" tone="surface">
+    <WhyUs />
+  </Section>
+
+  <Section id="snimki" title="Снимки от реални обекти">
+    <Gallery photos={gallery} />
+  </Section>
+
+  <Section id="otzivi" title="Отзиви" tone="surface">
+    <Reviews />
+  </Section>
+
+  <CallToAction />
+</Base>

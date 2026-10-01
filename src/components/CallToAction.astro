@@ -1,0 +1,25 @@
+---
+// Финален призив в края на страница: бутоните за контакт и (в слота) формата за запитване.
+import ContactButtons from './ContactButtons.astro';
+import Section from './Section.astro';
+
+interface Props {
+  id?: string;
+  title?: string;
+  intro?: string;
+}
+
+const {
+  id = 'zapitvane',
+  title = 'Обади се сега',
+  intro = 'Кажете какво местите и откъде докъде, а ние ще ви кажем цената и свободните дни.',
+} = Astro.props;
+const hasForm = Astro.slots.has('default');
+---
+
+<Section id={id} title={title} intro={intro} tone="dark">
+  <div class:list={['grid gap-10', hasForm && 'md:grid-cols-2']}>
+    <ContactButtons tone="dark" class="max-w-md" />
+    <slot />
+  </div>
+</Section>

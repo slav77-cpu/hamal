@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import { services } from '../../data/services';
+import { site } from '../../data/site';
+import { inCity } from '../../lib/format';
+
+const city = inCity(site.city);
+const list = services.map((s) => s.title.toLowerCase()).join(', ');
+---
+
+<Base
+  title={`Хамалски услуги ${city} — всички услуги и цени | ${site.name}`}
+  description={`Хамалски услуги ${city}: ${list}. Цени „от“ за всяка услуга — обадете се или пратете снимки във Viber.`}
+>
+  <PageHeader
+    title="Услуги"
+    intro={`Всичко, с което помагаме ${city}. Изберете услуга, за да видите какво е включено и колко струва.`}
+  />
+
+  <section class="container-page py-12 sm:py-16" aria-label="Списък с услуги">
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        services.map((service) => (
+          <li>
+            <ServiceCard service={service} headingLevel="h2" />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <CallToAction title="Не знаете коя услуга ви трябва?" intro="Обадете се или пратете снимки — ще ви кажем какво и колко ще струва." />
+</Base>

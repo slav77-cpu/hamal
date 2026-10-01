@@ -4,6 +4,7 @@
 // снимките са placeholder-и, докато не дойдат истински.
 
 import type { ServiceSlug } from './pricing';
+import { gallery, type Photo } from './photos';
 
 export type ServiceIcon = 'house' | 'building' | 'trash' | 'wrench' | 'truck';
 
@@ -15,6 +16,7 @@ export interface Service {
   intro: string; // първи абзац на страницата
   priceUnit?: string; // напр. „на час“; без него — „от … €“
   included: string[];
+  photos: Photo[]; // първата е горе на страницата
   faq: { q: string; a: string }[];
 }
 
@@ -32,6 +34,7 @@ export const services: Service[] = [
       '[Защита на мебелите при пренасяне]',
       '[Демонтаж и монтаж — срещу доплащане]',
     ], // TODO
+    photos: [gallery[0], gallery[1], gallery[2]], // TODO: истински снимки
     faq: [
       {
         q: 'Колко хамали ще дойдат?',
@@ -60,6 +63,7 @@ export const services: Service[] = [
       '[Пренасяне на техника и архив]',
       '[Работа извън работно време при нужда]',
     ], // TODO
+    photos: [gallery[3], gallery[4], gallery[5]], // TODO: истински снимки
     faq: [
       {
         q: 'Как се определя цената за офис?',
@@ -88,6 +92,7 @@ export const services: Service[] = [
       '[Товарене и извозване]',
       '[Разглобяване на големи мебели при нужда]',
     ], // TODO
+    photos: [gallery[1], gallery[3], gallery[5]], // TODO: истински снимки
     faq: [
       {
         q: 'Какво не извозвате?',
@@ -115,6 +120,7 @@ export const services: Service[] = [
       '[Маркиране и прибиране на обкова]',
       '[Монтаж на нови мебели]',
     ], // TODO
+    photos: [gallery[2], gallery[4], gallery[0]], // TODO: истински снимки
     faq: [
       {
         q: 'Сглобявате ли нови мебели от магазин?',
@@ -143,6 +149,7 @@ export const services: Service[] = [
       '[Хамали по избор]',
       '[Товарене и разтоварване]',
     ], // TODO
+    photos: [gallery[5], gallery[0], gallery[3]], // TODO: истински снимки
     faq: [
       {
         q: 'Каква е минималната поръчка?',

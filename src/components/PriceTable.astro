@@ -1,0 +1,37 @@
+---
+// Ценоразпис (т. 6): всички редове от pricing.ts, бележка за ДДС и за ориентировъчните цени.
+// На телефон единицата е под името, за да се събере таблицата без хоризонтално превъртане.
+import { site } from '../data/site';
+import { priceDisclaimer, priceList } from '../lib/price-list';
+---
+
+<div>
+  <div class="overflow-hidden rounded-2xl border border-line bg-white">
+    <table class="w-full text-left">
+      <caption class="sr-only">Ценоразпис</caption>
+      <thead class="bg-surface text-sm text-muted">
+        <tr>
+          <th scope="col" class="px-4 py-3 font-semibold sm:px-5">Услуга</th>
+          <th scope="col" class="hidden px-4 py-3 font-semibold sm:table-cell sm:px-5">Единица</th>
+          <th scope="col" class="px-4 py-3 text-right font-semibold sm:px-5">Цена</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-line">
+        {
+          priceList.map((row) => (
+            <tr>
+              <th scope="row" class="px-4 py-3 font-medium sm:px-5">
+                {row.label}
+                {row.unit !== '—' && <span class="block text-sm font-normal text-muted sm:hidden">{row.unit}</span>}
+              </th>
+              <td class="hidden px-4 py-3 text-muted sm:table-cell sm:px-5">{row.unit}</td>
+              <td class="px-4 py-3 text-right font-semibold whitespace-nowrap sm:px-5">{row.price}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="mt-4 text-muted">{priceDisclaimer}</p>
+  <p class="mt-1 text-muted">{site.vatNote}</p>
+</div>

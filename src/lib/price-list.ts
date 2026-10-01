@@ -1,8 +1,9 @@
 // Редовете на ценоразписа (т. 6 от заданието), готови за показване.
 // Ползват ги „Цени накратко“ на началната страница и таблицата на /ceni.
 
-import { pricing, type Pricing } from '../data/pricing';
-import { formatHours, formatPrice, formatPriceFrom } from './format';
+import { pricing, type JobKey, type Pricing } from '../data/pricing';
+import { packageFrom } from './estimate';
+import { formatCount, formatHours, formatPrice, formatPriceFrom } from './format';
 
 export type PriceRowKey =
   | 'porter'
@@ -47,6 +48,32 @@ export function buildPriceList(p: Pricing): PriceRow[] {
 export const priceList = buildPriceList(pricing);
 
 export const priceRow = (key: PriceRowKey) => priceList.find((row) => row.key === key)!;
+
+export interface PackageRow {
+  label: string;
+  includes: string; // „3 хамали + бус, до 5 ч“
+  price: string; // „от 300 €“ или „по запитване“
+}
+
+// Пакетите се смятат по формулата на калкулатора (партер, в града, без допълнителни),
+// затова ценоразписът и калкулаторът винаги дават една и съща цена „от“.
+const packageJobs: JobKey[] = ['studio', 'twoRoom', 'threeRoom'];
+
+export function buildPackages(p: Pricing): PackageRow[] {
+  return [
+    ...packageJobs.map((key) => {
+      const job = p.jobs[key];
+      return {
+        label: job.label,
+        includes: `${formatCount(job.porters)} хамали + бус, до ${formatCount(job.hours[1])}\u00A0ч`,
+        price: formatPriceFrom(packageFrom(key, p)),
+      };
+    }),
+    { label: 'Офис', includes: 'след оглед', price: 'по запитване' },
+  ];
+}
+
+export const packages = buildPackages(pricing);
 
 // Стои под всяка таблица с цени
 export const priceDisclaimer =

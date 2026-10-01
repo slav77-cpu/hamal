@@ -1,0 +1,24 @@
+---
+// След изпратена форма. noindex, не е в менюто и в sitemap.
+import Base from '../layouts/Base.astro';
+import ContactButtons from '../components/ContactButtons.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+import { formatCount } from '../lib/format';
+---
+
+<Base title={`Благодарим! | ${site.name}`} description="Запитването е изпратено." noindex>
+  <section class="container-page max-w-xl py-16 text-center sm:py-24">
+    <span class="mx-auto grid size-16 place-items-center rounded-full bg-brand">
+      <Icon name="check" class="size-8" />
+    </span>
+    <h1 class="mt-6 text-3xl font-extrabold sm:text-4xl">Благодарим!</h1>
+    <p class="mt-4 text-xl">Ще ви се обадим до {formatCount(site.replyMinutes)} минути в работно време.</p>
+    <p class="mt-2 text-muted">Работно време: {site.hours}</p>
+
+    <p class="mt-10 font-semibold">Спешно е? Обадете се:</p>
+    <ContactButtons channels={['call']} photosNote={false} class="mx-auto mt-3 max-w-xs" />
+
+    <a href="/" class="mt-10 inline-block font-semibold underline">Към началната страница</a>
+  </section>
+</Base>

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import type { Pricing } from '../src/data/pricing';
-import { buildPriceList } from '../src/lib/price-list';
+import { buildPackages, buildPriceList } from '../src/lib/price-list';
 
-const NBSP = ' ';
+const NBSP = '\u00A0';
 
 // Примерни стойности само за теста — не са истински цени
 const sample: Pricing = {
@@ -67,5 +67,24 @@ describe('ценоразпис (т. 6)', () => {
     const text = empty.map((r) => r.price).join(' ');
     expect(text).not.toMatch(/(^|\D)0\D/);
     expect(empty[0].price).toBe(`от${NBSP}…${NBSP}€`);
+  });
+});
+
+describe('пакети (т. 6)', () => {
+  it('гарсониера, двустаен, тристаен и офис с цена по формулата на калкулатора', () => {
+    expect(buildPackages(sample)).toEqual([
+      // 2 × (2×15 + 25) = 110
+      { label: 'Гарсониера', includes: `2 хамали + бус, до 3${NBSP}ч`, price: `от${NBSP}110${NBSP}€` },
+      // 3 × (3×15 + 25) = 210
+      { label: 'Двустаен', includes: `3 хамали + бус, до 5${NBSP}ч`, price: `от${NBSP}210${NBSP}€` },
+      // 4 × (4×15 + 25) = 340
+      { label: 'Тристаен', includes: `4 хамали + бус, до 6${NBSP}ч`, price: `от${NBSP}340${NBSP}€` },
+      { label: 'Офис', includes: 'след оглед', price: 'по запитване' },
+    ]);
+  });
+
+  it('без цени показва „…“', () => {
+    const empty = buildPackages({ ...sample, porterPerHour: 0, jobs: { ...sample.jobs, studio: { label: 'Гарсониера', porters: 0, hours: [0, 0] } } });
+    expect(empty[0]).toEqual({ label: 'Гарсониера', includes: `… хамали + бус, до …${NBSP}ч`, price: `от${NBSP}…${NBSP}€` });
   });
 });

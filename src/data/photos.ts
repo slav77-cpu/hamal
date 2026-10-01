@@ -11,6 +11,7 @@ import object3 from '../assets/placeholders/object-3.jpg';
 import object4 from '../assets/placeholders/object-4.jpg';
 import object5 from '../assets/placeholders/object-5.jpg';
 import object6 from '../assets/placeholders/object-6.jpg';
+import areaMap from '../assets/placeholders/area-map.jpg';
 
 export interface Photo {
   src: ImageMetadata;
@@ -29,3 +30,6 @@ export const gallery: Photo[] = [
   { src: object5, alt: '[Описание на снимката]' }, // TODO
   { src: object6, alt: '[Описание на снимката]' }, // TODO
 ];
+
+// /kontakti: статична снимка на района (без вграден Google Maps — без бисквитки)
+export const areaMapPhoto: Photo = { src: areaMap, alt: '[Карта на района, в който работи фирмата]' }; // TODO

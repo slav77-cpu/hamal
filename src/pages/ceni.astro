@@ -1,0 +1,59 @@
+---
+// Цени: ценоразпис, пакети, калкулатор и под него формата за запитване.
+import Base from '../layouts/Base.astro';
+import CallToAction from '../components/CallToAction.astro';
+import Icon from '../components/Icon.astro';
+import Packages from '../components/Packages.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Placeholder from '../components/Placeholder.astro';
+import PriceTable from '../components/PriceTable.astro';
+import Section from '../components/Section.astro';
+import { pricing } from '../data/pricing';
+import { site } from '../data/site';
+import { formatPriceFrom, inCity } from '../lib/format';
+
+const city = inCity(site.city);
+const hourly = `${formatPriceFrom(pricing.porterPerHour)}/час`;
+---
+
+<Base
+  title={`Цени за хамалски услуги ${city} — ${hourly} | ${site.name}`}
+  description={`Цени за хамалски услуги ${city}: хамалин ${hourly}, бус с шофьор, пакети за гарсониера, двустаен и тристаен. Калкулатор за ориентировъчна цена.`}
+>
+  <PageHeader
+    title={`Цени за хамалски услуги ${city}`}
+    intro="Всички цени са в евро. Изчислете ориентировъчна цена с калкулатора или се обадете за точна."
+    current="Цени"
+  >
+    <a
+      href="#kalkulator"
+      class="mt-6 inline-flex min-h-13 items-center gap-2 rounded-xl bg-ink px-6 text-lg font-semibold text-white hover:bg-slate-800"
+    >
+      <Icon name="calculator" class="size-6" />
+      Изчисли цена
+    </a>
+  </PageHeader>
+
+  <Section id="cenorazpis" title="Ценоразпис">
+    <div class="max-w-3xl">
+      <PriceTable />
+    </div>
+  </Section>
+
+  <Section
+    id="paketi"
+    title="Пакети за преместване"
+    intro="Хамали и бус за целия обект. Цената е за партер и в града — етажите без асансьор и километрите се добавят."
+    tone="surface"
+  >
+    <Packages />
+  </Section>
+
+  <Section id="kalkulator" title="Калкулатор за ориентировъчна цена">
+    <Placeholder text="Тук ще е калкулаторът (етап 4)" />
+  </Section>
+
+  <CallToAction title="Изпрати запитване" intro="Попълнете формата или се обадете — ще ви кажем точната цена.">
+    <Placeholder text="Тук ще е формата за запитване (етап 5)" tone="dark" />
+  </CallToAction>
+</Base>

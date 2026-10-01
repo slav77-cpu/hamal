@@ -8,7 +8,7 @@ import {
   inCity,
 } from '../src/lib/format';
 
-const NBSP = ' ';
+const NBSP = '\u00A0';
 
 describe('formatPrice', () => {
   it('показва цели евро с неразделящ интервал', () => {
