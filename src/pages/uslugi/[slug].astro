@@ -35,6 +35,7 @@ const others = services.filter((s) => s.slug !== service.slug);
 <Base
   title={`${service.title} ${city} — ${priceText} | ${site.name}`}
   description={`${service.title} ${city}, ${priceText}. ${service.short}`}
+  image={mainPhoto?.src}
 >
   <PageHeader
     title={`${service.title} ${city}`}

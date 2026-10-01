@@ -1,18 +1,38 @@
 ---
-// Общата рамка на всяка страница: head, горна лента, футър и лента за контакт на телефон.
-// Canonical, Open Graph, JSON-LD и Umami се добавят в етап 6.
+// Общата рамка на всяка страница: head (SEO, Open Graph, JSON-LD, Umami), горна лента, футър
+// и лента за контакт на телефон.
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import CallBar from '../components/CallBar.astro';
+import { heroPhoto } from '../data/photos';
+import { site } from '../data/site';
+import { movingCompanySchema, toJsonLd } from '../lib/schema';
 
 interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  image?: ImageMetadata; // снимка при споделяне (Viber, WhatsApp, Facebook); по подразбиране — екипът и бусът
 }
 
-const { title, description, noindex = false } = Astro.props;
+const { title, description, noindex = false, image = heroPhoto.src } = Astro.props;
+
+// Адресите са без наклонена черта в края, освен началната страница
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const canonical = new URL(path, site.url).href;
+
+// Снимки 1200×630 за споделяне; за JSON-LD на фирмата — винаги снимката на екипа и буса
+const shareImage = async (src: ImageMetadata) =>
+  new URL((await getImage({ src, width: 1200, height: 630, format: 'jpg', fit: 'cover' })).src, site.url).href;
+const ogImage = await shareImage(image);
+const companyImage = image === heroPhoto.src ? ogImage : await shareImage(heroPhoto.src);
+
+// Umami — статистика без бисквитки. Скриптът се зарежда само ако е зададен PUBLIC_UMAMI_WEBSITE_ID.
+const umamiId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const umamiSrc = import.meta.env.PUBLIC_UMAMI_SRC || 'https://cloud.umami.is/script.js';
 ---
 
 <!doctype html>
@@ -23,9 +43,26 @@ const { title, description, noindex = false } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="bg_BG" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <meta name="theme-color" content="#ffffff" />
     <meta name="format-detection" content="telephone=no" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <script type="application/ld+json" set:html={toJsonLd(movingCompanySchema(companyImage))} />
+    {umamiId && <script is:inline defer src={umamiSrc} data-website-id={umamiId} />}
     <slot name="head" />
   </head>
   <body class="flex min-h-dvh flex-col pb-[calc(3.5rem+env(safe-area-inset-bottom))] md:pb-0">

@@ -21,6 +21,12 @@ npm run build    # проверка на типовете и build в dist/
 
 Без ключ формата показва „Формата още не е свързана“ и телефона.
 
+## Статистика (Umami)
+
+Без бисквитки, затова и без банер. На https://cloud.umami.is добавете сайта (Settings → Websites → Add website)
+и сложете Website ID в `PUBLIC_UMAMI_WEBSITE_ID` (локално в `.env`, в Render — в Environment). Без него скриптът не се зарежда.
+Събития: `call_click`, `viber_click`, `whatsapp_click`, `calculator_used`, `form_submit`.
+
 ## Render (Static Site)
 
 - Build Command: `npm ci && npm run build`
