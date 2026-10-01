@@ -3,6 +3,7 @@ import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import CallToAction from '../components/CallToAction.astro';
 import Gallery from '../components/Gallery.astro';
+import GoogleRating from '../components/GoogleRating.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Reviews from '../components/Reviews.astro';
 import Section from '../components/Section.astro';
@@ -20,7 +21,7 @@ const city = inCity(site.city);
 >
   <PageHeader title="За нас" intro={`${site.name} — хамалски услуги ${city}.`} />
 
-  <Section id="koi-sme" title="Кои сме">
+  <Section id="koi-sme" eyebrow="За нас" title="Кои сме">
     <div class="grid items-start gap-8 md:grid-cols-2 md:gap-12">
       <div class="max-w-prose space-y-4 text-lg">
         {site.about.map((paragraph) => <p>{paragraph}</p>)}
@@ -31,20 +32,21 @@ const city = inCity(site.city);
         formats={['avif', 'webp']}
         widths={[480, 800, 1200]}
         sizes="(min-width: 768px) 50vw, 100vw"
-        class="aspect-4/3 w-full rounded-2xl object-cover"
+        class="aspect-4/3 w-full rounded-3xl object-cover"
       />
     </div>
   </Section>
 
-  <Section id="zashto-nas" title="Защо нас" tone="surface">
+  <Section id="zashto-nas" eyebrow="Защо нас" title="Защо да ни се обадите" tone="ground">
     <WhyUs />
   </Section>
 
-  <Section id="snimki" title="Снимки от реални обекти">
+  <Section id="snimki" eyebrow="Снимки" title="Снимки от реални обекти">
     <Gallery photos={gallery} />
   </Section>
 
-  <Section id="otzivi" title="Отзиви" tone="surface">
+  <Section id="otzivi" eyebrow="Отзиви" title="Какво казват клиентите" tone="ground">
+    <GoogleRating slot="action" />
     <Reviews />
   </Section>
 

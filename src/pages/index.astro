@@ -1,16 +1,18 @@
 ---
-// Начална страница — секциите по реда от т. 4 на заданието.
+// Начална страница — секциите по реда от т. 4 на заданието, в дизайна от design/DESIGN.md.
 import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import CallToAction from '../components/CallToAction.astro';
-import ContactButtons from '../components/ContactButtons.astro';
 import Faq from '../components/Faq.astro';
 import Gallery from '../components/Gallery.astro';
+import GoogleRating from '../components/GoogleRating.astro';
+import HourlyOffers from '../components/HourlyOffers.astro';
 import Icon from '../components/Icon.astro';
 import QuoteForm from '../components/QuoteForm';
 import Reviews from '../components/Reviews.astro';
 import Section from '../components/Section.astro';
 import ServiceCard from '../components/ServiceCard.astro';
+import Tape from '../components/Tape.astro';
 import WhyUs from '../components/WhyUs.astro';
 import { faq } from '../data/faq';
 import { gallery, heroPhoto } from '../data/photos';
@@ -18,14 +20,20 @@ import { pricing } from '../data/pricing';
 import { services } from '../data/services';
 import { site } from '../data/site';
 import { formatPriceFrom, inCity } from '../lib/format';
-import { priceDisclaimer, priceRow } from '../lib/price-list';
+import { contact } from '../lib/links';
+import { hourlyOffers, packages, priceDisclaimer } from '../lib/price-list';
 
 const city = inCity(site.city);
 const hourly = `${formatPriceFrom(pricing.porterPerHour)}/час`;
 
-// „Цени накратко“ — най-търсените редове от ценоразписа
-const topPrices = (['porter', 'van', 'floor', 'junkRemoval'] as const).map(priceRow);
-const minOrder = priceRow('minOrder');
+// Етикетът „Ориентировъчни цени“ върху снимката
+const crew = hourlyOffers.find((offer) => offer.key === 'crew')!;
+const labelRows = [
+  { label: 'Хамалин', price: formatPriceFrom(pricing.porterPerHour), unit: '/ час' },
+  { label: 'Бус с шофьор', price: formatPriceFrom(pricing.vanPerHour), unit: '/ час' },
+  { label: crew.title, price: formatPriceFrom(crew.perHour), unit: '/ час' },
+  { label: packages[0].label, price: packages[0].price, unit: '' },
+];
 
 const steps = [
   { title: 'Обаждате се или пращате снимки', text: 'Обадете се или пратете снимки на багажа във Viber или WhatsApp.' },
@@ -40,40 +48,115 @@ const steps = [
   description={`Хамалски услуги ${city}: преместване на дом и офис, бус с хамали, извозване и монтаж на мебели. Цени ${hourly}. Обадете се или пратете снимки във Viber.`}
 >
   <!-- 2. Първи екран -->
-  <section class="bg-surface">
-    <div class="container-page grid items-center gap-8 py-10 md:grid-cols-2 md:gap-12 md:py-16">
-      <div>
-        <h1 class="text-4xl leading-tight font-extrabold tracking-tight sm:text-5xl">Хамалски услуги {city}</h1>
-        <p class="mt-4 text-lg text-muted sm:text-xl">{site.tagline}</p>
-        <p class="mt-6 inline-flex items-baseline gap-2 rounded-xl bg-brand/30 px-4 py-2">
-          <span class="text-2xl font-bold">{hourly}</span>
-          <span class="text-muted">на хамалин</span>
-        </p>
-        <ContactButtons channels={['call', 'viber']} class="mt-6 max-w-md" />
+  <section class="bg-ink pt-[clamp(40px,7vw,88px)] pb-[clamp(72px,9vw,120px)] text-white">
+    <div class="container-page flex flex-wrap items-center gap-14">
+      <div class="flex min-w-0 flex-[1_1_500px] flex-col gap-[26px]">
+        <h1 class="eyebrow eyebrow-dark">Хамалски услуги {city}</h1>
+        <p class="h1-display">Носим <span class="text-accent">тежкото</span><br />вместо вас.</p>
+        <p class="max-w-[540px] text-[clamp(17px,1.5vw,20px)] leading-[1.55] text-white/80">{site.tagline}</p>
+        <div class="mt-1 flex flex-wrap gap-3.5">
+          <a
+            href={contact.tel}
+            class="btn btn-primary min-h-[68px] justify-start gap-3.5 rounded-[14px] py-2.5 pr-[26px] pl-[11px] shadow-[0_12px_28px_rgb(0_0_0/0.28)]"
+            data-umami-event="call_click"
+          >
+            <span class="grid size-[46px] shrink-0 place-items-center rounded-[10px] bg-black/10">
+              <Icon name="phone" class="size-6" />
+            </span>
+            <span class="flex flex-col gap-[3px] text-left">
+              <span class="text-[13px] font-extrabold tracking-[0.08em] uppercase opacity-85">Обади се сега</span>
+              <span class="font-display text-[30px] leading-none font-black">{contact.phoneText}</span>
+            </span>
+          </a>
+          <a
+            href={contact.viber}
+            class="btn btn-ghost min-h-[68px] justify-start gap-3 rounded-[14px] py-2.5 pr-6 pl-[18px]"
+            data-umami-event="viber_click"
+          >
+            <Icon name="viber" class="size-6" />
+            <span class="flex flex-col gap-[3px] text-left">
+              <span class="text-[17px] font-extrabold">Пиши във Viber</span>
+              <span class="text-sm font-medium text-white/70">Пратете снимки на багажа за точна цена</span>
+            </span>
+          </a>
+        </div>
+        <ul class="mt-1 flex flex-wrap gap-x-[26px] gap-y-3 text-[15px] font-semibold text-white/85">
+          {
+            site.heroPoints.map((point) => (
+              <li class="flex items-center gap-[9px]">
+                <span class="grid size-[22px] shrink-0 place-items-center rounded-full bg-accent text-ink">
+                  <Icon name="check" class="size-[13px] stroke-[3.2]" />
+                </span>
+                {point}
+              </li>
+            ))
+          }
+        </ul>
       </div>
-      <Picture
-        src={heroPhoto.src}
-        alt={heroPhoto.alt}
-        formats={['avif', 'webp']}
-        widths={[480, 800, 1200]}
-        sizes="(min-width: 768px) 50vw, 100vw"
-        loading="eager"
-        fetchpriority="high"
-        class="aspect-4/3 w-full rounded-2xl object-cover"
-      />
+
+      <div class="relative min-h-[480px] min-w-0 flex-[1_1_420px] rounded-3xl bg-deep">
+        <Picture
+          src={heroPhoto.src}
+          alt={heroPhoto.alt}
+          formats={['avif', 'webp']}
+          widths={[480, 800, 1200]}
+          sizes="(min-width: 1024px) 560px, 100vw"
+          loading="eager"
+          fetchpriority="high"
+          class="absolute inset-0 size-full rounded-3xl object-cover"
+        />
+        <div
+          class="absolute right-6 bottom-6 left-6 max-w-[360px] rounded-2xl bg-surface px-[22px] pt-[26px] pb-[18px] text-ink shadow-[0_24px_48px_rgb(0_0_0/0.35)]"
+        >
+          <span aria-hidden="true" class="absolute -top-[13px] left-1/2 -ml-[60px] h-[26px] w-[120px] -rotate-3 bg-accent/90"></span>
+          <div class="flex items-center justify-between gap-3">
+            <p class="text-xs font-extrabold tracking-[0.14em] text-muted uppercase">Ориентировъчни цени</p>
+            <span
+              aria-hidden="true"
+              class="h-[22px] w-[72px] shrink-0 bg-[repeating-linear-gradient(90deg,var(--ink)_0px,var(--ink)_2px,transparent_2px,transparent_4px,var(--ink)_4px,var(--ink)_5px,transparent_5px,transparent_8px)]"
+            ></span>
+          </div>
+          <div class="mt-3 mb-1.5 h-0.5 bg-ink"></div>
+          <dl>
+            {
+              labelRows.map((row) => (
+                <div class="leader-row py-2">
+                  <dt class="leader-label font-semibold">{row.label}</dt>
+                  <dd class="leader-value whitespace-nowrap">
+                    {row.price}
+                    {row.unit && <small> {row.unit}</small>}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+          <p class="mt-2.5 border-t border-dashed border-line pt-3 text-sm font-semibold text-muted">
+            Точна цена — по телефона.
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 
+  <Tape />
+
   <!-- 3. Услуги -->
-  <Section id="uslugi" title="Услуги" intro="Изберете услуга — на страницата ѝ има цени, какво е включено и отговори на честите въпроси.">
-    <a href="/uslugi" slot="action" class="inline-flex items-center gap-1 font-semibold underline">
-      Всички услуги <Icon name="arrow-right" class="size-4" />
+  <Section
+    id="uslugi"
+    eyebrow="Услуги и цени"
+    title="Всичко за преместването"
+    intro="От един хладилник до цяла къща. Цените са ориентировъчни — точната ви казваме по телефона."
+    tone="ground"
+    afterTape
+  >
+    <a href="/uslugi" slot="action" class="text-link">
+      Всички услуги <Icon name="arrow-right" class="size-[18px]" />
     </a>
-    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {
-        services.map((service) => (
+        services.map((service, i) => (
           <li>
-            <ServiceCard service={service} />
+            <ServiceCard service={service} index={i + 1} />
           </li>
         ))
       }
@@ -81,92 +164,105 @@ const steps = [
   </Section>
 
   <!-- 4. Цени накратко -->
-  <Section id="ceni" title="Цени" tone="surface">
-    <a href="/ceni" slot="action" class="inline-flex items-center gap-1 font-semibold underline">
-      Целият ценоразпис <Icon name="arrow-right" class="size-4" />
-    </a>
-    <ul class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-      {
-        topPrices.map((row) => (
-          <li class="flex flex-col rounded-2xl border border-line bg-white p-5">
-            <span class="text-muted">{row.label}</span>
-            <span class="mt-2 text-2xl font-bold">{row.price}</span>
-            <span class="text-sm text-muted">{row.unit}</span>
-          </li>
-        ))
-      }
-    </ul>
-    <div class="mt-6 space-y-1 text-muted">
-      <p>{minOrder.label}: <strong class="text-ink">{minOrder.price}</strong></p>
-      <p>{site.vatNote}</p>
-      <p>{priceDisclaimer}</p>
+  <Section
+    id="ceni"
+    eyebrow="Цени"
+    title="Ясни цени, без изненади"
+    intro="Цените са на час и са ориентировъчни. Точната сума зависи от етажа, асансьора и обема — казваме я още по телефона."
+  >
+    <HourlyOffers />
+    <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+      <a href="/ceni#kalkulator" class="btn btn-secondary">
+        <Icon name="calculator" class="size-5" />
+        Изчисли цена
+      </a>
+      <a href="/ceni" class="text-link">Целият ценоразпис <Icon name="arrow-right" class="size-[18px]" /></a>
     </div>
-    <a
-      href="/ceni#kalkulator"
-      class="mt-6 inline-flex min-h-13 items-center gap-2 rounded-xl bg-ink px-6 text-lg font-semibold text-white hover:bg-slate-800"
-    >
-      <Icon name="calculator" class="size-6" />
-      Изчисли цена
-    </a>
+    <p class="mt-6 text-[15px] text-muted">{priceDisclaimer}</p>
+    <p class="mt-1 text-[15px] text-muted">{site.vatNote}</p>
   </Section>
 
   <!-- 5. Как работим -->
-  <Section id="kak-rabotim" title="Как работим">
-    <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <Section id="kak-rabotim" eyebrow="Как работим" title="Четири стъпки до новото място" tone="ground">
+    <ol class="grid gap-x-6 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
       {
-        steps.map((step, i) => (
-          <li class="flex gap-4 rounded-2xl border border-line p-5 sm:block">
-            <span class="grid size-10 shrink-0 place-items-center rounded-full bg-brand text-lg font-bold" aria-hidden="true">
-              {i + 1}
-            </span>
-            <div>
-              <h3 class="text-lg font-semibold sm:mt-4">{step.title}</h3>
-              <p class="mt-1 text-muted">{step.text}</p>
-            </div>
-          </li>
-        ))
+        steps.map((step, i) => {
+          const last = i === steps.length - 1;
+          return (
+            <li class="flex flex-col gap-3">
+              <div class="flex items-center gap-3.5">
+                <span
+                  class:list={[
+                    'grid size-[60px] shrink-0 place-items-center rounded-full font-display text-[30px] leading-none font-black',
+                    last ? 'bg-ink text-accent' : 'bg-accent text-ink',
+                  ]}
+                  aria-hidden="true"
+                >
+                  {i + 1}
+                </span>
+                {!last && <span aria-hidden="true" class="flex-grow border-t-2 border-dashed border-muted/35" />}
+              </div>
+              <h3 class="mt-1.5 text-[21px] font-extrabold">{step.title}</h3>
+              <p class="text-base leading-normal text-muted">{step.text}</p>
+            </li>
+          );
+        })
       }
     </ol>
   </Section>
 
   <!-- 6. Защо нас -->
-  <Section id="zashto-nas" title="Защо нас" tone="dark">
-    <WhyUs tone="dark" />
+  <Section id="zashto-nas" eyebrow="Защо нас" title="Защо да ни се обадите">
+    <WhyUs />
   </Section>
 
   <!-- 7. Снимки от реални обекти -->
-  <Section id="snimki" title="Снимки от реални обекти">
+  <Section id="snimki" eyebrow="Снимки" title="Снимки от реални обекти" tone="ground">
     <Gallery photos={gallery} />
   </Section>
 
   <!-- 8. Отзиви -->
-  <Section id="otzivi" title="Отзиви" tone="surface">
+  <Section id="otzivi" eyebrow="Отзиви" title="Какво казват клиентите">
+    <GoogleRating slot="action" />
     <Reviews />
   </Section>
 
   <!-- 9. Райони -->
-  <Section id="rayoni" title="Райони, в които работим">
-    <ul class="flex flex-wrap gap-2">
+  <Section id="rayoni" eyebrow="Райони" title="Къде работим" tone="ground">
+    <ul class="flex flex-wrap gap-2.5">
       {
         site.areas.map((area) => (
-          <li class="flex items-center gap-1.5 rounded-full border border-line bg-surface px-4 py-2">
-            <Icon name="map-pin" class="size-4 text-muted" />
+          <li class="flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2.5 font-semibold">
+            <Icon name="map-pin" class="size-4 text-accent-ink" />
             {area}
           </li>
         ))
       }
     </ul>
-    <p class="mt-5 text-muted">Не виждате вашия район? Обадете се — ще ви кажем дали идваме и на каква цена.</p>
+    <p class="mt-6 text-muted">Не виждате вашия район? Обадете се — ще ви кажем дали идваме и на каква цена.</p>
   </Section>
 
   <!-- 10. Често задавани въпроси -->
-  <Section id="vaprosi" title="Често задавани въпроси" tone="surface">
-    <div class="max-w-3xl">
-      <Faq items={faq} />
+  <section id="vaprosi" aria-labelledby="vaprosi-title" class="section-y bg-surface">
+    <div class="container-page grid items-start gap-x-14 gap-y-10 lg:grid-cols-[1fr_2fr]">
+      <div class="flex flex-col gap-3.5">
+        <span class="eyebrow">Въпроси</span>
+        <h2 id="vaprosi-title" class="h2-display">Често задавани въпроси</h2>
+        <p class="text-muted">Кратки отговори преди преместването.</p>
+        <div class="mt-3.5 flex flex-col gap-3.5 rounded-[20px] bg-ink p-7 text-white">
+          <p class="font-display text-[28px] leading-[1.1] font-extrabold">Не намирате отговор?</p>
+          <p class="text-base text-white/78">Обадете се — ще отговорим и ще кажем цена още в разговора.</p>
+          <a href={contact.tel} class="btn btn-primary min-h-14 font-display text-2xl font-black" data-umami-event="call_click">
+            <Icon name="phone" class="size-5" />
+            {contact.phoneText}
+          </a>
+        </div>
+      </div>
+      <Faq items={faq} name="faq-home" />
     </div>
-  </Section>
+  </section>
 
-  <!-- 11. Финален призив -->
+  <!-- 11. Финален призив и формата -->
   <CallToAction>
     <QuoteForm client:visible />
   </CallToAction>

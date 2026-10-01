@@ -1,0 +1,65 @@
+---
+// Трите карти „на час“ на началната страница (design/DESIGN.md, т. 5 „Пакет“); средната е акцентът.
+import Icon, { type IconName } from './Icon.astro';
+import { formatPrice } from '../lib/format';
+import { contact } from '../lib/links';
+import { hourlyOffers } from '../lib/price-list';
+
+const icons: Record<(typeof hourlyOffers)[number]['key'], IconName> = { porter: 'user', crew: 'users', van: 'truck' };
+---
+
+<div class="grid gap-x-5 gap-y-7 md:grid-cols-3">
+  {
+    hourlyOffers.map((offer) => {
+      const featured = offer.featured;
+      return (
+        <article
+          class:list={[
+            'relative flex flex-col gap-5 rounded-[20px] px-7 pb-7',
+            featured ? 'bg-ink pt-[34px] text-white shadow-[0_22px_48px_rgb(16_24_40/0.24)]' : 'card card-shadow pt-[30px]',
+          ]}
+        >
+          {featured && (
+            <span class="absolute -top-3.5 left-7 rounded-full bg-accent px-3.5 py-1.5 text-[13px] font-extrabold tracking-[0.08em] text-ink uppercase">
+              Всичко в едно
+            </span>
+          )}
+          <div class="flex items-center gap-3">
+            <span
+              class:list={[
+                'grid size-12 shrink-0 place-items-center rounded-xl',
+                featured ? 'bg-white/10 text-accent' : 'bg-tint',
+              ]}
+            >
+              <Icon name={icons[offer.key]} class="size-6" />
+            </span>
+            <h3 class="text-[21px] font-extrabold">{offer.title}</h3>
+          </div>
+          <p class="flex items-baseline gap-2">
+            <span class:list={['text-base font-semibold', featured ? 'text-white/70' : 'text-muted']}>от</span>
+            <span class:list={['font-display text-[64px] leading-[0.9] font-black tracking-[-0.01em]', featured && 'text-accent']}>
+              {formatPrice(offer.perHour)}
+            </span>
+            <span class:list={['text-base font-semibold', featured ? 'text-white/70' : 'text-muted']}>/ час</span>
+          </p>
+          <ul class:list={['flex flex-grow flex-col gap-2.5 text-base', featured && 'text-white/88']}>
+            {offer.points.map((point) => (
+              <li class="flex items-start gap-2.5">
+                <Icon name="check" class:list={['mt-0.5 size-[18px] shrink-0', featured ? 'text-accent' : 'text-accent-ink']} />
+                {point}
+              </li>
+            ))}
+          </ul>
+          <a
+            href={contact.tel}
+            class:list={['btn w-full', featured ? 'btn-primary' : 'btn-outline']}
+            data-umami-event="call_click"
+          >
+            <Icon name="phone" class="size-5" />
+            Обади се
+          </a>
+        </article>
+      );
+    })
+  }
+</div>

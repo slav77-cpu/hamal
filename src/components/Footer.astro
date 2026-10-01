@@ -1,8 +1,10 @@
 ---
+// Футър (design/DESIGN.md, т. 6.10): лого, контакт, работно време, къде работим —
+// плюс страниците, политиката и фирмените данни от т. 10 на заданието.
 import Icon from './Icon.astro';
 import { site } from '../data/site';
+import { formatPhone, inCity } from '../lib/format';
 import { contact } from '../lib/links';
-import { inCity } from '../lib/format';
 import { mainLinks, serviceLinks } from '../lib/nav';
 
 const pageLinks = [...mainLinks, { href: '/poveritelnost', label: 'Политика за поверителност' }];
@@ -12,95 +14,100 @@ const legal = [
   { label: 'Седалище и адрес на управление', value: site.registeredAddress },
   { label: 'Адрес на дейност', value: site.businessAddress },
   { label: 'ЕИК', value: site.eik },
-  {
-    label: 'Регистрация по ДДС',
-    value: site.vatNumber ?? 'Не е регистрирана по ДДС',
-  },
+  { label: 'Регистрация по ДДС', value: site.vatNumber ?? 'Не е регистрирана по ДДС' },
 ];
 
+const heading = 'text-[13px] font-extrabold tracking-[0.12em] text-white uppercase';
 const year = new Date().getFullYear();
 ---
 
-<footer class="bg-ink text-slate-300">
-  <div class="container-page grid gap-10 py-12 md:grid-cols-4">
-    <div class="md:col-span-2">
-      <p class="text-lg font-bold text-white">{site.name}</p>
-      <p class="mt-1">Хамалски услуги {inCity(site.city)}</p>
+<footer class="bg-deep pt-14 pb-8 text-[15px] text-white/72">
+  <div class="container-page">
+    <div class="grid gap-x-12 gap-y-8 border-b border-white/10 pb-8 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
+      <div class="flex flex-col gap-4">
+        <span class="flex items-center gap-3 text-white">
+          <span class="grid size-10 shrink-0 place-items-center rounded-[11px] bg-accent text-ink">
+            <Icon name="package" class="size-[22px]" />
+          </span>
+          <span class="font-display text-xl font-black tracking-[0.03em] uppercase">{site.name}</span>
+        </span>
+        <p class="max-w-[340px] leading-relaxed">Хамалски услуги и превоз с бус {inCity(site.city)}.</p>
+      </div>
 
-      <ul class="mt-5 space-y-3">
-        <li>
-          <a href={contact.tel} class="inline-flex items-center gap-3 hover:text-white" data-umami-event="call_click">
-            <Icon name="phone" class="size-5 text-brand" />
-            <span class="font-semibold text-white">{contact.phoneText}</span>
-          </a>
-        </li>
-        <li>
-          <a href={contact.email} class="inline-flex items-center gap-3 hover:text-white">
-            <Icon name="mail" class="size-5 text-brand" />
-            {site.email}
-          </a>
-        </li>
-        <li class="flex items-start gap-3">
-          <Icon name="clock" class="size-5 shrink-0 text-brand" />
-          <span>
-            <span class="sr-only">Работно време: </span>
-            {site.hours}
-          </span>
-        </li>
-        <li class="flex items-start gap-3">
-          <Icon name="map-pin" class="size-5 shrink-0 text-brand" />
-          <span>
-            <span class="sr-only">Адрес на дейност: </span>
-            {site.businessAddress}
-          </span>
-        </li>
-      </ul>
+      <div class="flex flex-col gap-2.5">
+        <h2 class={heading}>Контакт</h2>
+        <a href={contact.tel} class="flex items-center gap-2 hover:underline" data-umami-event="call_click">
+          <Icon name="phone" class="size-4" />
+          {contact.phoneText}
+        </a>
+        <a href={contact.viber} class="flex items-center gap-2 hover:underline" data-umami-event="viber_click">
+          <Icon name="viber" class="size-4" />
+          Viber {formatPhone(site.viber)}
+        </a>
+        <a href={contact.whatsapp} class="flex items-center gap-2 hover:underline" data-umami-event="whatsapp_click">
+          <Icon name="whatsapp" class="size-4" />
+          WhatsApp
+        </a>
+        <a href={contact.email} class="flex items-center gap-2 hover:underline">
+          <Icon name="mail" class="size-4" />
+          {site.email}
+        </a>
+      </div>
+
+      <div class="flex flex-col gap-2.5">
+        <h2 class={heading}>Работно време</h2>
+        <p class="flex items-start gap-2">
+          <Icon name="clock" class="mt-1 size-4 shrink-0" />
+          {site.hours}
+        </p>
+        <h2 class:list={[heading, 'mt-4']}>Къде работим</h2>
+        <p class="flex items-start gap-2">
+          <Icon name="map-pin" class="mt-1 size-4 shrink-0" />
+          {site.city}, {site.areas.join(', ')}
+        </p>
+      </div>
+
+      <nav aria-labelledby="footer-pages" class="flex flex-col gap-2.5">
+        <h2 id="footer-pages" class={heading}>Страници</h2>
+        <ul class="flex flex-col gap-2">
+          {
+            serviceLinks.map((link) => (
+              <li>
+                <a href={link.href} class="hover:underline">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+          {
+            pageLinks.map((link) => (
+              <li>
+                <a href={link.href} class="hover:underline">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
     </div>
 
-    <nav aria-labelledby="footer-services">
-      <h2 id="footer-services" class="font-semibold text-white">Услуги</h2>
-      <ul class="mt-3 space-y-2">
-        {
-          serviceLinks.map((link) => (
-            <li>
-              <a href={link.href} class="hover:text-white hover:underline">
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
+    <dl class="grid gap-x-8 gap-y-2 border-b border-white/10 py-6 text-sm text-white/60 sm:grid-cols-2">
+      {
+        legal.map((item) => (
+          <div>
+            <dt class="inline">{item.label}:</dt>{' '}
+            <dd class="inline text-white/80">{item.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
 
-    <nav aria-labelledby="footer-pages">
-      <h2 id="footer-pages" class="font-semibold text-white">Страници</h2>
-      <ul class="mt-3 space-y-2">
-        {
-          pageLinks.map((link) => (
-            <li>
-              <a href={link.href} class="hover:text-white hover:underline">
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-  </div>
-
-  <div class="border-t border-white/10">
-    <div class="container-page py-6 text-sm text-slate-400">
-      <dl class="grid gap-x-8 gap-y-2 sm:grid-cols-2">
-        {
-          legal.map((item) => (
-            <div>
-              <dt class="inline">{item.label}:</dt>{' '}
-              <dd class="inline text-slate-300">{item.value}</dd>
-            </div>
-          ))
-        }
-      </dl>
-      <p class="mt-6">© {year} {site.name}</p>
+    <div class="flex flex-wrap justify-between gap-3 pt-6 text-sm">
+      <span>© {year} {site.name}</span>
+      <a href="#main" class="inline-flex items-center gap-1 hover:underline">
+        Към началото <Icon name="arrow-up" class="size-4" />
+      </a>
     </div>
   </div>
 </footer>

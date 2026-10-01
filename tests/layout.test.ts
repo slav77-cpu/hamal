@@ -27,6 +27,11 @@ describe('Base.astro', () => {
     expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toBeTruthy();
   });
 
+  it('палитрата по подразбиране (синьо + оранжево) е без data-theme', () => {
+    const theme = document.documentElement.getAttribute('data-theme');
+    expect(theme).toBe(site.theme === 'blue' ? null : site.theme);
+  });
+
   it('има точно един H1', () => {
     expect(document.querySelectorAll('h1')).toHaveLength(1);
   });

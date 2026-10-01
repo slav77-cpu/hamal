@@ -1,35 +1,30 @@
 ---
-// Лепкава лента „Обади се | Viber | WhatsApp“ — само на телефон, на всички страници.
+// Лепкава лента долу на телефон (под 640px), на всички страници (design/DESIGN.md, т. 6.11).
+// По заданието е „Обади се | Viber | WhatsApp“ — затова и WhatsApp, макар че в дизайна го няма.
 import Icon from './Icon.astro';
 import { contact } from '../lib/links';
+
+const side = 'flex h-[54px] flex-1 items-center justify-center gap-1.5 rounded-xl bg-ink text-[15px] font-extrabold text-white';
 ---
 
 <nav
-  class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-3 bg-ink pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_16px_rgb(15_23_42/0.15)] md:hidden"
+  class="fixed inset-x-0 bottom-0 z-50 flex gap-2.5 border-t border-line bg-surface px-4 pt-3 pb-[calc(12px+env(safe-area-inset-bottom))] shadow-[0_-10px_30px_rgb(16_24_40/0.1)] sm:hidden"
   aria-label="Бърз контакт"
 >
   <a
     href={contact.tel}
-    class="flex h-14 items-center justify-center gap-1.5 max-[359px]:text-[13px] bg-brand text-sm font-semibold text-ink active:bg-brand-hover"
+    class="flex h-[54px] flex-[1.6] items-center justify-center gap-2 rounded-xl bg-accent text-lg font-extrabold text-ink"
     data-umami-event="call_click"
   >
     <Icon name="phone" class="size-5" />
     Обади се
   </a>
-  <a
-    href={contact.viber}
-    class="flex h-14 items-center justify-center gap-1.5 max-[359px]:text-[13px] bg-viber text-sm font-semibold text-white active:bg-viber-hover"
-    data-umami-event="viber_click"
-  >
-    <Icon name="viber" class="size-5" />
+  <a href={contact.viber} class={side} data-umami-event="viber_click">
+    <Icon name="viber" class="size-[18px]" />
     Viber
   </a>
-  <a
-    href={contact.whatsapp}
-    class="flex h-14 items-center justify-center gap-1.5 max-[359px]:text-[13px] bg-whatsapp text-sm font-semibold text-white active:bg-whatsapp-hover"
-    data-umami-event="whatsapp_click"
-  >
-    <Icon name="whatsapp" class="size-5" />
+  <a href={contact.whatsapp} class={side} data-umami-event="whatsapp_click">
+    <Icon name="whatsapp" class="size-[18px]" />
     WhatsApp
   </a>
 </nav>

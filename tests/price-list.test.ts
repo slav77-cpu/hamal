@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Pricing } from '../src/data/pricing';
-import { buildPackages, buildPriceList } from '../src/lib/price-list';
+import { buildHourlyOffers, buildPackages, buildPriceList } from '../src/lib/price-list';
 
 const NBSP = '\u00A0';
 
@@ -74,17 +74,35 @@ describe('пакети (т. 6)', () => {
   it('гарсониера, двустаен, тристаен и офис с цена по формулата на калкулатора', () => {
     expect(buildPackages(sample)).toEqual([
       // 2 × (2×15 + 25) = 110
-      { label: 'Гарсониера', includes: `2 хамали + бус, до 3${NBSP}ч`, price: `от${NBSP}110${NBSP}€` },
+      { key: 'studio', label: 'Гарсониера', points: ['2 хамали + бус', `до 3${NBSP}ч`, 'партер, в града'], price: `от${NBSP}110${NBSP}€` },
       // 3 × (3×15 + 25) = 210
-      { label: 'Двустаен', includes: `3 хамали + бус, до 5${NBSP}ч`, price: `от${NBSP}210${NBSP}€` },
+      { key: 'twoRoom', label: 'Двустаен', points: ['3 хамали + бус', `до 5${NBSP}ч`, 'партер, в града'], price: `от${NBSP}210${NBSP}€` },
       // 4 × (4×15 + 25) = 340
-      { label: 'Тристаен', includes: `4 хамали + бус, до 6${NBSP}ч`, price: `от${NBSP}340${NBSP}€` },
-      { label: 'Офис', includes: 'след оглед', price: 'по запитване' },
+      { key: 'threeRoom', label: 'Тристаен', points: ['4 хамали + бус', `до 6${NBSP}ч`, 'партер, в града'], price: `от${NBSP}340${NBSP}€` },
+      { key: 'office', label: 'Офис', points: ['след оглед'], price: 'по запитване' },
     ]);
   });
 
   it('без цени показва „…“', () => {
     const empty = buildPackages({ ...sample, porterPerHour: 0, jobs: { ...sample.jobs, studio: { label: 'Гарсониера', porters: 0, hours: [0, 0] } } });
-    expect(empty[0]).toEqual({ label: 'Гарсониера', includes: `… хамали + бус, до …${NBSP}ч`, price: `от${NBSP}…${NBSP}€` });
+    expect(empty[0].points.slice(0, 2)).toEqual(['… хамали + бус', `до …${NBSP}ч`]);
+    expect(empty[0].price).toBe(`от${NBSP}…${NBSP}€`);
+  });
+});
+
+describe('карти „на час“ (начална страница)', () => {
+  it('хамалин, бус + хамали (сборът на час) и бус с шофьор', () => {
+    const offers = buildHourlyOffers(sample);
+    expect(offers.map((o) => [o.title, o.perHour])).toEqual([
+      ['1 хамалин', 15],
+      ['Бус + 2 хамали', 25 + 2 * 15],
+      ['Бус с шофьор', 25],
+    ]);
+    expect(offers[1].featured).toBe(true);
+    expect(offers[1].points).toContain(`Етаж без асансьор — 3${NBSP}€ на етаж`);
+  });
+
+  it('без цени — 0, т.е. „… €“ на сайта', () => {
+    expect(buildHourlyOffers({ ...sample, vanPerHour: 0 })[1].perHour).toBe(0);
   });
 });

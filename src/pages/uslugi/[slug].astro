@@ -43,11 +43,11 @@ const others = services.filter((s) => s.slug !== service.slug);
     crumbs={[{ href: '/uslugi', label: 'Услуги' }]}
     current={service.title}
   >
-    <p class="mt-6 inline-flex items-baseline gap-2 rounded-xl bg-brand/30 px-4 py-2">
-      <span class="text-2xl font-bold">{price}</span>
-      {service.priceUnit && <span class="text-muted">{service.priceUnit}</span>}
+    <p class="mt-6 flex items-baseline gap-2">
+      <span class="font-display text-[44px] leading-none font-black text-accent">{price}</span>
+      {service.priceUnit && <span class="font-semibold text-white/70">{service.priceUnit}</span>}
     </p>
-    <ContactButtons channels={['call', 'viber']} class="mt-6 max-w-md" />
+    <ContactButtons channels={['call', 'viber']} tone="dark" class="mt-7 max-w-md" />
     {
       mainPhoto && (
         <Picture
@@ -59,61 +59,58 @@ const others = services.filter((s) => s.slug !== service.slug);
           sizes="(min-width: 768px) 50vw, 100vw"
           loading="eager"
           fetchpriority="high"
-          class="aspect-4/3 w-full rounded-2xl object-cover"
+          class="aspect-4/3 w-full rounded-3xl object-cover"
         />
       )
     }
   </PageHeader>
 
-  <Section id="vklyucheno" title="Какво е включено">
+  <Section id="vklyucheno" eyebrow={service.title} title="Какво е включено">
     <div class="grid gap-8 md:grid-cols-2">
-      <ul class="space-y-3">
+      <ul class="flex flex-col gap-3">
         {
           service.included.map((item) => (
             <li class="flex items-start gap-3 text-lg">
-              <Icon name="check" class="mt-1 size-5 shrink-0 text-whatsapp" />
+              <Icon name="check" class="mt-1 size-5 shrink-0 text-accent-ink" />
               {item}
             </li>
           ))
         }
       </ul>
-      <div class="rounded-2xl bg-surface p-6">
-        <p class="text-lg font-semibold">Колко ще струва точно?</p>
-        <p class="mt-2 text-muted">
+      <div class="flex flex-col gap-3 rounded-[20px] border border-line bg-ground p-7">
+        <p class="font-display text-[28px] leading-[1.1] font-extrabold">Колко ще струва точно?</p>
+        <p class="text-muted">
           Зависи от багажа, етажите и разстоянието. Изчислете ориентировъчна цена или пратете снимки за точна.
         </p>
-        <a
-          href="/ceni#kalkulator"
-          class="mt-5 inline-flex min-h-12 items-center gap-2 rounded-xl bg-ink px-5 font-semibold text-white hover:bg-slate-800"
-        >
+        <a href="/ceni#kalkulator" class="btn btn-secondary mt-2 self-start">
           <Icon name="calculator" class="size-5" />
           Изчисли цена
         </a>
-        <p class="mt-3 text-sm text-muted">{site.vatNote}</p>
+        <p class="text-sm text-muted">{site.vatNote}</p>
       </div>
     </div>
   </Section>
 
   {
     morePhotos.length > 0 && (
-      <Section id="snimki" title="Снимки" tone="surface">
+      <Section id="snimki" eyebrow="Снимки" title="Снимки от обекти" tone="ground">
         <Gallery photos={morePhotos} />
       </Section>
     )
   }
 
-  <Section id="vaprosi" title="Въпроси и отговори">
+  <Section id="vaprosi" eyebrow="Въпроси" title="Въпроси и отговори">
     <div class="max-w-3xl">
-      <Faq items={service.faq} />
+      <Faq items={service.faq} name={`faq-${service.slug}`} />
     </div>
   </Section>
 
-  <Section id="drugi-uslugi" title="Други услуги" tone="surface">
-    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <Section id="drugi-uslugi" eyebrow="Още услуги" title="Други услуги" tone="ground">
+    <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {
         others.map((other) => (
           <li>
-            <ServiceCard service={other} />
+            <ServiceCard service={other} index={services.indexOf(other) + 1} />
           </li>
         ))
       }

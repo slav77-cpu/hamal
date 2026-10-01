@@ -1,0 +1,13 @@
+---
+// Декоративна лента „тиксо“ между началния екран и услугите (design/DESIGN.md, т. 6.3).
+// Застъпва съседните секции и не заема място; за екранните четци я няма.
+const text = 'Внимание, чупливо · Тази страна нагоре ↑ · Местим внимателно · ';
+---
+
+<div aria-hidden="true" class="relative z-[3] -mt-10 -mb-[60px] overflow-hidden py-[26px]">
+  <div
+    class="-mx-10 -rotate-[1.6deg] overflow-hidden border-y-2 border-dashed border-black/20 bg-accent py-3 font-display text-[17px] leading-5 font-extrabold tracking-[0.16em] whitespace-nowrap text-ink uppercase shadow-[0_10px_24px_rgb(16_24_40/0.18)]"
+  >
+    {text.repeat(6)}
+  </div>
+</div>

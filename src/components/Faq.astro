@@ -1,24 +1,34 @@
 ---
-// Въпроси и отговори като разгъващ се списък — работи без JavaScript.
+// Въпроси и отговори (design/DESIGN.md, т. 5): отворен е само един — работи без JavaScript (<details name>).
 import Icon from './Icon.astro';
 import type { FaqItem } from '../data/faq';
 
 interface Props {
   items: FaqItem[];
+  name: string; // общо име на групата, за да е отворен само един въпрос
 }
 
-const { items } = Astro.props;
+const { items, name } = Astro.props;
 ---
 
-<div class="divide-y divide-line rounded-2xl border border-line bg-white">
+<div class="flex flex-col gap-3">
   {
-    items.map((item) => (
-      <details class="group px-5">
-        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-lg font-semibold [&::-webkit-details-marker]:hidden">
+    items.map((item, i) => (
+      <details
+        name={name}
+        open={i === 0}
+        class="group rounded-2xl border-[1.5px] border-line bg-surface transition-colors open:border-ink"
+      >
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-2xl px-[22px] py-5 text-lg leading-snug font-extrabold [&::-webkit-details-marker]:hidden">
           {item.q}
-          <Icon name="chevron-down" class="size-5 shrink-0 transition-transform group-open:rotate-180" />
+          <span
+            class="grid size-9 shrink-0 place-items-center rounded-full bg-tint transition-colors group-open:bg-accent"
+            aria-hidden="true"
+          >
+            <Icon name="chevron-down" class="size-[18px] transition-transform group-open:rotate-180" />
+          </span>
         </summary>
-        <p class="-mt-1 pb-5 text-muted">{item.a}</p>
+        <p class="px-[22px] pb-[22px] text-base leading-relaxed text-muted">{item.a}</p>
       </details>
     ))
   }

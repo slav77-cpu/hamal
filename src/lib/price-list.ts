@@ -50,8 +50,9 @@ export const priceList = buildPriceList(pricing);
 export const priceRow = (key: PriceRowKey) => priceList.find((row) => row.key === key)!;
 
 export interface PackageRow {
+  key: JobKey | 'office';
   label: string;
-  includes: string; // „3 хамали + бус, до 5 ч“
+  points: string[]; // „3 хамали + бус“, „до 5 ч“, „партер, в града“
   price: string; // „от 300 €“ или „по запитване“
 }
 
@@ -64,14 +65,56 @@ export function buildPackages(p: Pricing): PackageRow[] {
     ...packageJobs.map((key) => {
       const job = p.jobs[key];
       return {
+        key,
         label: job.label,
-        includes: `${formatCount(job.porters)} хамали + бус, до ${formatCount(job.hours[1])}\u00A0ч`,
+        points: [`${formatCount(job.porters)} хамали + бус`, `до ${formatCount(job.hours[1])}\u00A0ч`, 'партер, в града'],
         price: formatPriceFrom(packageFrom(key, p)),
       };
     }),
-    { label: 'Офис', includes: 'след оглед', price: 'по запитване' },
+    { key: 'office' as const, label: 'Офис', points: ['след оглед'], price: 'по запитване' },
   ];
 }
+
+export interface HourlyOffer {
+  key: 'porter' | 'crew' | 'van';
+  title: string;
+  perHour: number; // 0 → „… €“
+  points: string[];
+  featured?: boolean;
+}
+
+/** Трите карти „на час“ на началната страница: хамалин, бус с хамали, бус с шофьор */
+export function buildHourlyOffers(p: Pricing): HourlyOffer[] {
+  const n = p.minOrderPorters;
+  const crew = p.vanPerHour > 0 && p.porterPerHour > 0 && n > 0 ? p.vanPerHour + n * p.porterPerHour : 0;
+  return [
+    {
+      key: 'porter',
+      title: '1 хамалин',
+      perHour: p.porterPerHour,
+      points: ['Носене, товарене и разтоварване', `Минимална поръчка — ${formatHours([p.minHours, p.minHours])}`],
+    },
+    {
+      key: 'crew',
+      title: `Бус + ${formatCount(n)} хамали`,
+      perHour: crew,
+      points: [
+        `Бус с шофьор и ${formatCount(n)} хамали`,
+        `Етаж без асансьор — ${formatPrice(p.perFloor)} на етаж`,
+        `Демонтаж и монтаж — ${formatPriceFrom(p.extras.assembly.price)}`,
+      ],
+      featured: true,
+    },
+    {
+      key: 'van',
+      title: 'Бус с шофьор',
+      perHour: p.vanPerHour,
+      points: ['Превоз в града', `Извън града — ${formatPrice(p.perKm)} на км`],
+    },
+  ];
+}
+
+export const hourlyOffers = buildHourlyOffers(pricing);
 
 export const packages = buildPackages(pricing);
 

@@ -6,7 +6,8 @@
 
 - Astro 7 + TypeScript, статичен build в `dist/`
 - Preact (вместо React от SPEC.md — същият синтаксис, много по-малко JS) само за `Calculator.tsx` и `QuoteForm.tsx`
-- Tailwind CSS 4 (цветовете са в `@theme` в `src/styles/global.css`), шрифт Onest от `@fontsource-variable`
+- Tailwind CSS 4. Дизайнът е по `design/DESIGN.md` (еталон: `design/hamali-dizain.html`): цветовете са CSS променливи в `src/styles/global.css`, палитрата се сменя от `site.ts → theme`
+- Шрифтове Sofia Sans и Sofia Sans Condensed през Fonts API на Astro (`astro.config.mjs → fonts`) — сервират се от нашия домейн, с preload
 - Иконите се вграждат при build: `src/components/Icon.astro` (Lucide + логата на Viber/WhatsApp от Simple Icons)
 - Хостинг: Render Static Site. Без бекенд и без база данни.
 

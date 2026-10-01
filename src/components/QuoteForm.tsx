@@ -31,7 +31,7 @@ const localToday = () => {
 };
 
 const inputClass =
-  'mt-1.5 block h-12 w-full rounded-xl border-2 border-line bg-white px-3 text-lg text-ink focus:border-ink focus:outline-none aria-invalid:border-red-600';
+  'mt-1.5 block h-12 w-full rounded-xl border-2 border-line bg-surface px-3.5 text-lg text-ink focus:border-ink aria-invalid:border-red-600';
 
 export default function QuoteForm({
   accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '',
@@ -95,7 +95,7 @@ export default function QuoteForm({
       method="post"
       noValidate
       onSubmit={submit}
-      class="rounded-2xl border-2 border-line bg-white p-5 text-ink sm:p-6"
+      class="card card-shadow rounded-[20px] p-6 text-ink sm:p-8"
     >
       <input type="hidden" name="access_key" value={accessKey} />
       {/* Скрито поле срещу спам (honeypot на Web3Forms): хората не го виждат, ботовете го отмятат */}
@@ -129,7 +129,7 @@ export default function QuoteForm({
       </div>
 
       {quote && (
-        <p class="mt-4 rounded-xl bg-brand/25 p-3 text-sm">
+        <p class="mt-5 rounded-xl bg-tint p-3.5 text-[15px]">
           <strong>От калкулатора:</strong> {quote}
           <input type="hidden" name={FIELD_NAMES.quote} value={quote} />
         </p>
@@ -149,7 +149,7 @@ export default function QuoteForm({
       <button
         type="submit"
         disabled={status === 'sending'}
-        class="mt-5 flex min-h-13 w-full items-center justify-center rounded-xl bg-brand px-5 text-lg font-semibold text-ink hover:bg-brand-hover disabled:opacity-60"
+        class="btn btn-primary mt-6 min-h-14 w-full text-lg"
       >
         {status === 'sending' ? 'Изпраща се…' : 'Изпрати запитване'}
       </button>
@@ -175,7 +175,7 @@ interface FieldProps {
 function Field({ id, label, optional, hint, error, children }: FieldProps) {
   return (
     <div>
-      <label for={id} class="font-medium">
+      <label for={id} class="font-bold">
         {label}
         {optional && <span class="font-normal text-muted"> (по желание)</span>}
       </label>

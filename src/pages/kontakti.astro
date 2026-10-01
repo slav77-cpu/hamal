@@ -35,22 +35,22 @@ const mapLinkProps = site.googleMapsUrl ? { href: site.googleMapsUrl, target: '_
     title="Контакти"
     intro="Най-бързо е по телефона. Може и да пратите снимки на багажа във Viber или WhatsApp — така цената е по-точна."
   >
-    <ContactButtons class="mt-6 max-w-md" />
+    <ContactButtons tone="dark" class="mt-7 max-w-md" />
   </PageHeader>
 
   <!-- На телефон формата е веднага след данните за връзка; на компютър е в дясната колона -->
-  <div class="container-page grid gap-12 py-14 sm:py-20 md:grid-cols-2">
+  <div class="container-page section-y grid gap-12 md:grid-cols-2">
     <section aria-labelledby="danni-title" class="md:col-start-1">
-      <h2 id="danni-title" class="text-2xl font-bold">Данни за връзка</h2>
+      <h2 id="danni-title" class="font-display text-[32px] leading-tight font-black">Данни за връзка</h2>
       <dl class="mt-6 space-y-4">
         {
           details.map((item) => (
             <div class="relative pl-10">
               <dt class="text-sm text-muted">
-                <Icon name={item.icon} class="absolute top-0.5 left-0 size-6 text-muted" />
+                <Icon name={item.icon} class="absolute top-0.5 left-0 size-6 text-accent-ink" />
                 {item.label}
               </dt>
-              <dd class="text-lg font-semibold">
+              <dd class="text-lg font-extrabold">
                 {'href' in item ? (
                   <a href={item.href} class="underline" data-umami-event={'event' in item ? item.event : undefined}>
                     {item.value}
@@ -66,7 +66,7 @@ const mapLinkProps = site.googleMapsUrl ? { href: site.googleMapsUrl, target: '_
     </section>
 
     <section id="zapitvane" aria-labelledby="zapitvane-title" class="md:col-start-2 md:row-span-3 md:row-start-1">
-      <h2 id="zapitvane-title" class="text-2xl font-bold">Изпрати запитване</h2>
+      <h2 id="zapitvane-title" class="font-display text-[32px] leading-tight font-black">Изпрати запитване</h2>
       <p class="mt-3 text-muted">Оставете телефон и ще ви се обадим.</p>
       <div class="mt-6">
         <QuoteForm client:visible />
@@ -74,14 +74,14 @@ const mapLinkProps = site.googleMapsUrl ? { href: site.googleMapsUrl, target: '_
     </section>
 
     <section aria-labelledby="rayoni-title" class="md:col-start-1">
-      <h2 id="rayoni-title" class="text-2xl font-bold">Райони</h2>
+      <h2 id="rayoni-title" class="font-display text-[32px] leading-tight font-black">Райони</h2>
       <ul class="mt-4 flex flex-wrap gap-2">
-        {site.areas.map((area) => <li class="rounded-full border border-line bg-surface px-4 py-2">{area}</li>)}
+        {site.areas.map((area) => <li class="rounded-full border border-line bg-ground px-4 py-2 font-semibold">{area}</li>)}
       </ul>
     </section>
 
     <section aria-labelledby="karta-title" class="md:col-start-1">
-      <h2 id="karta-title" class="text-2xl font-bold">Къде сме</h2>
+      <h2 id="karta-title" class="font-display text-[32px] leading-tight font-black">Къде сме</h2>
       <MapLink {...mapLinkProps} class="mt-4 block">
         <Picture
           src={areaMapPhoto.src}
@@ -89,11 +89,11 @@ const mapLinkProps = site.googleMapsUrl ? { href: site.googleMapsUrl, target: '_
           formats={['avif', 'webp']}
           widths={[400, 800]}
           sizes="(min-width: 768px) 50vw, 100vw"
-          class="aspect-3/2 w-full rounded-2xl object-cover"
+          class="aspect-3/2 w-full rounded-[18px] object-cover"
         />
         {
           site.googleMapsUrl ? (
-            <span class="mt-2 inline-flex items-center gap-1 font-semibold underline">
+            <span class="text-link mt-3">
               Отвори в Google Maps <Icon name="arrow-right" class="size-4" />
             </span>
           ) : (

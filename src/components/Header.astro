@@ -1,6 +1,8 @@
 ---
+// Горна лента (design/DESIGN.md, т. 6.1): тъмна, лепкава, 76px. Меню над 900px; под 640px телефонът е само иконка.
 import Icon from './Icon.astro';
 import { site } from '../data/site';
+import { inCity } from '../lib/format';
 import { contact } from '../lib/links';
 import { mainLinks, serviceLinks } from '../lib/nav';
 
@@ -8,25 +10,30 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const current = (href: string) => (path === href ? 'page' : undefined);
 const inServices = path === '/uslugi' || path.startsWith('/uslugi/');
 const inSection = (href: string) => path === href || path.startsWith(`${href}/`);
+const navLink = 'rounded-lg px-3 py-2 underline-offset-[10px] hover:text-white hover:underline';
+const active = 'text-white underline decoration-accent decoration-2';
 ---
 
-<header class="relative z-30 border-b border-line bg-white md:sticky md:top-0">
-  <div class="container-page flex h-16 items-center gap-3">
-    <a href="/" class="flex min-w-0 items-center gap-2" aria-label={`${site.name} — начало`}>
-      <span class="grid size-9 shrink-0 place-items-center rounded-lg bg-brand text-ink">
-        <Icon name="truck" class="size-5" />
+<header class="sticky top-0 z-40 border-b border-white/10 bg-ink text-white">
+  <div class="container-page flex h-[76px] items-center gap-4">
+    <a href="/" class="flex min-w-0 items-center gap-3">
+      <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-ink">
+        <Icon name="package" class="size-6" />
       </span>
-      <span class="truncate text-lg leading-tight font-bold">{site.name}</span>
+      <span class="flex min-w-0 flex-col gap-1 leading-none">
+        <span class="truncate font-display text-[22px] font-black tracking-[0.03em] uppercase">{site.name}</span>
+        <span class="truncate text-[13px] font-medium text-white/70">Хамалски услуги {inCity(site.city)}</span>
+      </span>
     </a>
 
-    <nav class="ml-4 hidden items-center gap-1 md:flex lg:ml-8" aria-label="Основно меню">
+    <nav
+      class="ml-auto hidden items-center gap-2 text-base font-semibold text-white/85 min-[900px]:flex"
+      aria-label="Основно меню"
+    >
       <div class="relative" data-dropdown>
         <button
           type="button"
-          class:list={[
-            'group flex items-center gap-1 rounded-lg px-3 py-2 font-medium hover:bg-surface',
-            inServices && 'text-ink underline decoration-brand decoration-4 underline-offset-8',
-          ]}
+          class:list={['group flex items-center gap-1', navLink, inServices && active]}
           aria-expanded="false"
           aria-controls="services-menu"
           data-toggle
@@ -36,7 +43,7 @@ const inSection = (href: string) => path === href || path.startsWith(`${href}/`)
         </button>
         <div
           id="services-menu"
-          class="absolute top-full left-0 mt-2 w-72 rounded-xl border border-line bg-white p-2 shadow-lg"
+          class="card card-shadow absolute top-full left-0 mt-3 w-80 p-2 text-ink"
           hidden
         >
           <ul>
@@ -45,7 +52,7 @@ const inSection = (href: string) => path === href || path.startsWith(`${href}/`)
                 <li>
                   <a
                     href={link.href}
-                    class="block rounded-lg px-3 py-2 hover:bg-surface aria-[current=page]:font-semibold"
+                    class="block rounded-xl px-3 py-2.5 font-semibold hover:bg-ground aria-[current=page]:text-accent-ink"
                     aria-current={current(link.href)}
                   >
                     {link.label}
@@ -54,44 +61,34 @@ const inSection = (href: string) => path === href || path.startsWith(`${href}/`)
               ))
             }
           </ul>
-          <a
-            href="/uslugi"
-            class="mt-1 block rounded-lg border-t border-line px-3 pt-3 pb-2 text-sm font-semibold hover:bg-surface"
-          >
-            Всички услуги
+          <a href="/uslugi" class="mt-1 block rounded-xl border-t border-line px-3 pt-3 pb-2 text-sm font-extrabold hover:bg-ground">
+            Всички услуги →
           </a>
         </div>
       </div>
 
       {
         mainLinks.map((link) => (
-          <a
-            href={link.href}
-            class:list={[
-              'rounded-lg px-3 py-2 font-medium hover:bg-surface',
-              inSection(link.href) && 'underline decoration-brand decoration-4 underline-offset-8',
-            ]}
-            aria-current={current(link.href)}
-          >
+          <a href={link.href} class:list={[navLink, inSection(link.href) && active]} aria-current={current(link.href)}>
             {link.label}
           </a>
         ))
       }
     </nav>
 
-    <div class="ml-auto flex shrink-0 items-center gap-2">
+    <div class="ml-auto flex shrink-0 items-center gap-2 min-[900px]:ml-4">
       <a
         href={contact.tel}
-        class="flex h-11 items-center gap-2 rounded-xl bg-brand px-4 font-semibold text-ink hover:bg-brand-hover"
+        class="btn btn-primary min-h-12 min-w-12 px-3 sm:px-4"
+        aria-label={`Обади се: ${contact.phoneText}`}
         data-umami-event="call_click"
       >
         <Icon name="phone" class="size-5" />
-        <span class="md:hidden">Обади се</span>
-        <span class="hidden md:inline">{contact.phoneText}</span>
+        <span class="hidden sm:inline">{contact.phoneText}</span>
       </a>
       <button
         type="button"
-        class="group grid size-11 place-items-center rounded-xl border border-line md:hidden"
+        class="group grid size-12 place-items-center rounded-xl border-2 border-white/30 min-[900px]:hidden"
         aria-expanded="false"
         aria-controls="mobile-menu"
         aria-label="Меню"
@@ -103,16 +100,16 @@ const inSection = (href: string) => path === href || path.startsWith(`${href}/`)
     </div>
   </div>
 
-  <div id="mobile-menu" class="border-t border-line bg-white md:hidden" hidden>
+  <div id="mobile-menu" class="max-h-[calc(100dvh-76px)] overflow-y-auto border-t border-white/10 min-[900px]:hidden" hidden>
     <nav class="container-page py-4" aria-label="Меню">
-      <p class="px-3 text-sm font-semibold text-muted">Услуги</p>
+      <p class="px-3 text-[13px] font-extrabold tracking-[0.1em] text-white/60 uppercase">Услуги</p>
       <ul class="mt-1">
         {
           serviceLinks.map((link) => (
             <li>
               <a
                 href={link.href}
-                class="block rounded-lg px-3 py-3 text-lg aria-[current=page]:font-semibold"
+                class="block rounded-xl px-3 py-3 text-lg font-semibold aria-[current=page]:text-accent"
                 aria-current={current(link.href)}
               >
                 {link.label}
@@ -121,25 +118,25 @@ const inSection = (href: string) => path === href || path.startsWith(`${href}/`)
           ))
         }
       </ul>
-      <ul class="mt-2 border-t border-line pt-2">
+      <ul class="mt-2 border-t border-white/10 pt-2">
         <li>
-          <a href="/uslugi" class="block rounded-lg px-3 py-3 text-lg font-semibold" aria-current={current('/uslugi')}>
+          <a href="/uslugi" class="block rounded-xl px-3 py-3 text-lg font-extrabold" aria-current={current('/uslugi')}>
             Всички услуги
           </a>
         </li>
         {
           mainLinks.map((link) => (
             <li>
-              <a href={link.href} class="block rounded-lg px-3 py-3 text-lg font-semibold" aria-current={current(link.href)}>
+              <a href={link.href} class="block rounded-xl px-3 py-3 text-lg font-extrabold" aria-current={current(link.href)}>
                 {link.label}
               </a>
             </li>
           ))
         }
       </ul>
-      <p class="mt-2 border-t border-line px-3 pt-4 text-muted">
+      <p class="mt-2 border-t border-white/10 px-3 pt-4 text-white/70">
         Телефон:{' '}
-        <a href={contact.tel} class="font-semibold text-ink underline" data-umami-event="call_click">
+        <a href={contact.tel} class="font-extrabold text-white underline" data-umami-event="call_click">
           {contact.phoneText}
         </a>
       </p>

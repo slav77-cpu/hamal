@@ -22,34 +22,19 @@ const {
   class: className,
 } = Astro.props;
 
+const dark = tone === 'dark';
+const secondary = dark ? 'btn-ghost' : 'btn-outline';
+
 const buttons: Record<Channel, { href: string; label: string; icon: IconName; event: string; class: string }> = {
-  call: {
-    href: contact.tel,
-    label: 'Обади се',
-    icon: 'phone',
-    event: 'call_click',
-    class: 'bg-brand text-ink hover:bg-brand-hover',
-  },
-  viber: {
-    href: contact.viber,
-    label: 'Viber',
-    icon: 'viber',
-    event: 'viber_click',
-    class: 'bg-viber text-white hover:bg-viber-hover',
-  },
-  whatsapp: {
-    href: contact.whatsapp,
-    label: 'WhatsApp',
-    icon: 'whatsapp',
-    event: 'whatsapp_click',
-    class: 'bg-whatsapp text-white hover:bg-whatsapp-hover',
-  },
+  call: { href: contact.tel, label: 'Обади се', icon: 'phone', event: 'call_click', class: 'btn-primary' },
+  viber: { href: contact.viber, label: 'Viber', icon: 'viber', event: 'viber_click', class: secondary },
+  whatsapp: { href: contact.whatsapp, label: 'WhatsApp', icon: 'whatsapp', event: 'whatsapp_click', class: secondary },
 };
 
-const muted = tone === 'dark' ? 'text-slate-300' : 'text-muted';
-const strong = tone === 'dark' ? 'text-white' : 'text-ink';
 // При три бутона „Обади се“ е на цял ред, а Viber и WhatsApp — под него
 const callFullRow = channels.length > 2;
+const muted = dark ? 'text-white/78' : 'text-muted';
+const strong = dark ? 'text-white' : 'text-ink';
 ---
 
 <div class={className}>
@@ -60,14 +45,10 @@ const callFullRow = channels.length > 2;
         return (
           <a
             href={b.href}
-            class:list={[
-              'flex min-h-13 flex-1 basis-36 items-center justify-center gap-2 rounded-xl px-5 text-lg font-semibold transition-colors',
-              channel === 'call' && callFullRow && 'basis-full',
-              b.class,
-            ]}
+            class:list={['btn flex-1 basis-36', b.class, channel === 'call' && callFullRow && 'basis-full']}
             data-umami-event={b.event}
           >
-            <Icon name={b.icon} class="size-6" />
+            <Icon name={b.icon} class="size-5" />
             {b.label}
           </a>
         );
@@ -78,7 +59,7 @@ const callFullRow = channels.length > 2;
     showPhone && (
       <p class:list={['mt-4', muted]}>
         Телефон:{' '}
-        <a href={contact.tel} class:list={['text-lg font-semibold underline', strong]} data-umami-event="call_click">
+        <a href={contact.tel} class:list={['text-lg font-extrabold underline', strong]} data-umami-event="call_click">
           {contact.phoneText}
         </a>
       </p>
@@ -86,7 +67,7 @@ const callFullRow = channels.length > 2;
   }
   {
     photosNote && (
-      <p class:list={['mt-2 flex items-center gap-2', muted]}>
+      <p class:list={['mt-2 flex items-center gap-2 text-[15px]', muted]}>
         <Icon name="camera" class="size-5 shrink-0" />
         Пратете снимки на багажа за точна цена
       </p>

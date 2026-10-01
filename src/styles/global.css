@@ -1,24 +1,54 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/onest';
 
-@theme {
-  --font-sans: 'Onest Variable', ui-sans-serif, system-ui, sans-serif;
+/* Цветове — design/DESIGN.md, т. 1. Палитрата се сменя от site.ts → theme (data-theme на <html>). */
+:root {
+  --ink: #13233f;
+  --deep: #0c182c;
+  --accent: #f5891f;
+  --accent-ink: #a84f00;
+  --ground: #f3f5f8;
+  --surface: #ffffff;
+  --tint: #fdebd8;
+  --line: #dce2eb;
+  --muted: #55607a;
+}
 
-  /* Основен цвят — бутоните „Обади се“; текстът върху него е ink */
-  --color-brand: #facc15;
-  --color-brand-hover: #eab308;
-  --color-brand-soft: #fefce8;
+[data-theme='graphite'] {
+  --ink: #1d1f23;
+  --deep: #121316;
+  --accent: #ffc72c;
+  --accent-ink: #8a6100;
+  --ground: #f4f4f2;
+  --tint: #fff2c6;
+  --line: #e2e2de;
+  --muted: #5a5e66;
+}
 
-  --color-ink: #0f172a;
-  --color-muted: #475569;
-  --color-line: #e2e8f0;
-  --color-surface: #f8fafc;
+[data-theme='forest'] {
+  --ink: #123b32;
+  --deep: #0b2721;
+  --accent: #e8b23a;
+  --accent-ink: #85600a;
+  --ground: #f2f5f2;
+  --tint: #f8edcf;
+  --line: #dae3dd;
+  --muted: #536860;
+}
 
-  /* По-тъмни варианти на фирмените цветове — контраст над 4.5 с бял текст */
-  --color-viber: #665cac;
-  --color-viber-hover: #574e96;
-  --color-whatsapp: #0b7d62;
-  --color-whatsapp-hover: #096a53;
+@theme inline {
+  /* Шрифтовете идват от astro.config.mjs → fonts (компонентът <Font> в Base.astro) */
+  --font-sans: var(--font-sofia);
+  --font-display: var(--font-sofia-condensed);
+
+  --color-ink: var(--ink);
+  --color-deep: var(--deep);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-tint: var(--tint);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
 }
 
 @layer base {
@@ -28,21 +58,217 @@
   }
 
   body {
-    @apply bg-white font-sans text-ink antialiased;
+    @apply bg-surface font-sans text-[17px] leading-[1.6] text-ink antialiased;
   }
 
-  /* Котвите (#kalkulator) да не се скриват под лепкавата горна лента на компютър */
-  :target {
-    scroll-margin-top: 6rem;
+  /* Фокус от клавиатура навсякъде */
+  :where(a, button, summary, input, select, textarea, [tabindex]):focus-visible {
+    outline: 3px solid #2f7bff;
+    outline-offset: 3px;
+  }
+
+  /* Котвите (#kalkulator, #zapitvane) да не се скриват под лепкавата горна лента */
+  :target,
+  section[id] {
+    scroll-margin-top: 84px;
   }
 
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
     }
+    *,
+    *::before,
+    *::after {
+      transition: none !important;
+    }
   }
 }
 
 @utility container-page {
-  @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1200px;
+  padding-inline: clamp(16px, 4vw, 32px);
+}
+
+@utility section-y {
+  padding-block: clamp(64px, 8vw, 104px);
+}
+
+@layer components {
+  /* Бутони — DESIGN.md, т. 4 */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 52px;
+    padding-inline: 22px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-decoration: none;
+    transition:
+      transform 0.15s ease,
+      filter 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.06);
+  }
+  .btn:active {
+    transform: translateY(1px);
+    filter: brightness(0.92);
+  }
+  .btn:disabled {
+    transform: none;
+    filter: none;
+    opacity: 0.6;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--ink);
+  }
+  .btn-secondary {
+    background: var(--ink);
+    color: #fff;
+  }
+  .btn-outline {
+    border: 2px solid var(--ink);
+    color: var(--ink);
+  }
+  .btn-ghost {
+    border: 2px solid rgb(255 255 255 / 0.3);
+    color: #fff;
+  }
+
+  /* Текстов линк със стрелка */
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 800;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+  }
+
+  /* Етикет над заглавие */
+  .eyebrow {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: var(--tint);
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--accent-ink);
+  }
+  .eyebrow-dark {
+    background: rgb(255 255 255 / 0.08);
+    border: 1px solid rgb(255 255 255 / 0.16);
+    color: rgb(255 255 255 / 0.9);
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .eyebrow-dark::before {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+  }
+
+  /* Карти — DESIGN.md, т. 3 и 5 */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+  }
+  .card-shadow {
+    box-shadow:
+      0 1px 2px rgb(16 24 40 / 0.04),
+      0 10px 28px rgb(16 24 40 / 0.06);
+  }
+  .card-hover {
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px rgb(16 24 40 / 0.12);
+  }
+
+  /* Ред „Етикет ······ цена“: точките са ::after на етикета — така работи и в <dl> (dt + dd) */
+  .leader-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .leader-label {
+    display: flex;
+    flex: 1;
+    align-items: flex-end;
+    gap: 8px;
+    min-width: 0;
+  }
+  .leader-label::after {
+    content: '';
+    flex: 1;
+    min-width: 12px;
+    margin-bottom: 5px;
+    border-bottom: 2px dotted var(--muted);
+    opacity: 0.4;
+  }
+  .leader-value {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 1;
+    text-align: right;
+  }
+  .leader-value small {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  /* Заглавия */
+  .h1-display {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(48px, 6.2vw, 84px);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+  }
+  .h2-display {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(34px, 4.2vw, 54px);
+    line-height: 1;
+    letter-spacing: -0.005em;
+  }
+  .h3-display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 26px;
+    line-height: 1.1;
+  }
 }

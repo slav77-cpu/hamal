@@ -122,10 +122,15 @@ describe.skipIf(!built)('готовият сайт (dist/)', () => {
     expect(readFileSync(join(DIST, 'robots.txt'), 'utf8')).toContain(`Sitemap: ${site.url}/sitemap-index.xml`);
   });
 
-  it('един уеб шрифт (Onest)', () => {
-    const fonts = readdirSync(join(DIST, '_astro')).filter((f) => f.endsWith('.woff2'));
+  it('шрифтовете са от нашия сървър (Fonts API на Astro), не от Google, и се зареждат предварително', () => {
+    const fonts = readdirSync(join(DIST, '_astro', 'fonts')).filter((f) => f.endsWith('.woff2'));
     expect(fonts.length).toBeGreaterThan(0);
-    for (const font of fonts) expect(font).toMatch(/^onest-/);
+    for (const path of pages) {
+      const html = readFileSync(fileOf(path), 'utf8');
+      expect(html).not.toContain('fonts.googleapis.com');
+      expect(html).toMatch(/<link rel="preload" href="\/_astro\/fonts\/[\w-]+\.woff2" as="font"/);
+      expect(html).toContain('Sofia Sans Condensed');
+    }
   });
 });
 

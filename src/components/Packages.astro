@@ -1,21 +1,65 @@
 ---
-// Пакети (т. 6). Цената „от“ е долната граница на калкулатора за партер, в града, без допълнителни.
+// Пакети (т. 6) като карти от дизайна; вторият е акцентът.
+// Цената „от“ е долната граница на калкулатора за партер, в града, без допълнителни.
+import Icon from './Icon.astro';
 import { site } from '../data/site';
+import { contact } from '../lib/links';
 import { packages, priceDisclaimer } from '../lib/price-list';
 ---
 
 <div>
-  <ul class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+  <div class="grid gap-x-5 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
     {
-      packages.map((pkg) => (
-        <li class="flex flex-col rounded-2xl border border-line bg-white p-5">
-          <h3 class="text-lg font-semibold">{pkg.label}</h3>
-          <p class="mt-1 flex-1 text-sm text-muted">{pkg.includes}</p>
-          <p class="mt-4 text-xl font-bold">{pkg.price}</p>
-        </li>
-      ))
+      packages.map((pkg, i) => {
+        const featured = i === 1;
+        return (
+          <article
+            class:list={[
+              'flex flex-col gap-5 rounded-[20px] p-7',
+              featured ? 'bg-ink text-white shadow-[0_22px_48px_rgb(16_24_40/0.24)]' : 'card card-shadow',
+            ]}
+          >
+            <div class="flex items-center gap-3">
+              <span
+                class:list={[
+                  'grid size-12 shrink-0 place-items-center rounded-xl',
+                  featured ? 'bg-white/10 text-accent' : 'bg-tint',
+                ]}
+              >
+                <Icon name={pkg.key === 'office' ? 'building' : 'house'} class="size-6" />
+              </span>
+              <h3 class="text-[21px] font-extrabold">{pkg.label}</h3>
+            </div>
+            <p
+              class:list={[
+                'font-display leading-[0.9] font-black tracking-[-0.01em]',
+                pkg.key === 'office' ? 'text-4xl' : 'text-[52px]',
+                featured && 'text-accent',
+              ]}
+            >
+              {pkg.price}
+            </p>
+            <ul class:list={['flex flex-grow flex-col gap-2.5 text-base', featured && 'text-white/88']}>
+              {pkg.points.map((point) => (
+                <li class="flex items-start gap-2.5">
+                  <Icon name="check" class:list={['mt-0.5 size-[18px] shrink-0', featured ? 'text-accent' : 'text-accent-ink']} />
+                  {point}
+                </li>
+              ))}
+            </ul>
+            <a
+              href={contact.tel}
+              class:list={['btn w-full', featured ? 'btn-primary' : 'btn-outline']}
+              data-umami-event="call_click"
+            >
+              <Icon name="phone" class="size-5" />
+              Обади се
+            </a>
+          </article>
+        );
+      })
     }
-  </ul>
-  <p class="mt-4 text-muted">{priceDisclaimer}</p>
-  <p class="mt-1 text-muted">{site.vatNote}</p>
+  </div>
+  <p class="mt-6 text-[15px] text-muted">{priceDisclaimer}</p>
+  <p class="mt-1 text-[15px] text-muted">{site.vatNote}</p>
 </div>

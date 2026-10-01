@@ -1,34 +1,59 @@
 ---
-// Отзиви от reviews.ts и линк към Google профила от site.ts.
+// Отзиви (design/DESIGN.md, т. 5): значка със звезди, голяма кавичка, текст в курсив, кръг с инициал.
+// Само истински отзиви — от reviews.ts.
 import Icon from './Icon.astro';
 import { reviews } from '../data/reviews';
 import { site } from '../data/site';
+
+// „[Име]“ → „И“
+const initial = (name: string) => name.replace(/[^\p{L}]/gu, '').charAt(0).toUpperCase();
 ---
 
-<ul class="grid gap-4 md:grid-cols-3">
+<div class="grid gap-5 md:grid-cols-3">
   {
     reviews.map((review) => (
-      <li class="rounded-2xl border border-line bg-white p-6">
-        <figure class="flex h-full flex-col">
-          <blockquote class="flex-1 text-lg">„{review.text}“</blockquote>
-          <figcaption class="mt-4 font-semibold">{review.name}</figcaption>
-        </figure>
-      </li>
+      <figure class="card card-shadow m-0 flex flex-col gap-[18px] rounded-[20px] p-7">
+        <div class="flex items-center justify-between">
+          {review.rating ? (
+            <p class="inline-flex items-center gap-2 rounded-full bg-ink px-3 py-1.5 text-accent">
+              <span class="inline-flex gap-0.5" aria-hidden="true">
+                {[1, 2, 3, 4, 5].map(() => (
+                  <Icon name="star" class="size-3.5 fill-current" />
+                ))}
+              </span>
+              <span class="text-[13px] font-extrabold text-white">
+                <span class="sr-only">Оценка: </span>
+                {review.rating}
+              </span>
+            </p>
+          ) : (
+            <span />
+          )}
+          <span aria-hidden="true" class="h-[30px] font-display text-[72px] leading-[0.6] font-black text-accent">
+            „
+          </span>
+        </div>
+        <blockquote class="m-0 flex-grow text-[17px] leading-relaxed text-muted italic">{review.text}</blockquote>
+        <figcaption class="flex items-center gap-3">
+          <div class="grid size-11 shrink-0 place-items-center rounded-full bg-tint text-[15px] font-extrabold" aria-hidden="true">
+            {initial(review.name)}
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <span class="font-extrabold">{review.name}</span>
+            {review.meta && <span class="text-sm text-muted">{review.meta}</span>}
+          </div>
+        </figcaption>
+      </figure>
     ))
   }
-</ul>
+</div>
 
-<p class="mt-6">
+<p class="mt-8">
   {
     site.googleProfileUrl ? (
-      <a
-        href={site.googleProfileUrl}
-        class="inline-flex items-center gap-2 font-semibold underline"
-        target="_blank"
-        rel="noopener"
-      >
+      <a href={site.googleProfileUrl} class="text-link" target="_blank" rel="noopener">
         Всички отзиви в Google
-        <Icon name="arrow-right" class="size-4" />
+        <Icon name="arrow-right" class="size-[18px]" />
       </a>
     ) : (
       <span class="text-muted">[Линк към Google профила]</span>

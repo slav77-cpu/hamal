@@ -145,8 +145,8 @@ describe('страници за услуги', () => {
 
 describe('/ceni', () => {
   it('ценоразпис с 8 реда и 4 пакета', () => {
-    expect(doc('/ceni').querySelectorAll('#cenorazpis tbody tr')).toHaveLength(8);
-    expect(doc('/ceni').querySelectorAll('#paketi li')).toHaveLength(4);
+    expect(doc('/ceni').querySelectorAll('#cenorazpis [data-price-row]')).toHaveLength(8);
+    expect(doc('/ceni').querySelectorAll('#paketi article')).toHaveLength(4);
   });
 
   it('под всяка таблица: ориентировъчни цени и ДДС', () => {

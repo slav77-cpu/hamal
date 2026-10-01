@@ -8,17 +8,21 @@ import { formatCount } from '../lib/format';
 ---
 
 <Base title={`Благодарим! | ${site.name}`} description="Запитването е изпратено." noindex>
-  <section class="container-page max-w-xl py-16 text-center sm:py-24">
-    <span class="mx-auto grid size-16 place-items-center rounded-full bg-brand">
-      <Icon name="check" class="size-8" />
-    </span>
-    <h1 class="mt-6 text-3xl font-extrabold sm:text-4xl">Благодарим!</h1>
-    <p class="mt-4 text-xl">Ще ви се обадим до {formatCount(site.replyMinutes)} минути в работно време.</p>
-    <p class="mt-2 text-muted">Работно време: {site.hours}</p>
+  <section class="bg-ink text-white">
+    <div class="container-page py-[clamp(56px,9vw,112px)]">
+      <div class="mx-auto flex max-w-2xl flex-col items-center text-center">
+      <span class="mx-auto grid size-16 place-items-center rounded-full bg-accent text-ink">
+        <Icon name="check" class="size-8 stroke-[3]" />
+      </span>
+      <h1 class="h1-display mt-6">Благодарим!</h1>
+      <p class="mt-5 text-xl text-white/85">Ще ви се обадим до {formatCount(site.replyMinutes)} минути в работно време.</p>
+      <p class="mt-2 text-white/70">Работно време: {site.hours}</p>
 
-    <p class="mt-10 font-semibold">Спешно е? Обадете се:</p>
-    <ContactButtons channels={['call']} photosNote={false} class="mx-auto mt-3 max-w-xs" />
+      <p class="mt-10 font-extrabold">Спешно е? Обадете се:</p>
+      <ContactButtons channels={['call']} photosNote={false} tone="dark" class="mt-3 w-full max-w-xs" />
 
-    <a href="/" class="mt-10 inline-block font-semibold underline">Към началната страница</a>
+      <a href="/" class="text-link mt-10 text-white">Към началната страница</a>
+      </div>
+    </div>
   </section>
 </Base>

@@ -1,5 +1,5 @@
 ---
-// Горна част на вътрешна страница: навигационна пътека, H1, увод.
+// Горна част на вътрешна страница — тъмна, като началния екран: пътека, H1, увод.
 // Слот по подразбиране — под увода (бутони, цена); слот „aside“ — вдясно на компютър (снимка).
 interface Crumb {
   href: string;
@@ -17,11 +17,16 @@ const { title, intro, crumbs = [], current = title } = Astro.props;
 const hasAside = Astro.slots.has('aside');
 ---
 
-<section class="border-b border-line bg-surface">
-  <div class:list={['container-page py-8 sm:py-12', hasAside && 'grid items-center gap-8 md:grid-cols-2 md:gap-12']}>
+<section class="bg-ink text-white">
+  <div
+    class:list={[
+      'container-page pt-[clamp(32px,5vw,64px)] pb-[clamp(48px,6vw,80px)]',
+      hasAside && 'grid items-center gap-10 md:grid-cols-2 md:gap-14',
+    ]}
+  >
     <div>
       <nav aria-label="Навигационна пътека">
-        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted">
+        <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-white/70">
           {
             [{ href: '/', label: 'Начало' }, ...crumbs].map((crumb) => (
               <li class="flex items-center gap-2">
@@ -32,11 +37,13 @@ const hasAside = Astro.slots.has('aside');
               </li>
             ))
           }
-          <li aria-current="page" class="font-medium text-ink">{current}</li>
+          <li aria-current="page" class="font-semibold text-white">{current}</li>
         </ol>
       </nav>
-      <h1 class="mt-4 text-3xl leading-tight font-extrabold tracking-tight sm:text-4xl">{title}</h1>
-      {intro && <p class="mt-4 max-w-2xl text-lg text-muted">{intro}</p>}
+      <h1 class="mt-5 font-display text-[clamp(40px,5vw,64px)] leading-[0.95] font-black tracking-[-0.01em]">
+        {title}
+      </h1>
+      {intro && <p class="mt-5 max-w-[580px] text-[clamp(17px,1.5vw,20px)] leading-relaxed text-white/80">{intro}</p>}
       <slot />
     </div>
     <slot name="aside" />

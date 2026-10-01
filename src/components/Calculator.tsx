@@ -18,10 +18,10 @@ const JOBS: JobType[] = ['studio', 'twoRoom', 'threeRoom', 'house', 'office', 'i
 const MAX_FLOOR = 30;
 
 const chip =
-  'flex min-h-12 cursor-pointer items-center justify-center rounded-xl border-2 border-line bg-white px-3 py-2 text-center font-medium transition-colors hover:border-slate-400 has-checked:border-ink has-checked:bg-ink has-checked:text-white has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-blue-600';
+  'flex min-h-12 cursor-pointer items-center justify-center rounded-xl border-2 border-line bg-surface px-3 py-2 text-center font-bold transition-colors hover:border-ink/40 has-checked:border-ink has-checked:bg-ink has-checked:text-white has-focus-visible:outline-[3px] has-focus-visible:outline-offset-[3px] has-focus-visible:outline-[#2f7bff]';
 const check =
-  'flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border-2 border-line bg-white px-4 py-2 transition-colors hover:border-slate-400 has-checked:border-ink has-checked:bg-brand/25';
-const legend = 'text-lg font-semibold';
+  'flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border-2 border-line bg-surface px-4 py-2 font-semibold transition-colors hover:border-ink/40 has-checked:border-ink has-checked:bg-tint';
+const legend = 'font-display text-2xl font-extrabold';
 
 export default function Calculator({ pricing = defaultPricing }: Props) {
   const [job, setJob] = useState<JobType>('twoRoom');
@@ -144,7 +144,7 @@ export default function Calculator({ pricing = defaultPricing }: Props) {
                       max={1000}
                       value={km}
                       onInput={(e) => update(setKm)(e.currentTarget.value)}
-                      class="h-12 w-28 rounded-xl border-2 border-line px-3 text-lg focus:border-ink focus:outline-none"
+                      class="h-12 w-28 rounded-xl border-2 border-line px-3 text-lg bg-surface focus:border-ink"
                     />
                     <span class="text-muted">км</span>
                   </div>
@@ -173,18 +173,20 @@ export default function Calculator({ pricing = defaultPricing }: Props) {
         )}
       </div>
 
-      <div class="rounded-2xl bg-ink p-6 text-white lg:sticky lg:top-24">
+      <div class="rounded-[20px] bg-ink p-7 text-white shadow-[0_22px_48px_rgb(16_24_40/0.24)] lg:sticky lg:top-24">
         <div aria-live="polite" aria-atomic="true">
           {estimate.kind === 'range' && (
             <>
-              <p class="text-slate-300">Ориентировъчна цена</p>
-              <p class="mt-1 text-3xl font-bold">{formatPriceRange(estimate.min, estimate.max)}</p>
+              <p class="text-[13px] font-extrabold tracking-[0.12em] text-white/70 uppercase">Ориентировъчна цена</p>
+              <p class="mt-2 font-display text-[44px] leading-none font-black text-accent">
+                {formatPriceRange(estimate.min, estimate.max)}
+              </p>
             </>
           )}
           {estimate.kind === 'minOrder' && (
             <>
-              <p class="text-slate-300">Минимална поръчка</p>
-              <p class="mt-1 text-3xl font-bold">
+              <p class="text-[13px] font-extrabold tracking-[0.12em] text-white/70 uppercase">Минимална поръчка</p>
+              <p class="mt-2 font-display text-[40px] leading-none font-black text-accent">
                 {formatHours([estimate.hours, estimate.hours])} — {formatPrice(estimate.price)}
               </p>
               <p class="mt-3">Цената за {jobLabel(job, pricing).toLowerCase()} зависи от обема — обадете се или пратете снимки.</p>
@@ -192,21 +194,21 @@ export default function Calculator({ pricing = defaultPricing }: Props) {
           )}
           {estimate.kind === 'pending' && (
             <>
-              <p class="text-2xl font-bold">Цените предстоят</p>
+              <p class="font-display text-[32px] leading-tight font-black text-accent">Цените предстоят</p>
               <p class="mt-2">Обадете се — ще ви кажем цената по телефона.</p>
             </>
           )}
         </div>
 
-        <p class="mt-4 text-sm text-slate-300">
+        <p class="mt-4 text-sm text-white/78">
           Ориентировъчна цена. Точната зависи от багажа — обадете се или пратете снимки.
         </p>
-        <p class="mt-1 text-sm text-slate-300">{site.vatNote}</p>
+        <p class="mt-1 text-sm text-white/78">{site.vatNote}</p>
 
         <div class="mt-6 grid gap-3">
           <a
             href={contact.tel}
-            class="flex min-h-13 items-center justify-center rounded-xl bg-brand px-5 text-lg font-semibold text-ink hover:bg-brand-hover"
+            class="btn btn-primary text-lg"
             data-umami-event="call_click"
           >
             Обади се
@@ -214,7 +216,7 @@ export default function Calculator({ pricing = defaultPricing }: Props) {
           <a
             href="#zapitvane"
             onClick={() => setQuote(describeQuote(input, estimate, pricing))}
-            class="flex min-h-13 items-center justify-center rounded-xl border-2 border-white/40 px-5 text-lg font-semibold hover:bg-white/10"
+            class="btn btn-ghost text-lg"
           >
             Изпрати запитване
           </a>
@@ -234,9 +236,9 @@ interface AddressProps {
 }
 
 function Address({ id, title, floor, elevator, onFloor, onElevator }: AddressProps) {
-  const stepper = 'grid size-11 place-items-center rounded-lg border-2 border-line text-xl font-semibold hover:border-slate-400 disabled:opacity-40';
+  const stepper = 'grid size-11 place-items-center rounded-xl border-2 border-line text-xl font-bold hover:border-ink/40 disabled:opacity-40';
   return (
-    <div class="rounded-xl border-2 border-line p-4" role="group" aria-labelledby={`${id}-title`}>
+    <div class="rounded-2xl border-2 border-line bg-surface p-4" role="group" aria-labelledby={`${id}-title`}>
       <div class="flex items-center justify-between gap-3">
         <span id={`${id}-title`} class="font-medium">
           {title}
@@ -251,7 +253,7 @@ function Address({ id, title, floor, elevator, onFloor, onElevator }: AddressPro
           >
             −
           </button>
-          <output class="w-20 text-center font-semibold" aria-live="polite">
+          <output class="w-20 text-center font-extrabold" aria-live="polite">
             {floor === 0 ? 'Партер' : `Етаж ${floor}`}
           </output>
           <button

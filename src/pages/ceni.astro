@@ -26,31 +26,35 @@ const hourly = `${formatPriceFrom(pricing.porterPerHour)}/час`;
     intro="Всички цени са в евро. Изчислете ориентировъчна цена с калкулатора или се обадете за точна."
     current="Цени"
   >
-    <a
-      href="#kalkulator"
-      class="mt-6 inline-flex min-h-13 items-center gap-2 rounded-xl bg-ink px-6 text-lg font-semibold text-white hover:bg-slate-800"
-    >
-      <Icon name="calculator" class="size-6" />
-      Изчисли цена
-    </a>
+    <div class="mt-7 flex flex-wrap gap-3">
+      <a href="#kalkulator" class="btn btn-primary">
+        <Icon name="calculator" class="size-5" />
+        Изчисли цена
+      </a>
+      <a href="#cenorazpis" class="btn btn-ghost">Ценоразпис</a>
+    </div>
   </PageHeader>
 
-  <Section id="cenorazpis" title="Ценоразпис">
-    <div class="max-w-3xl">
-      <PriceTable />
-    </div>
+  <Section id="cenorazpis" eyebrow="Цени" title="Ценоразпис" intro="Всички цени са в евро, „от“ — за най-простия случай.">
+    <PriceTable />
   </Section>
 
   <Section
     id="paketi"
+    eyebrow="Пакети"
     title="Пакети за преместване"
     intro="Хамали и бус за целия обект. Цената е за партер и в града — етажите без асансьор и километрите се добавят."
-    tone="surface"
+    tone="ground"
   >
     <Packages />
   </Section>
 
-  <Section id="kalkulator" title="Калкулатор за ориентировъчна цена" intro="Отговорете на четирите въпроса — цената се смята веднага.">
+  <Section
+    id="kalkulator"
+    eyebrow="Калкулатор"
+    title="Калкулатор за ориентировъчна цена"
+    intro="Отговорете на четирите въпроса — цената се смята веднага."
+  >
     <Calculator client:visible />
   </Section>
 

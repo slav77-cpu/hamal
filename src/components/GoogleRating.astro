@@ -1,0 +1,12 @@
+---
+// Значка „[4,9] от [N] отзива в Google“ — данните са в site.ts.
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+
+<p class="inline-flex items-center gap-3 rounded-full bg-ink py-2.5 pr-[18px] pl-3.5 text-[15px] font-semibold text-white">
+  <span class="inline-flex gap-0.5 text-accent" aria-hidden="true">
+    {[1, 2, 3, 4, 5].map(() => <Icon name="star" class="size-4 fill-current" />)}
+  </span>
+  <span><strong class="font-extrabold">{site.googleRating}</strong> от {site.googleReviewCount} отзива в Google</span>
+</p>

@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Хамалски услуги — нов дизайн</title>
+<link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:wght@700;800;900&amp;family=Sofia+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#13233F;--deep:#0C182C;--accent:#F5891F;--accent-ink:#A84F00;
+  --ground:#F3F5F8;--surface:#FFFFFF;--tint:#FDEBD8;--line:#DCE2EB;--muted:#55607A;
+  --font-display:'Sofia Sans Condensed','Sofia Sans',sans-serif;
+  --font-body:'Sofia Sans',system-ui,sans-serif;
+  --radius-btn:12px;--radius-card:18px;--radius-chip:999px;
+  --shadow-card:0 16px 36px rgba(16,24,40,.12);
+  --container:1200px;
+}
+/* Алтернативни палитри: <html lang="bg" data-theme="graphite"> или data-theme="forest" */
+[data-theme="graphite"]{--ink:#1D1F23;--deep:#121316;--accent:#FFC72C;--accent-ink:#8A6100;--ground:#F4F4F2;--tint:#FFF2C6;--line:#E2E2DE;--muted:#5A5E66}
+[data-theme="forest"]{--ink:#123B32;--deep:#0B2721;--accent:#E8B23A;--accent-ink:#85600A;--ground:#F2F5F2;--tint:#F8EDCF;--line:#DAE3DD;--muted:#536860}
+html{scroll-behavior:smooth}
+section[id]{scroll-margin-top:84px}
+body{margin:0}
+a{color:inherit}
+a:hover{color:inherit}
+.ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.nav{display:flex}
+.callbar{display:none}
+.lift{transition:transform .15s ease,box-shadow .15s ease,filter .15s ease}
+.lift:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.card-h{transition:transform .2s ease,box-shadow .2s ease}
+.card-h:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(16,24,40,.12)}
+.ulink{text-decoration:none}
+.ulink:hover{text-decoration:underline;text-underline-offset:4px}
+a:focus-visible,button:focus-visible{outline:3px solid #2F7BFF;outline-offset:3px}
+@media (max-width:900px){.nav{display:none !important}}
+@media (max-width:640px){.callbar{display:flex !important}.hide-sm{display:none !important}.root{padding-bottom:78px !important}}
+.faq{border-radius:16px;background:var(--surface);border:1.5px solid var(--line);transition:border-color .2s ease}
+.faq[open]{border-color:var(--ink)}
+.faq summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 22px;border-radius:16px;cursor:pointer;font-size:18px;font-weight:800;line-height:1.35;color:var(--ink)}
+.faq summary::-webkit-details-marker{display:none}
+.faq .chev{width:36px;height:36px;border-radius:999px;background:var(--tint);color:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.faq .chev svg{width:18px;height:18px;stroke-width:2.6;transition:transform .2s ease}
+.faq[open] .chev{background:var(--accent)}
+.faq[open] .chev svg{transform:rotate(180deg)}
+.faq p{margin:0;padding:0 22px 22px;font-size:16px;line-height:1.6;color:var(--muted)}
+summary:focus-visible{outline:3px solid #2F7BFF;outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="root" style="font-family: var(--font-body); color: var(--ink); background: var(--deep); min-height: 100vh; overflow-x: clip">
+
+<header style="position: sticky; top: 0; z-index: 40; background: var(--ink); border-bottom: 1px solid rgba(255,255,255,0.08)">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); box-sizing: border-box; height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px">
+<a href="#top" class="ulink" style="display: flex; align-items: center; gap: 12px; min-width: 0; color: #FFFFFF">
+<span style="width: 44px; height: 44px; border-radius: 12px; background: var(--accent); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></span>
+<span style="display: flex; flex-direction: column; gap: 4px; line-height: 1">
+<span style="font-family: var(--font-display); font-weight: 900; font-size: 22px; letter-spacing: 0.03em; text-transform: uppercase">Хамалски услуги</span>
+<span style="font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.7)">[Град] и региона</span>
+</span>
+</a>
+<nav class="nav" aria-label="Основно меню" style="align-items: center; gap: 28px; font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.85)">
+<a href="#uslugi" class="ulink">Услуги</a>
+<a href="#ceni" class="ulink">Цени</a>
+<a href="#kak" class="ulink">Как работим</a>
+<a href="#otzivi" class="ulink">Отзиви</a>
+<a href="#vaprosi" class="ulink">Въпроси</a>
+</nav>
+<a href="tel:+359XXXXXXXXX" class="lift" aria-label="Обади се: 08XX XXX XXX" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-width: 48px; height: 48px; padding: 0 16px; box-sizing: border-box; border-radius: 12px; background: var(--accent); color: var(--ink); text-decoration: none; font-size: 17px; font-weight: 800; flex-shrink: 0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 20px; height: 20px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg><span class="hide-sm">08XX XXX XXX</span></a>
+</div>
+</header>
+
+<section id="top" style="background: var(--ink); color: #FFFFFF; padding: clamp(40px, 7vw, 88px) 0 clamp(72px, 9vw, 120px)">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: center; gap: 56px">
+<div style="flex: 1 1 500px; min-width: 0; display: flex; flex-direction: column; gap: 26px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.9)"><span style="width: 8px; height: 8px; border-radius: 999px; background: var(--accent)"></span>Хамали и бус в [Град] и региона</span>
+<h1 style="margin: 0; font-family: var(--font-display); font-weight: 900; font-size: clamp(48px, 6.2vw, 84px); line-height: 0.95; letter-spacing: -0.01em">Носим <span style="color: var(--accent)">тежкото</span><br>вместо вас.</h1>
+<p style="margin: 0; max-width: 540px; font-size: clamp(17px, 1.5vw, 20px); line-height: 1.55; color: rgba(255,255,255,0.8)">Хамали, бус и опаковане — за цял апартамент, офис или само един диван. Обадете се и ще ви кажем цената още по телефона.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 4px">
+<a href="tel:+359XXXXXXXXX" class="lift" style="display: inline-flex; align-items: center; gap: 14px; min-height: 68px; padding: 10px 26px 10px 11px; box-sizing: border-box; border-radius: 14px; background: var(--accent); color: var(--ink); text-decoration: none; box-shadow: 0 12px 28px rgba(0,0,0,0.28)">
+<span style="width: 46px; height: 46px; border-radius: 10px; background: rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
+<span style="display: flex; flex-direction: column; gap: 3px"><span style="font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85">Обади се сега</span><span style="font-family: var(--font-display); font-weight: 900; font-size: 30px; line-height: 1">08XX XXX XXX</span></span>
+</a>
+<a href="viber://chat?number=%2B359XXXXXXXXX" class="lift" style="display: inline-flex; align-items: center; gap: 12px; min-height: 68px; padding: 10px 24px 10px 18px; box-sizing: border-box; border-radius: 14px; border: 2px solid rgba(255,255,255,0.3); color: #FFFFFF; text-decoration: none">
+<svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+<span style="display: flex; flex-direction: column; gap: 3px"><span style="font-size: 17px; font-weight: 800">Пиши във Viber</span><span style="font-size: 14px; color: rgba(255,255,255,0.7)">изпрати снимки за оферта</span></span>
+</a>
+</div>
+<ul style="list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px 26px; font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.85)">
+<li style="display: flex; align-items: center; gap: 9px"><span style="width: 22px; height: 22px; border-radius: 999px; background: var(--accent); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px; stroke-width: 3.2"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Цена още по телефона</li>
+<li style="display: flex; align-items: center; gap: 9px"><span style="width: 22px; height: 22px; border-radius: 999px; background: var(--accent); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px; stroke-width: 3.2"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Без скрити такси</li>
+<li style="display: flex; align-items: center; gap: 9px"><span style="width: 22px; height: 22px; border-radius: 999px; background: var(--accent); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 13px; height: 13px; stroke-width: 3.2"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Опаковаме и пазим мебелите</li>
+</ul>
+</div>
+<div style="flex: 1 1 420px; min-width: 0; position: relative; min-height: 480px; box-sizing: border-box; border-radius: 24px; border: 1px dashed rgba(255,255,255,0.22); background-color: var(--deep); background-image: repeating-linear-gradient(135deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 2px, rgba(255,255,255,0) 2px, rgba(255,255,255,0) 14px)">
+<div style="position: absolute; top: 36px; left: 24px; right: 24px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; color: rgba(255,255,255,0.7); font-size: 15px; font-weight: 600"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 34px; height: 34px; stroke-width: 1.6"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg><span>Снимка на вашия бус и екипа</span></div>
+<div style="position: absolute; left: 24px; right: 24px; bottom: 24px; max-width: 360px; box-sizing: border-box; padding: 26px 22px 18px; border-radius: 16px; background: var(--surface); color: var(--ink); box-shadow: 0 24px 48px rgba(0,0,0,0.35)">
+<span aria-hidden="true" style="position: absolute; top: -13px; left: 50%; width: 120px; height: 26px; margin-left: -60px; background: var(--accent); opacity: 0.92; transform: rotate(-3deg)"></span>
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+<span style="font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted)">Ориентировъчни цени</span>
+<span aria-hidden="true" style="width: 72px; height: 22px; flex-shrink: 0; background-image: repeating-linear-gradient(90deg, var(--ink) 0px, var(--ink) 2px, rgba(0,0,0,0) 2px, rgba(0,0,0,0) 4px, var(--ink) 4px, var(--ink) 5px, rgba(0,0,0,0) 5px, rgba(0,0,0,0) 8px)"></span>
+</div>
+<div style="height: 2px; margin: 12px 0 6px; background: var(--ink)"></div>
+<div style="display: flex; align-items: flex-end; gap: 8px; padding: 8px 0">
+<span style="font-size: 16px; font-weight: 600">Хамалин</span>
+<span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.4"></span>
+<span style="font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1; white-space: nowrap">XX €<span style="font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--muted)"> / час</span></span>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 8px; padding: 8px 0">
+<span style="font-size: 16px; font-weight: 600">Бус с шофьор</span>
+<span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.4"></span>
+<span style="font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1; white-space: nowrap">XX €<span style="font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--muted)"> / час</span></span>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 8px; padding: 8px 0">
+<span style="font-size: 16px; font-weight: 600">Бус + 2 хамали</span>
+<span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.4"></span>
+<span style="font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1; white-space: nowrap">XX €<span style="font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--muted)"> / час</span></span>
+</div>
+<div style="display: flex; align-items: flex-end; gap: 8px; padding: 8px 0">
+<span style="font-size: 16px; font-weight: 600">Цял апартамент</span>
+<span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.4"></span>
+<span style="font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1; white-space: nowrap"><span style="font-family: var(--font-body); font-size: 13px; font-weight: 600; color: var(--muted)">от </span>XX €</span>
+</div>
+<div style="margin-top: 10px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 14px; font-weight: 600; color: var(--muted)">Точна цена — по телефона.</div>
+</div>
+</div>
+</div>
+</section>
+
+<div aria-hidden="true" style="position: relative; z-index: 3; margin: -40px 0 -60px; padding: 26px 0; overflow: hidden">
+<div style="margin: 0 -40px; transform: rotate(-1.6deg); background: var(--accent); color: var(--ink); border-top: 2px dashed rgba(0,0,0,0.2); border-bottom: 2px dashed rgba(0,0,0,0.2); padding: 12px 0; white-space: nowrap; font-family: var(--font-display); font-weight: 800; font-size: 17px; line-height: 20px; letter-spacing: 0.16em; text-transform: uppercase; box-shadow: 0 10px 24px rgba(16,24,40,0.18)">Внимание, чупливо · Тази страна нагоре ↑ · Местим внимателно · Внимание, чупливо · Тази страна нагоре ↑ · Местим внимателно · Внимание, чупливо · Тази страна нагоре ↑ · Местим внимателно · Внимание, чупливо · Тази страна нагоре ↑</div>
+</div>
+
+<section id="uslugi" style="background: var(--ground); padding: clamp(80px, 9vw, 112px) 0 clamp(64px, 8vw, 104px)">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); box-sizing: border-box">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 40px; margin-bottom: 40px">
+<div style="display: flex; flex-direction: column; gap: 14px; max-width: 640px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: var(--tint); color: var(--ink); font-size: 13px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase"><span style="width: 7px; height: 7px; border-radius: 999px; background: var(--accent-ink)"></span>Услуги и цени</span>
+<h2 style="margin: 0; font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 4.2vw, 54px); line-height: 1; letter-spacing: -0.005em">Всичко за преместването</h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: var(--muted)">От един хладилник до цяла къща. Цените са ориентировъчни — точната ви казваме по телефона.</p>
+</div>
+<a href="#ceni" class="ulink" style="display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800; color: var(--ink)">Всички цени<svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 20px">
+
+<article class="card-h" style="flex: 1 1 300px; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 26px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line)">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="width: 56px; height: 56px; border-radius: 14px; background: var(--tint); color: var(--ink); display: flex; align-items: center; justify-content: center"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></span>
+<span style="font-size: 13px; font-weight: 800; letter-spacing: 0.12em; color: var(--muted)">№ 01</span>
+</div>
+<h3 style="margin: 6px 0 0; font-family: var(--font-display); font-weight: 800; font-size: 26px; line-height: 1.1">Преместване на дом</h3>
+<p style="margin: 0; flex-grow: 1; font-size: 16px; line-height: 1.55; color: var(--muted)">Апартамент, къща или квартира — опаковаме, носим и подреждаме.</p>
+<div style="display: flex; align-items: flex-end; gap: 8px; padding-top: 14px; border-top: 1px dashed var(--line)">
+<span style="font-size: 14px; font-weight: 700; color: var(--muted)">Цена</span>
+<span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.4"></span>
+<span style="font-family: var(--font-display); font-weight: 900; font-size: 24px; line-height: 1; white-space: nowrap"><span style="font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--muted)">от </span>XX €</span>
+</div>
+</article>
+
+<article class="card-h" style="flex: 1 1 300px; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 26px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line)">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="width: 56px; height: 56px; border-radius: 14px; background: var(--tint); color: var(--ink); display: flex; align-items: center; justify-content: center"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg></span>
+<span style="font-size: 13px; font-weight: 800; letter-spacing: 0.12em; color: var(--muted)">№ 02</span>
+</div>
+<h3 style="margin: 6px 0 0; font-family: var(--font-display); font-weight: 800; font-size: 26px; line-height: 1.1">Преместване на офис</h3>
+<p style="margin: 0; flex-grow: 1; font-size: 16px; line-height: 1.55; color: var(--muted)">Бюра, шкафове, техника и архиви — бързо и без да спира работата ви.</p>
+<div style="display: flex; align-items: flex-end; gap: 8px; padding-top: 14px; border-top: 1px dashed var(--line)">
+<span style="font-size: 14px; font-weight: 700; color: var(--muted)">Цена</span>
+<span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.4"></span>
+<span style="font-family: var(--font-display); font-weight: 900; font-size: 24px; line-height: 1; white-space: nowrap"><span style="font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--muted)">от </span>XX €</span>
+</div>
+</article>
+
+<article class="card-h" style="flex: 1 1 300px; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 26px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line)">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="width: 56px; height: 56px; border-radius: 14px; background: var(--tint); color: var(--ink); display: flex; align-items: center; justify-content: center"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg></span>
+<span style="font-size: 13px; font-weight: 800; letter-spacing: 0.12em; color: var(--muted)">№ 03</span>
+</div>
+<h3 style="margin: 6px 0 0; font-family: var(--font-display); font-weight: 800; font-size: 26px; line-height: 1.1">Бус с шофьор</h3>
+<p style="margin: 0; flex-grow: 1; font-size: 16px; line-height: 1.55; color: var(--muted)">Само превоз — за покупка от магазин, техника или багаж.</p>
+<div style="display: flex; align-items: flex-end; gap: 8px; padding-top: 14px; border-top: 1px dashed var(--line)">
+<span style="font-size: 14px; font-weight: 700; color: var(--muted)">Цена</span>
+<span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.4"></span>
+<span style="font-family: var(--font-display); font-weight: 900; font-size: 24px; line-height: 1; white-space: nowrap">XX €<span style="font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--muted)"> / час</span></span>
+</div>
+</article>
+
+<article class="card-h" style="flex: 1 1 300px; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 26px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line)">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="width: 56px; height: 56px; border-radius: 14px; background: var(--tint); color: var(--ink); display: flex; align-items: center; justify-content: center"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg></span>
+<span style="font-size: 13px; font-weight: 800; letter-spacing: 0.12em; color: var(--muted)">№ 04</span>
+</div>
+<h3 style="margin: 6px 0 0; font-family: var(--font-display); font-weight: 800; font-size: 26px; line-height: 1.1">Разглобяване и сглобяване</h3>
+<p style="margin: 0; flex-grow: 1; font-size: 16px; line-height: 1.55; color: var(--muted)">Гардероби, легла, кухни — демонтираме и монтираме на новото място.</p>
+<div style="display: flex; align-items: flex-end; gap: 8px; padding-top: 14px; border-top: 1px dashed var(--line)">
+<span style="font-size: 14px; font-weight: 700; color: var(--muted)">Цена</span>
+<span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.4"></span>
+<span style="font-family: var(--font-display); font-weight: 900; font-size: 24px; line-height: 1; white-space: nowrap"><span style="font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--muted)">от </span>XX €</span>
+</div>
+</article>
+
+<article class="card-h" style="flex: 1 1 300px; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 26px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line)">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="width: 56px; height: 56px; border-radius: 14px; background: var(--tint); color: var(--ink); display: flex; align-items: center; justify-content: center"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></span>
+<span style="font-size: 13px; font-weight: 800; letter-spacing: 0.12em; color: var(--muted)">№ 05</span>
+</div>
+<h3 style="margin: 6px 0 0; font-family: var(--font-display); font-weight: 800; font-size: 26px; line-height: 1.1">Извозване на стари мебели</h3>
+<p style="margin: 0; flex-grow: 1; font-size: 16px; line-height: 1.55; color: var(--muted)">Изнасяме и извозваме ненужни мебели, уреди и отпадъци от ремонт.</p>
+<div style="display: flex; align-items: flex-end; gap: 8px; padding-top: 14px; border-top: 1px dashed var(--line)">
+<span style="font-size: 14px; font-weight: 700; color: var(--muted)">Цена</span>
+<span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.4"></span>
+<span style="font-family: var(--font-display); font-weight: 900; font-size: 24px; line-height: 1; white-space: nowrap"><span style="font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--muted)">от </span>XX €</span>
+</div>
+</article>
+
+<article class="card-h" style="flex: 1 1 300px; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; padding: 26px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line)">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="width: 56px; height: 56px; border-radius: 14px; background: var(--tint); color: var(--ink); display: flex; align-items: center; justify-content: center"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 28px; height: 28px"><path d="M9 9V7.5a3 3 0 0 1 6 0V9"></path><path d="M6 9h12l2.4 11.2a1 1 0 0 1-1 1.3H4.6a1 1 0 0 1-1-1.3z"></path><line x1="9.5" y1="15.5" x2="14.5" y2="15.5"></line></svg></span>
+<span style="font-size: 13px; font-weight: 800; letter-spacing: 0.12em; color: var(--muted)">№ 06</span>
+</div>
+<h3 style="margin: 6px 0 0; font-family: var(--font-display); font-weight: 800; font-size: 26px; line-height: 1.1">Тежки и обемни товари</h3>
+<p style="margin: 0; flex-grow: 1; font-size: 16px; line-height: 1.55; color: var(--muted)">Пиана, каси, перални и хладилници — с колани и правилна техника.</p>
+<div style="display: flex; align-items: flex-end; gap: 8px; padding-top: 14px; border-top: 1px dashed var(--line)">
+<span style="font-size: 14px; font-weight: 700; color: var(--muted)">Цена</span>
+<span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.4"></span>
+<span style="font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1; white-space: nowrap">по запитване</span>
+</div>
+</article>
+
+</div>
+</div>
+</section>
+
+<section id="ceni" style="background: var(--surface); padding: clamp(64px, 8vw, 104px) 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); box-sizing: border-box">
+<div style="display: flex; flex-direction: column; gap: 14px; max-width: 680px; margin-bottom: 48px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: var(--tint); color: var(--ink); font-size: 13px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase"><span style="width: 7px; height: 7px; border-radius: 999px; background: var(--accent-ink)"></span>Цени</span>
+<h2 style="margin: 0; font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 4.2vw, 54px); line-height: 1; letter-spacing: -0.005em">Ясни цени, без изненади</h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: var(--muted)">Цените са на час и са ориентировъчни. Точната сума зависи от етажа, асансьора и обема — казваме я още по телефона.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: stretch; gap: 28px 20px">
+
+<article style="flex: 1 1 280px; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; padding: 30px 28px 28px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 10px 28px rgba(16,24,40,0.06)">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 48px; height: 48px; border-radius: 12px; background: var(--tint); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+<h3 style="margin: 0; font-size: 21px; font-weight: 800">1 хамалин</h3>
+</div>
+<div style="display: flex; align-items: baseline; gap: 8px">
+<span style="font-family: var(--font-display); font-weight: 900; font-size: 64px; line-height: 0.9; letter-spacing: -0.01em">XX €</span>
+<span style="font-size: 16px; font-weight: 600; color: var(--muted)">/ час</span>
+</div>
+<ul style="list-style: none; margin: 0; padding: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; font-size: 16px; line-height: 1.45">
+<li style="display: flex; align-items: flex-start; gap: 10px"><span style="display: flex; margin-top: 1px; color: var(--accent-ink)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; stroke-width: 2.6"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Носене, товарене и разтоварване</li>
+<li style="display: flex; align-items: flex-start; gap: 10px"><span style="display: flex; margin-top: 1px; color: var(--accent-ink)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; stroke-width: 2.6"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Опаковане на място</li>
+<li style="display: flex; align-items: flex-start; gap: 10px"><span style="display: flex; margin-top: 1px; color: var(--accent-ink)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; stroke-width: 2.6"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Минимум [X] часа</li>
+</ul>
+<a href="tel:+359XXXXXXXXX" class="lift" style="display: flex; align-items: center; justify-content: center; gap: 10px; height: 52px; box-sizing: border-box; border-radius: 12px; border: 2px solid var(--ink); color: var(--ink); text-decoration: none; font-size: 17px; font-weight: 800"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 20px; height: 20px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>Обади се</a>
+</article>
+
+<article style="flex: 1 1 280px; min-width: 0; box-sizing: border-box; position: relative; display: flex; flex-direction: column; gap: 20px; padding: 34px 28px 28px; border-radius: 20px; background: var(--ink); color: #FFFFFF; box-shadow: 0 22px 48px rgba(16,24,40,0.24)">
+<span style="position: absolute; top: -14px; left: 28px; padding: 6px 14px; border-radius: 999px; background: var(--accent); color: var(--ink); font-size: 13px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase">Всичко в едно</span>
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 48px; height: 48px; border-radius: 12px; background: rgba(255,255,255,0.1); color: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
+<h3 style="margin: 0; font-size: 21px; font-weight: 800">Бус + 2 хамали</h3>
+</div>
+<div style="display: flex; align-items: baseline; gap: 8px">
+<span style="font-family: var(--font-display); font-weight: 900; font-size: 64px; line-height: 0.9; letter-spacing: -0.01em; color: var(--accent)">XX €</span>
+<span style="font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.7)">/ час</span>
+</div>
+<ul style="list-style: none; margin: 0; padding: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; font-size: 16px; line-height: 1.45; color: rgba(255,255,255,0.88)">
+<li style="display: flex; align-items: flex-start; gap: 10px"><span style="display: flex; margin-top: 1px; color: var(--accent)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; stroke-width: 2.6"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Бус до [X] м³ и двама хамали</li>
+<li style="display: flex; align-items: flex-start; gap: 10px"><span style="display: flex; margin-top: 1px; color: var(--accent)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; stroke-width: 2.6"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Разглобяване и сглобяване на мебели</li>
+<li style="display: flex; align-items: flex-start; gap: 10px"><span style="display: flex; margin-top: 1px; color: var(--accent)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; stroke-width: 2.6"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Фолио, колани и одеяла за мебелите</li>
+</ul>
+<a href="tel:+359XXXXXXXXX" class="lift" style="display: flex; align-items: center; justify-content: center; gap: 10px; height: 52px; box-sizing: border-box; border-radius: 12px; background: var(--accent); color: var(--ink); text-decoration: none; font-size: 17px; font-weight: 800"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 20px; height: 20px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>Обади се</a>
+</article>
+
+<article style="flex: 1 1 280px; min-width: 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; padding: 30px 28px 28px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 10px 28px rgba(16,24,40,0.06)">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 48px; height: 48px; border-radius: 12px; background: var(--tint); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg></span>
+<h3 style="margin: 0; font-size: 21px; font-weight: 800">Бус с шофьор</h3>
+</div>
+<div style="display: flex; align-items: baseline; gap: 8px">
+<span style="font-family: var(--font-display); font-weight: 900; font-size: 64px; line-height: 0.9; letter-spacing: -0.01em">XX €</span>
+<span style="font-size: 16px; font-weight: 600; color: var(--muted)">/ час</span>
+</div>
+<ul style="list-style: none; margin: 0; padding: 0; flex-grow: 1; display: flex; flex-direction: column; gap: 10px; font-size: 16px; line-height: 1.45">
+<li style="display: flex; align-items: flex-start; gap: 10px"><span style="display: flex; margin-top: 1px; color: var(--accent-ink)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; stroke-width: 2.6"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Само превоз — товарите вие</li>
+<li style="display: flex; align-items: flex-start; gap: 10px"><span style="display: flex; margin-top: 1px; color: var(--accent-ink)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; stroke-width: 2.6"><polyline points="20 6 9 17 4 12"></polyline></svg></span>За покупки, техника и багаж</li>
+<li style="display: flex; align-items: flex-start; gap: 10px"><span style="display: flex; margin-top: 1px; color: var(--accent-ink)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px; stroke-width: 2.6"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Извън града — XX € / км</li>
+</ul>
+<a href="tel:+359XXXXXXXXX" class="lift" style="display: flex; align-items: center; justify-content: center; gap: 10px; height: 52px; box-sizing: border-box; border-radius: 12px; border: 2px solid var(--ink); color: var(--ink); text-decoration: none; font-size: 17px; font-weight: 800"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 20px; height: 20px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>Обади се</a>
+</article>
+
+</div>
+
+<div style="margin-top: 28px; box-sizing: border-box; padding: clamp(22px, 3vw, 34px); border-radius: 20px; background: var(--ground); border: 1px solid var(--line)">
+<div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px; margin-bottom: 6px">
+<h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 28px">Допълнително</h3>
+<span style="font-size: 15px; color: var(--muted)">Добавя се към цената на час</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; column-gap: 48px">
+<div style="flex: 1 1 360px; min-width: 0">
+<div style="display: flex; align-items: flex-end; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line)"><span style="font-size: 16px; font-weight: 600">Етаж без асансьор</span><span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.35"></span><span style="font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1; white-space: nowrap">XX € / етаж</span></div>
+<div style="display: flex; align-items: flex-end; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line)"><span style="font-size: 16px; font-weight: 600">Разглобяване на гардероб</span><span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.35"></span><span style="font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1; white-space: nowrap">от XX €</span></div>
+<div style="display: flex; align-items: flex-end; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line)"><span style="font-size: 16px; font-weight: 600">Сглобяване на легло</span><span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.35"></span><span style="font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1; white-space: nowrap">от XX €</span></div>
+</div>
+<div style="flex: 1 1 360px; min-width: 0">
+<div style="display: flex; align-items: flex-end; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line)"><span style="font-size: 16px; font-weight: 600">Кашони и фолио</span><span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.35"></span><span style="font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1; white-space: nowrap">по заявка</span></div>
+<div style="display: flex; align-items: flex-end; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line)"><span style="font-size: 16px; font-weight: 600">Извън града</span><span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.35"></span><span style="font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1; white-space: nowrap">XX € / км</span></div>
+<div style="display: flex; align-items: flex-end; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line)"><span style="font-size: 16px; font-weight: 600">Неделя и празници</span><span aria-hidden="true" style="flex-grow: 1; margin-bottom: 5px; border-bottom: 2px dotted var(--muted); opacity: 0.35"></span><span style="font-family: var(--font-display); font-weight: 800; font-size: 20px; line-height: 1; white-space: nowrap">+ XX %</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="kak" style="background: var(--ground); padding: clamp(64px, 8vw, 104px) 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); box-sizing: border-box">
+<div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 44px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: var(--tint); color: var(--ink); font-size: 13px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase"><span style="width: 7px; height: 7px; border-radius: 999px; background: var(--accent-ink)"></span>Как работим</span>
+<h2 style="margin: 0; font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 4.2vw, 54px); line-height: 1; letter-spacing: -0.005em">Четири стъпки до новото място</h2>
+</div>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 36px 24px">
+<li style="flex: 1 1 240px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 14px"><span style="width: 60px; height: 60px; border-radius: 999px; background: var(--accent); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--font-display); font-weight: 900; font-size: 30px; line-height: 1">1</span><span aria-hidden="true" style="flex-grow: 1; border-top: 2px dashed var(--muted); opacity: 0.35"></span></div>
+<h3 style="margin: 6px 0 0; font-size: 21px; font-weight: 800">Обаждате се</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--muted)">Или пишете във Viber и пращате снимки на вещите.</p>
+</li>
+<li style="flex: 1 1 240px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 14px"><span style="width: 60px; height: 60px; border-radius: 999px; background: var(--accent); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--font-display); font-weight: 900; font-size: 30px; line-height: 1">2</span><span aria-hidden="true" style="flex-grow: 1; border-top: 2px dashed var(--muted); opacity: 0.35"></span></div>
+<h3 style="margin: 6px 0 0; font-size: 21px; font-weight: 800">Казваме цена и час</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--muted)">Ориентировъчна цена още в разговора, без ангажимент.</p>
+</li>
+<li style="flex: 1 1 240px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 14px"><span style="width: 60px; height: 60px; border-radius: 999px; background: var(--accent); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--font-display); font-weight: 900; font-size: 30px; line-height: 1">3</span><span aria-hidden="true" style="flex-grow: 1; border-top: 2px dashed var(--muted); opacity: 0.35"></span></div>
+<h3 style="margin: 6px 0 0; font-size: 21px; font-weight: 800">Идваме и носим</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--muted)">Опаковаме, разглобяваме, товарим и пренасяме внимателно.</p>
+</li>
+<li style="flex: 1 1 240px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; align-items: center; gap: 14px"><span style="width: 60px; height: 60px; border-radius: 999px; background: var(--ink); color: var(--accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: var(--font-display); font-weight: 900; font-size: 30px; line-height: 1">4</span></div>
+<h3 style="margin: 6px 0 0; font-size: 21px; font-weight: 800">Плащате на място</h3>
+<p style="margin: 0; font-size: 16px; line-height: 1.55; color: var(--muted)">След като всичко е пренесено и сглобено.</p>
+</li>
+</ol>
+</div>
+</section>
+
+<section id="otzivi" style="background: var(--surface); padding: clamp(64px, 8vw, 104px) 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); box-sizing: border-box">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 40px; margin-bottom: 40px">
+<div style="display: flex; flex-direction: column; gap: 14px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: var(--tint); color: var(--ink); font-size: 13px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase"><span style="width: 7px; height: 7px; border-radius: 999px; background: var(--accent-ink)"></span>Отзиви</span>
+<h2 style="margin: 0; font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 4.2vw, 54px); line-height: 1; letter-spacing: -0.005em">Какво казват клиентите</h2>
+</div>
+<span style="display: inline-flex; align-items: center; gap: 12px; padding: 10px 18px 10px 14px; border-radius: 999px; background: var(--ink); color: #FFFFFF; font-size: 15px; font-weight: 600"><span style="display: inline-flex; gap: 2px; color: var(--accent)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span><span><strong style="font-weight: 800">[4,9]</strong> от [N] отзива в Google</span></span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 20px">
+
+<figure style="flex: 1 1 300px; min-width: 0; box-sizing: border-box; margin: 0; display: flex; flex-direction: column; gap: 18px; padding: 28px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 10px 28px rgba(16,24,40,0.06)">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: var(--ink); color: var(--accent)"><span style="display: inline-flex; gap: 2px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span><span style="color: #FFFFFF; font-size: 13px; font-weight: 800">[5,0]</span></span>
+<span aria-hidden="true" style="height: 30px; font-family: var(--font-display); font-weight: 900; font-size: 72px; line-height: 0.6; color: var(--accent)">„</span>
+</div>
+<blockquote style="margin: 0; flex-grow: 1; font-size: 17px; line-height: 1.6; font-style: italic; color: var(--muted)">[Истински отзив на клиент от Google — 2–3 изречения]</blockquote>
+<figcaption style="display: flex; align-items: center; gap: 12px">
+<span style="width: 44px; height: 44px; border-radius: 999px; background: var(--tint); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 15px; font-weight: 800">[И]</span>
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 800; color: var(--ink)">[Име на клиента]</span><span style="font-size: 14px; color: var(--muted)">[Квартал] · [месец 2026]</span></span>
+</figcaption>
+</figure>
+
+<figure style="flex: 1 1 300px; min-width: 0; box-sizing: border-box; margin: 0; display: flex; flex-direction: column; gap: 18px; padding: 28px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 10px 28px rgba(16,24,40,0.06)">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: var(--ink); color: var(--accent)"><span style="display: inline-flex; gap: 2px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span><span style="color: #FFFFFF; font-size: 13px; font-weight: 800">[5,0]</span></span>
+<span aria-hidden="true" style="height: 30px; font-family: var(--font-display); font-weight: 900; font-size: 72px; line-height: 0.6; color: var(--accent)">„</span>
+</div>
+<blockquote style="margin: 0; flex-grow: 1; font-size: 17px; line-height: 1.6; font-style: italic; color: var(--muted)">[Истински отзив на клиент от Google — 2–3 изречения]</blockquote>
+<figcaption style="display: flex; align-items: center; gap: 12px">
+<span style="width: 44px; height: 44px; border-radius: 999px; background: var(--tint); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 15px; font-weight: 800">[И]</span>
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 800; color: var(--ink)">[Име на клиента]</span><span style="font-size: 14px; color: var(--muted)">[Квартал] · [месец 2026]</span></span>
+</figcaption>
+</figure>
+
+<figure style="flex: 1 1 300px; min-width: 0; box-sizing: border-box; margin: 0; display: flex; flex-direction: column; gap: 18px; padding: 28px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 10px 28px rgba(16,24,40,0.06)">
+<div style="display: flex; align-items: center; justify-content: space-between">
+<span style="display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; background: var(--ink); color: var(--accent)"><span style="display: inline-flex; gap: 2px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 14px; height: 14px; fill: currentColor; stroke: none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></span><span style="color: #FFFFFF; font-size: 13px; font-weight: 800">[5,0]</span></span>
+<span aria-hidden="true" style="height: 30px; font-family: var(--font-display); font-weight: 900; font-size: 72px; line-height: 0.6; color: var(--accent)">„</span>
+</div>
+<blockquote style="margin: 0; flex-grow: 1; font-size: 17px; line-height: 1.6; font-style: italic; color: var(--muted)">[Истински отзив на клиент от Google — 2–3 изречения]</blockquote>
+<figcaption style="display: flex; align-items: center; gap: 12px">
+<span style="width: 44px; height: 44px; border-radius: 999px; background: var(--tint); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 15px; font-weight: 800">[И]</span>
+<span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 16px; font-weight: 800; color: var(--ink)">[Име на клиента]</span><span style="font-size: 14px; color: var(--muted)">[Квартал] · [месец 2026]</span></span>
+</figcaption>
+</figure>
+
+</div>
+</div>
+</section>
+
+<section id="vaprosi" style="background: var(--ground); padding: clamp(64px, 8vw, 104px) 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); box-sizing: border-box; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 40px 56px">
+<div style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<span style="align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: var(--tint); color: var(--ink); font-size: 13px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase"><span style="width: 7px; height: 7px; border-radius: 999px; background: var(--accent-ink)"></span>Въпроси</span>
+<h2 style="margin: 0; font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 4.2vw, 54px); line-height: 1; letter-spacing: -0.005em">Често питат</h2>
+<p style="margin: 0; font-size: 17px; line-height: 1.6; color: var(--muted)">Кратки отговори преди преместването.</p>
+<div style="margin-top: 14px; display: flex; flex-direction: column; gap: 14px; padding: 28px; border-radius: 20px; background: var(--ink); color: #FFFFFF">
+<span style="font-family: var(--font-display); font-weight: 800; font-size: 28px; line-height: 1.1">Не намирате отговор?</span>
+<span style="font-size: 16px; line-height: 1.55; color: rgba(255,255,255,0.78)">Обадете се — ще отговорим и ще кажем цена още в разговора.</span>
+<a href="tel:+359XXXXXXXXX" class="lift" style="display: flex; align-items: center; justify-content: center; gap: 10px; height: 56px; box-sizing: border-box; border-radius: 12px; background: var(--accent); color: var(--ink); text-decoration: none; font-family: var(--font-display); font-weight: 900; font-size: 24px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 20px; height: 20px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>08XX XXX XXX</a>
+</div>
+</div>
+<div style="flex: 2 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<details class="faq" name="faq" open>
+<summary><span>Колко струва преместване на апартамент?</span><span class="chev" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></summary>
+<p>Зависи от обема, етажа и разстоянието. За двустаен апартамент обикновено излиза [от XX до XX €]. Обадете се и ще ви кажем точно.</p>
+</details>
+<details class="faq" name="faq">
+<summary><span>Трябва ли да опаковам сам?</span><span class="chev" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></summary>
+<p>Не е нужно. Можем да донесем кашони и фолио и да опаковаме вместо вас — [цена по заявка].</p>
+</details>
+<details class="faq" name="faq">
+<summary><span>Разглобявате ли мебели?</span><span class="chev" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></summary>
+<p>Да — гардероби, легла, кухни и офис мебели. Разглобяваме на старото място и сглобяваме на новото.</p>
+</details>
+<details class="faq" name="faq">
+<summary><span>Работите ли през уикенда?</span><span class="chev" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></summary>
+<p>[Да, работим всеки ден от X до X ч. В неделя и на празници — с надбавка.]</p>
+</details>
+<details class="faq" name="faq">
+<summary><span>Как се плаща?</span><span class="chev" aria-hidden="true"><svg class="ic" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></span></summary>
+<p>[В брой или по банков път, след като приключим.]</p>
+</details>
+</div>
+</div>
+</section>
+
+<section style="background: var(--accent); color: var(--ink); padding: clamp(56px, 8vw, 96px) 0">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center">
+<span style="font-size: 14px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase">Обадете се сега</span>
+<a href="tel:+359XXXXXXXXX" class="ulink" style="font-family: var(--font-display); font-weight: 900; font-size: clamp(56px, 9vw, 120px); line-height: 0.95; letter-spacing: -0.01em; color: var(--ink)">08XX XXX XXX</a>
+<p style="margin: 0; max-width: 560px; font-size: 18px; line-height: 1.55">Казваме цената още по телефона. [Работим всеки ден от X до X ч.]</p>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 8px">
+<a href="tel:+359XXXXXXXXX" class="lift" style="display: inline-flex; align-items: center; gap: 10px; height: 56px; padding: 0 26px; box-sizing: border-box; border-radius: 12px; background: var(--ink); color: #FFFFFF; text-decoration: none; font-size: 18px; font-weight: 800"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 20px; height: 20px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>Обади се</a>
+<a href="viber://chat?number=%2B359XXXXXXXXX" class="lift" style="display: inline-flex; align-items: center; gap: 10px; height: 56px; padding: 0 24px; box-sizing: border-box; border-radius: 12px; border: 2px solid var(--ink); color: var(--ink); text-decoration: none; font-size: 18px; font-weight: 800"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 20px; height: 20px"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>Пиши във Viber</a>
+</div>
+</div>
+</section>
+
+<footer style="background: var(--deep); color: rgba(255,255,255,0.72); padding: 56px 0 32px">
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 32px); box-sizing: border-box">
+<div style="display: flex; flex-wrap: wrap; gap: 32px 48px; padding-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,0.1)">
+<div style="flex: 2 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<span style="display: flex; align-items: center; gap: 12px; color: #FFFFFF">
+<span style="width: 40px; height: 40px; border-radius: 11px; background: var(--accent); color: var(--ink); display: flex; align-items: center; justify-content: center; flex-shrink: 0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 22px; height: 22px"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></span>
+<span style="font-family: var(--font-display); font-weight: 900; font-size: 20px; letter-spacing: 0.03em; text-transform: uppercase">Хамалски услуги</span>
+</span>
+<p style="margin: 0; max-width: 340px; font-size: 15px; line-height: 1.6">Хамалски услуги и превоз с бус в [Град] и региона.</p>
+</div>
+<div style="flex: 1 1 180px; min-width: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+<span style="font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #FFFFFF">Контакт</span>
+<a href="tel:+359XXXXXXXXX" class="ulink" style="display: flex; align-items: center; gap: 8px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>08XX XXX XXX</a>
+<a href="viber://chat?number=%2B359XXXXXXXXX" class="ulink" style="display: flex; align-items: center; gap: 8px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>Viber</a>
+<a href="mailto:" class="ulink" style="display: flex; align-items: center; gap: 8px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>[имейл]</a>
+</div>
+<div style="flex: 1 1 180px; min-width: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+<span style="font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #FFFFFF">Работно време</span>
+<span style="display: flex; align-items: center; gap: 8px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>[Пон – Нед]</span>
+<span style="padding-left: 24px">[8:00 – 20:00]</span>
+</div>
+<div style="flex: 1 1 180px; min-width: 0; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+<span style="font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #FFFFFF">Къде работим</span>
+<span style="display: flex; align-items: center; gap: 8px"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 16px; height: 16px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>[Град]</span>
+<span style="padding-left: 24px">[Близки населени места]</span>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding-top: 24px; font-size: 14px">
+<span>© 2026 [Име на фирмата]</span>
+<a href="#top" class="ulink">Към началото ↑</a>
+</div>
+</div>
+</footer>
+
+<div class="callbar" style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; gap: 10px; padding: 12px 16px; box-sizing: border-box; background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 -10px 30px rgba(16,24,40,0.1)">
+<a href="tel:+359XXXXXXXXX" style="flex: 2 1 0; display: flex; align-items: center; justify-content: center; gap: 10px; height: 54px; border-radius: 12px; background: var(--accent); color: var(--ink); text-decoration: none; font-size: 18px; font-weight: 800"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 20px; height: 20px"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>Обади се</a>
+<a href="viber://chat?number=%2B359XXXXXXXXX" style="flex: 1 1 0; display: flex; align-items: center; justify-content: center; gap: 8px; height: 54px; border-radius: 12px; background: var(--ink); color: #FFFFFF; text-decoration: none; font-size: 16px; font-weight: 800"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" style="width: 18px; height: 18px"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>Viber</a>
+</div>
+
+</div>
+</body>
+</html>

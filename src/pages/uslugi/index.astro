@@ -20,12 +20,12 @@ const list = services.map((s) => s.title.toLowerCase()).join(', ');
     intro={`Всичко, с което помагаме ${city}. Изберете услуга, за да видите какво е включено и колко струва.`}
   />
 
-  <section class="container-page py-12 sm:py-16" aria-label="Списък с услуги">
-    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <section class="section-y bg-ground" aria-label="Списък с услуги">
+    <ul class="container-page grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {
-        services.map((service) => (
+        services.map((service, i) => (
           <li>
-            <ServiceCard service={service} headingLevel="h2" />
+            <ServiceCard service={service} index={i + 1} headingLevel="h2" />
           </li>
         ))
       }

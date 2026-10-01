@@ -1,7 +1,8 @@
 ---
-// Финален призив в края на страница: бутоните за контакт и (в слота) формата за запитване.
-import ContactButtons from './ContactButtons.astro';
-import Section from './Section.astro';
+// Финален призив (design/DESIGN.md, т. 6.9): оранжев фон, огромен номер, бутони — и (в слота) формата.
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { contact } from '../lib/links';
 
 interface Props {
   id?: string;
@@ -12,14 +13,46 @@ interface Props {
 const {
   id = 'zapitvane',
   title = 'Обади се сега',
-  intro = 'Кажете какво местите и откъде докъде, а ние ще ви кажем цената и свободните дни.',
+  intro = 'Кажете какво местите и откъде докъде — ще ви кажем цената и свободните дни.',
 } = Astro.props;
 const hasForm = Astro.slots.has('default');
 ---
 
-<Section id={id} title={title} intro={intro} tone="dark">
-  <div class:list={['grid gap-10', hasForm && 'md:grid-cols-2']}>
-    <ContactButtons tone="dark" class="max-w-md" />
-    <slot />
+<section id={id} aria-labelledby={`${id}-title`} class="bg-accent text-ink section-y">
+  <div class="container-page flex flex-col items-center gap-[18px] text-center">
+    <h2 id={`${id}-title`} class="text-sm font-extrabold tracking-[0.16em] uppercase">{title}</h2>
+    <a
+      href={contact.tel}
+      class="font-display text-[clamp(56px,9vw,120px)] leading-[0.95] font-black tracking-[-0.01em] no-underline hover:underline"
+      data-umami-event="call_click"
+    >
+      {contact.phoneText}
+    </a>
+    <p class="max-w-[560px] text-lg leading-relaxed">
+      {intro} Работно време: {site.hours}.
+    </p>
+    <div class="mt-2 flex flex-wrap justify-center gap-3">
+      <a href={contact.tel} class="btn btn-secondary min-h-14 px-[26px] text-lg" data-umami-event="call_click">
+        <Icon name="phone" class="size-5" />
+        Обади се
+      </a>
+      <a href={contact.viber} class="btn btn-outline min-h-14 px-6 text-lg" data-umami-event="viber_click">
+        <Icon name="viber" class="size-5" />
+        Пиши във Viber
+      </a>
+      <a href={contact.whatsapp} class="btn btn-outline min-h-14 px-6 text-lg" data-umami-event="whatsapp_click">
+        <Icon name="whatsapp" class="size-5" />
+        WhatsApp
+      </a>
+    </div>
+    <p class="flex items-center gap-2 text-[15px] font-semibold">
+      <Icon name="camera" class="size-5" />
+      Пратете снимки на багажа за точна цена
+    </p>
+    {hasForm && (
+      <div class="mt-6 w-full max-w-3xl text-left">
+        <slot />
+      </div>
+    )}
   </div>
-</Section>
+</section>

@@ -1,32 +1,33 @@
 ---
-// Секция на страница: заглавие H2, кратък увод и съдържание.
+// Секция: етикет над заглавието, H2, кратък увод и съдържание (design/DESIGN.md, т. 2, 3, 5).
 interface Props {
   id: string;
   title: string;
   intro?: string;
-  tone?: 'white' | 'surface' | 'dark';
+  eyebrow?: string;
+  tone?: 'surface' | 'ground' | 'ink';
+  afterTape?: boolean; // повече място отгоре, когато лентата „тиксо“ застъпва секцията
 }
 
-const { id, title, intro, tone = 'white' } = Astro.props;
-
-const bg = {
-  white: 'bg-white',
-  surface: 'bg-surface',
-  dark: 'bg-ink text-white',
-}[tone];
+const { id, title, intro, eyebrow, tone = 'surface', afterTape = false } = Astro.props;
+const dark = tone === 'ink';
+const bg = { surface: 'bg-surface', ground: 'bg-ground', ink: 'bg-ink text-white' }[tone];
 ---
 
-<section id={id} aria-labelledby={`${id}-title`} class={bg}>
-  <div class="container-page py-14 sm:py-20">
-    <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
-      <div>
-        <h2 id={`${id}-title`} class="text-2xl font-bold sm:text-3xl">{title}</h2>
-        {intro && <p class:list={['mt-3 max-w-2xl text-lg', tone === 'dark' ? 'text-slate-300' : 'text-muted']}>{intro}</p>}
+<section
+  id={id}
+  aria-labelledby={`${id}-title`}
+  class:list={[bg, afterTape ? 'pt-[clamp(80px,9vw,112px)] pb-[clamp(64px,8vw,104px)]' : 'section-y']}
+>
+  <div class="container-page">
+    <div class="mb-10 flex flex-wrap items-end justify-between gap-x-10 gap-y-5">
+      <div class="flex max-w-[680px] flex-col gap-3.5">
+        {eyebrow && <span class:list={['eyebrow', dark && 'eyebrow-dark']}>{eyebrow}</span>}
+        <h2 id={`${id}-title`} class="h2-display">{title}</h2>
+        {intro && <p class:list={['text-[17px] leading-relaxed', dark ? 'text-white/78' : 'text-muted']}>{intro}</p>}
       </div>
       <slot name="action" />
     </div>
-    <div class="mt-8">
-      <slot />
-    </div>
+    <slot />
   </div>
 </section>
