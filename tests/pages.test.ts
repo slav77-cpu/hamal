@@ -1,5 +1,5 @@
 // Рендира всички страници и проверява общите правила: заглавия, линкове, noindex, цени.
-import { experimental_AstroContainer as AstroContainer } from 'astro/container';
+import { createContainer } from './container';
 import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 import { parseHTML } from 'linkedom';
 import { beforeAll, describe, expect, it } from 'vitest';
@@ -29,7 +29,7 @@ const routes: { path: string; component: AstroComponentFactory; props?: Record<s
 const docs = new Map<string, Document>();
 
 beforeAll(async () => {
-  const container = await AstroContainer.create();
+  const container = await createContainer();
   for (const route of routes) {
     const html = await container.renderToString(route.component, {
       request: new Request(`https://example.com${route.path}`),
@@ -142,6 +142,12 @@ describe('/ceni', () => {
       expect(section).toContain('Цените са ориентировъчни. Точна цена по телефона или след снимки във Viber.');
       expect(section).toContain(site.vatNote);
     }
+  });
+
+  it('калкулаторът се зарежда чак когато стигнете до него (client:visible)', () => {
+    const island = doc('/ceni').querySelector('#kalkulator astro-island');
+    expect(island?.getAttribute('client')).toBe('visible');
+    expect(island?.textContent).toContain('Какво местите?');
   });
 
   it('калкулаторът и формата под него', () => {

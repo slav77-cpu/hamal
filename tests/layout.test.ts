@@ -1,5 +1,5 @@
 // Рендира страница с Base.astro и проверява общите части: горна лента, футър, лента за контакт.
-import { experimental_AstroContainer as AstroContainer } from 'astro/container';
+import { createContainer } from './container';
 import { parseHTML } from 'linkedom';
 import { beforeAll, describe, expect, it } from 'vitest';
 import IndexPage from '../src/pages/index.astro';
@@ -10,7 +10,7 @@ import { site } from '../src/data/site';
 let document: Document;
 
 beforeAll(async () => {
-  const container = await AstroContainer.create();
+  const container = await createContainer();
   const html = await container.renderToString(IndexPage, {
     request: new Request('https://example.com/'),
   });

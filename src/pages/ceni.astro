@@ -1,6 +1,7 @@
 ---
 // Цени: ценоразпис, пакети, калкулатор и под него формата за запитване.
 import Base from '../layouts/Base.astro';
+import Calculator from '../components/Calculator';
 import CallToAction from '../components/CallToAction.astro';
 import Icon from '../components/Icon.astro';
 import Packages from '../components/Packages.astro';
@@ -49,8 +50,8 @@ const hourly = `${formatPriceFrom(pricing.porterPerHour)}/час`;
     <Packages />
   </Section>
 
-  <Section id="kalkulator" title="Калкулатор за ориентировъчна цена">
-    <Placeholder text="Тук ще е калкулаторът (етап 4)" />
+  <Section id="kalkulator" title="Калкулатор за ориентировъчна цена" intro="Отговорете на четирите въпроса — цената се смята веднага.">
+    <Calculator client:visible />
   </Section>
 
   <CallToAction title="Изпрати запитване" intro="Попълнете формата или се обадете — ще ви кажем точната цена.">

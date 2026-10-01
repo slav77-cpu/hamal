@@ -37,3 +37,13 @@ export function formatPhone(phone: string): string {
   if (!match) return phone;
   return `0${match[1]} ${match[2]} ${match[3]}`;
 }
+
+/** 300, 445 → „между 300 и 445 €“ */
+export function formatPriceRange(min: number, max: number): string {
+  return `между ${Math.round(min)} и ${Math.round(max)}${NBSP}€`;
+}
+
+/** 0 → „партер“; 3 → „етаж 3“ */
+export function formatFloor(floor: number): string {
+  return floor <= 0 ? 'партер' : `етаж${NBSP}${floor}`;
+}
