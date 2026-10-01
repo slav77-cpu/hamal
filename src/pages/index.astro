@@ -7,7 +7,7 @@ import ContactButtons from '../components/ContactButtons.astro';
 import Faq from '../components/Faq.astro';
 import Gallery from '../components/Gallery.astro';
 import Icon from '../components/Icon.astro';
-import Placeholder from '../components/Placeholder.astro';
+import QuoteForm from '../components/QuoteForm';
 import Reviews from '../components/Reviews.astro';
 import Section from '../components/Section.astro';
 import ServiceCard from '../components/ServiceCard.astro';
@@ -168,6 +168,6 @@ const steps = [
 
   <!-- 11. Финален призив -->
   <CallToAction>
-    <Placeholder text="Тук ще е формата за запитване (етап 5)" tone="dark" />
+    <QuoteForm client:visible />
   </CallToAction>
 </Base>

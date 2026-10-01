@@ -111,6 +111,19 @@ it('заглавията и описанията на страниците не 
   expect(new Set(descriptions).size).toBe(descriptions.length);
 });
 
+describe('форма за запитване (т. 8)', () => {
+  it.each(['/', '/ceni', '/kontakti'])('%s: формата е в #zapitvane и се зарежда, когато стигнете до нея', (path) => {
+    const island = doc(path).querySelector('#zapitvane astro-island');
+    expect(island?.getAttribute('client')).toBe('visible');
+    expect(island?.querySelector('form')?.getAttribute('method')).toBe('post');
+    expect(island?.querySelector('input[name="botcheck"]')).not.toBeNull();
+  });
+
+  it('не са останали временни места от етапите', () => {
+    for (const route of routes) expect(doc(route.path).body.textContent).not.toMatch(/етап \d/i);
+  });
+});
+
 describe('страници за услуги', () => {
   it.each(services)('$slug: H1, цена, включено, въпроси, бутони', (service) => {
     const path = `/uslugi/${service.slug}`;

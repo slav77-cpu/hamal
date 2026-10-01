@@ -6,7 +6,7 @@ import CallToAction from '../components/CallToAction.astro';
 import Icon from '../components/Icon.astro';
 import Packages from '../components/Packages.astro';
 import PageHeader from '../components/PageHeader.astro';
-import Placeholder from '../components/Placeholder.astro';
+import QuoteForm from '../components/QuoteForm';
 import PriceTable from '../components/PriceTable.astro';
 import Section from '../components/Section.astro';
 import { pricing } from '../data/pricing';
@@ -55,6 +55,6 @@ const hourly = `${formatPriceFrom(pricing.porterPerHour)}/час`;
   </Section>
 
   <CallToAction title="Изпрати запитване" intro="Попълнете формата или се обадете — ще ви кажем точната цена.">
-    <Placeholder text="Тук ще е формата за запитване (етап 5)" tone="dark" />
+    <QuoteForm client:visible />
   </CallToAction>
 </Base>
