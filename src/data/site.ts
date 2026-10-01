@@ -4,7 +4,7 @@
 export const site = {
   name: '[Име на фирмата]', // TODO
   // Домейнът на сайта; от него стават canonical адресите и sitemap
-  url: 'https://example.com', // TODO
+  url: 'https://hamal-ap4e.onrender.com', // TODO: временно адресът от Render — сменете с домейна на фирмата
   city: '[ГРАД]', // TODO
   // Цветова палитра на сайта (design/DESIGN.md): 'blue' — синьо + оранжево, 'graphite' — графит + жълто, 'forest' — зелено + горчица
   theme: 'blue' as 'blue' | 'graphite' | 'forest',
