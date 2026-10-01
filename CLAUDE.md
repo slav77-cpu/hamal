@@ -15,7 +15,9 @@
 - `npm run dev` — локален сървър
 - `npm run build` — проверка на типовете (`astro check`) и build в `dist/`
 - `npm run preview` — преглед на build-а
-- `npm test` — тестове (Vitest) в `tests/`: данни, форматиране, линкове, общите части на страницата; към всеки етап се добавят нови
+- `npm test` — тестове (Vitest) в `tests/`
+- `npm run verify` — build + всички тестове, вкл. проверка на готовия сайт в `dist/` (`tests/build.test.ts`)
+- `npm run release-check` — като verify + няма TODO в `src/` и домейнът не е примерният; трябва да мине преди публикуване
 
 ## Правила
 

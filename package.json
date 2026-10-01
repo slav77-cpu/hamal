@@ -12,6 +12,8 @@
     "preview": "astro preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "verify": "npm run build && vitest run",
+    "release-check": "npm run build && RELEASE=1 vitest run",
     "astro": "astro"
   },
   "allowScripts": {
