@@ -15,19 +15,11 @@ npm run release-check  # като verify + няма TODO и домейнът н�
 
 Фирмените данни, цените и снимките са в `src/data/`.
 
-## Форма за запитване (Web3Forms)
-
-1. На https://web3forms.com въведете имейла, на който да идват запитванията, и вземете ключ (Access Key).
-2. Локално: копирайте `.env.example` като `.env` и попълнете `PUBLIC_WEB3FORMS_KEY`, после рестартирайте `npm run dev`.
-3. В Render: Settings → Environment → `PUBLIC_WEB3FORMS_KEY`, после Manual Deploy.
-
-Без ключ формата показва „Формата още не е свързана“ и телефона.
-
 ## Статистика (Umami)
 
 Без бисквитки, затова и без банер. На https://cloud.umami.is добавете сайта (Settings → Websites → Add website)
 и сложете Website ID в `PUBLIC_UMAMI_WEBSITE_ID` (локално в `.env`, в Render — в Environment). Без него скриптът не се зарежда.
-Събития: `call_click`, `viber_click`, `whatsapp_click`, `calculator_used`, `form_submit`.
+Събития: `call_click`, `viber_click`, `whatsapp_click`, `calculator_used`.
 
 ## Render (Static Site)
 
@@ -42,11 +34,11 @@ npm run release-check  # като verify + няма TODO и домейнът н�
 
 Ръчно:
 
-1. Данните от клиента в `src/data/` (фирма, домейн в `site.ts → url`, цени, услуги, снимки, отзиви).
+1. Данните от клиента в `src/data/` (фирма, домейн в `site.ts → url` — сега е временно адресът от Render, цени — сега са примерни, услуги, снимки, отзиви).
 2. Политиката за поверителност — преглед от юрист или счетоводител, после махнете TODO в `src/pages/poveritelnost.astro`.
-3. В Render → Environment: `PUBLIC_WEB3FORMS_KEY` и `PUBLIC_UMAMI_WEBSITE_ID`, после Manual Deploy.
+3. В Render → Environment: `PUBLIC_UMAMI_WEBSITE_ID` (по желание), после Manual Deploy.
 4. Домейнът: Render → Settings → Custom Domains.
 5. От истински Android и iPhone: „Обади се“, Viber и WhatsApp — и от лентата долу, и от бутоните в страниците.
-6. Тестово запитване — трябва да стигне до имейла до минута.
+6. „Прати сметката в WhatsApp“ от калкулатора — отваря чат с бат Миро с готово съобщение.
 7. https://validator.schema.org с адреса на сайта — 0 грешки.
 8. Lighthouse (телефон) — 90+ за Performance, SEO и Accessibility.

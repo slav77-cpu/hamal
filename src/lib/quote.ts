@@ -1,5 +1,4 @@
-// Резултатът от калкулатора като текст за скритото поле на формата за запитване (т. 7–8).
-// Калкулаторът и формата са отделни части на страницата; споделят го през този модул.
+// Изборът в калкулатора като текст — за съобщението в WhatsApp („Прати сметката в WhatsApp“).
 
 import { pricing as defaultPricing, type Pricing } from '../data/pricing';
 import type { Estimate, EstimateInput } from './estimate';
@@ -28,22 +27,4 @@ export function describeQuote(input: EstimateInput, estimate: Estimate, p: Prici
   if (estimate.kind === 'minOrder') parts.push(`минимална поръчка ${estimate.hours} ч — ${formatPrice(estimate.price)}`);
 
   return parts.join('; ');
-}
-
-// Последният избор в калкулатора — формата го чете, щом се зареди, и следи за промени
-let current = '';
-const listeners = new Set<(quote: string) => void>();
-
-export function setQuote(quote: string) {
-  current = quote;
-  for (const listener of listeners) listener(quote);
-}
-
-export function getQuote() {
-  return current;
-}
-
-export function onQuote(listener: (quote: string) => void) {
-  listeners.add(listener);
-  return () => listeners.delete(listener);
 }

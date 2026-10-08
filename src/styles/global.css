@@ -67,7 +67,7 @@
     outline-offset: 3px;
   }
 
-  /* Котвите (#kalkulator, #zapitvane) да не се скриват под лепкавата горна лента */
+  /* Котвите (#kalkulator, #cenorazpis) да не се скриват под лепкавата горна лента */
   :target,
   section[id] {
     scroll-margin-top: 84px;

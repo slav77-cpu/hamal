@@ -31,20 +31,21 @@ describe('начална страница', () => {
       '', // първи екран
       'uslugi',
       'ceni',
+      'kalkulator',
       'kak-rabotim',
       'zashto-nas',
       'snimki',
       'otzivi',
       'rayoni',
       'vaprosi',
-      'zapitvane',
+      'kontakt',
     ]);
   });
 
   it('първи екран: H1 с града, цена на час, „Обади се“, Viber и снимка', () => {
     const hero = main.querySelector(':scope > section')!;
     expect(hero.querySelector('h1')?.textContent).toContain(`Хамалски услуги в ${site.city}`);
-    expect(hero.textContent).toMatch(/от\s…\s€\s*\/\s*час/);
+    expect(hero.textContent).toMatch(/от\s\d+\s€\s*\/\s*час/);
     expect(hrefs(hero)).toEqual(expect.arrayContaining([contact.tel, contact.viber]));
     expect(hero.textContent).toContain('Пратете снимки на багажа за точна цена');
     expect(hero.querySelector('img')?.getAttribute('loading')).toBe('eager');
@@ -55,12 +56,12 @@ describe('начална страница', () => {
     for (const s of services) expect(links).toContain(`/uslugi/${s.slug}`);
   });
 
-  it('цени накратко: 3–4 цени и бутон „Изчисли цена“ към калкулатора', () => {
+  it('цени накратко: 3–4 цени и бутон „Изчисли цена“ към калкулатора на страницата', () => {
     const tiles = section('ceni').querySelectorAll('article');
     expect(tiles.length).toBeGreaterThanOrEqual(3);
     expect(tiles.length).toBeLessThanOrEqual(4);
     const calc = [...section('ceni').querySelectorAll('a')].find((a) => a.textContent?.includes('Изчисли цена'));
-    expect(calc?.getAttribute('href')).toBe('/ceni#kalkulator');
+    expect(calc?.getAttribute('href')).toBe('#kalkulator');
     expect(section('ceni').textContent).toContain(site.vatNote);
   });
 
@@ -97,12 +98,16 @@ describe('начална страница', () => {
   });
 
   it('финален призив: „Обади се сега“ с трите начина за контакт', () => {
-    const cta = section('zapitvane');
+    const cta = section('kontakt');
     expect(cta.querySelector('h2')?.textContent).toBe('Обади се сега');
     expect(hrefs(cta)).toEqual(expect.arrayContaining([contact.tel, contact.viber, contact.whatsapp]));
   });
 
-  it('никъде не стои „0 €“, докато цените не са попълнени', () => {
+  it('калкулаторът е и на началната страница', () => {
+    expect(section('kalkulator').querySelector('astro-island')?.getAttribute('client')).toBe('visible');
+  });
+
+  it('никъде не стои „0 €“', () => {
     expect(main.textContent).not.toMatch(/(^|\D)0\s?€/);
   });
 

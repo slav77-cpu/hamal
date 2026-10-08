@@ -20,7 +20,6 @@ const pages = [
   '/za-nas',
   '/kontakti',
   '/poveritelnost',
-  '/blagodarim',
 ];
 
 const fileOf = (path: string) => join(DIST, path === '/' ? 'index.html' : `${path.slice(1)}/index.html`);
@@ -40,7 +39,7 @@ function jpegSize(file: string) {
 }
 
 describe.skipIf(!built)('готовият сайт (dist/)', () => {
-  it('всички 12 страници са build-нати', () => {
+  it('всички 11 страници са build-нати', () => {
     for (const path of pages) expect(existsSync(fileOf(path)), path).toBe(true);
   });
 
@@ -105,16 +104,16 @@ describe.skipIf(!built)('готовият сайт (dist/)', () => {
       expect(d.documentElement.outerHTML).not.toMatch(/googletagmanager|google-analytics|maps\.google\.com\/maps\/embed|document\.cookie/);
     });
 
-    it('Preact само за калкулатора и формата', () => {
+    it('Preact само за калкулатора', () => {
       const islands = [...doc(path).querySelectorAll('astro-island')].map((el) => el.getAttribute('component-url') ?? '');
-      for (const url of islands) expect(url).toMatch(/\/(Calculator|QuoteForm)\.[\w-]+\.js$/);
+      for (const url of islands) expect(url).toMatch(/\/Calculator\.[\w-]+\.js$/);
     });
   });
 
-  it('sitemap: 11-те публични страници, без /blagodarim, без наклонена черта в края', () => {
+  it('sitemap: всички 11 страници, без наклонена черта в края', () => {
     const xml = readFileSync(join(DIST, 'sitemap-0.xml'), 'utf8');
     const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]).sort();
-    const expected = pages.filter((p) => p !== '/blagodarim').map((p) => new URL(p, site.url).href).sort();
+    const expected = pages.map((p) => new URL(p, site.url).href).sort();
     expect(urls).toEqual(expected);
   });
 

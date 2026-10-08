@@ -1,12 +1,11 @@
 ---
-// Цени: ценоразпис, пакети, калкулатор и под него формата за запитване.
+// Цени: ценоразпис, пакети, калкулатор и бутоните за връзка.
 import Base from '../layouts/Base.astro';
 import Calculator from '../components/Calculator';
 import CallToAction from '../components/CallToAction.astro';
 import Icon from '../components/Icon.astro';
 import Packages from '../components/Packages.astro';
 import PageHeader from '../components/PageHeader.astro';
-import QuoteForm from '../components/QuoteForm';
 import PriceTable from '../components/PriceTable.astro';
 import Section from '../components/Section.astro';
 import { pricing } from '../data/pricing';
@@ -58,7 +57,5 @@ const hourly = `${formatPriceFrom(pricing.porterPerHour)}/час`;
     <Calculator client:visible />
   </Section>
 
-  <CallToAction title="Изпрати запитване" intro="Попълнете формата или се обадете — ще ви кажем точната цена.">
-    <QuoteForm client:visible />
-  </CallToAction>
+  <CallToAction intro="Калкулаторът дава ориентировъчна цена — точната ви казваме по телефона или след снимки във Viber." />
 </Base>

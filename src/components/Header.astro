@@ -1,8 +1,9 @@
 ---
 // Горна лента (design/DESIGN.md, т. 6.1): тъмна, лепкава, 76px. Меню над 900px; под 640px телефонът е само иконка.
+import { Image } from 'astro:assets';
+import mark from '../assets/brand/mark.png';
 import Icon from './Icon.astro';
 import { site } from '../data/site';
-import { inCity } from '../lib/format';
 import { contact } from '../lib/links';
 import { mainLinks, serviceLinks } from '../lib/nav';
 
@@ -17,12 +18,10 @@ const active = 'text-white underline decoration-accent decoration-2';
 <header class="sticky top-0 z-40 border-b border-white/10 bg-ink text-white">
   <div class="container-page flex h-[76px] items-center gap-4">
     <a href="/" class="flex min-w-0 items-center gap-3">
-      <span class="grid size-11 shrink-0 place-items-center rounded-xl bg-accent text-ink">
-        <Icon name="package" class="size-6" />
-      </span>
+      <Image src={mark} alt="" width={96} height={96} loading="eager" class="size-12 shrink-0" />
       <span class="flex min-w-0 flex-col gap-1 leading-none">
-        <span class="truncate font-display text-[22px] font-black tracking-[0.03em] uppercase">{site.name}</span>
-        <span class="truncate text-[13px] font-medium text-white/70">Хамалски услуги {inCity(site.city)}</span>
+        <span class="truncate font-display text-[24px] font-black tracking-[0.03em] uppercase">{site.name}</span>
+        <span class="line-clamp-2 text-xs leading-[1.15] font-medium text-white/70 sm:truncate sm:text-[13px]">{site.brandLine}</span>
       </span>
     </a>
 

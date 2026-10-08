@@ -1,5 +1,5 @@
 ---
-// Финален призив (design/DESIGN.md, т. 6.9): оранжев фон, огромен номер, бутони — и (в слота) формата.
+// Финален призив (design/DESIGN.md, т. 6.9): жълт фон, огромен номер и бутоните за връзка.
 import Icon from './Icon.astro';
 import { site } from '../data/site';
 import { contact } from '../lib/links';
@@ -11,11 +11,10 @@ interface Props {
 }
 
 const {
-  id = 'zapitvane',
+  id = 'kontakt',
   title = 'Обади се сега',
   intro = 'Кажете какво местите и откъде докъде — ще ви кажем цената и свободните дни.',
 } = Astro.props;
-const hasForm = Astro.slots.has('default');
 ---
 
 <section id={id} aria-labelledby={`${id}-title`} class="bg-accent text-ink section-y">
@@ -49,10 +48,5 @@ const hasForm = Astro.slots.has('default');
       <Icon name="camera" class="size-5" />
       Пратете снимки на багажа за точна цена
     </p>
-    {hasForm && (
-      <div class="mt-6 w-full max-w-3xl text-left">
-        <slot />
-      </div>
-    )}
   </div>
 </section>

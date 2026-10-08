@@ -23,7 +23,6 @@ const routes: { path: string; component: AstroComponentFactory; props?: Record<s
   { path: '/za-nas', component: page('za-nas.astro') },
   { path: '/kontakti', component: page('kontakti.astro') },
   { path: '/poveritelnost', component: page('poveritelnost.astro') },
-  { path: '/blagodarim', component: page('blagodarim.astro') },
 ];
 
 const docs = new Map<string, Document>();
@@ -57,9 +56,8 @@ const text = (path: string) => doc(path).querySelector('main')?.textContent ?? '
 const links = (path: string, scope = 'body') =>
   [...doc(path).querySelectorAll(`${scope} a[href]`)].map((a) => a.getAttribute('href')!);
 
-it('всички страници от т. 3 съществуват', () => {
+it('всички страници от т. 3 съществуват (без /blagodarim — формата е махната)', () => {
   expect(Object.keys(modules).sort()).toEqual([
-    '../src/pages/blagodarim.astro',
     '../src/pages/ceni.astro',
     '../src/pages/index.astro',
     '../src/pages/kontakti.astro',
@@ -111,12 +109,12 @@ it('заглавията и описанията на страниците не 
   expect(new Set(descriptions).size).toBe(descriptions.length);
 });
 
-describe('форма за запитване (т. 8)', () => {
-  it.each(['/', '/ceni', '/kontakti'])('%s: формата е в #zapitvane и се зарежда, когато стигнете до нея', (path) => {
-    const island = doc(path).querySelector('#zapitvane astro-island');
-    expect(island?.getAttribute('client')).toBe('visible');
-    expect(island?.querySelector('form')?.getAttribute('method')).toBe('post');
-    expect(island?.querySelector('input[name="botcheck"]')).not.toBeNull();
+describe('без форма за запитване (по желание на собственика)', () => {
+  it('нито една страница няма <form> и Web3Forms', () => {
+    for (const route of routes) {
+      expect(doc(route.path).querySelector('form'), route.path).toBeNull();
+      expect(doc(route.path).documentElement.outerHTML).not.toMatch(/web3forms/i);
+    }
   });
 
   it('не са останали временни места от етапите', () => {
@@ -128,7 +126,7 @@ describe('страници за услуги', () => {
   it.each(services)('$slug: H1, цена, включено, въпроси, бутони', (service) => {
     const path = `/uslugi/${service.slug}`;
     expect(doc(path).querySelector('h1')?.textContent).toBe(`${service.title} в ${site.city}`);
-    expect(text(path)).toMatch(/от\s…\s€/);
+    expect(text(path)).toMatch(/от\s\d+\s€/);
     for (const item of service.included) expect(text(path)).toContain(item);
     expect(doc(path).querySelectorAll('#vaprosi details')).toHaveLength(service.faq.length);
     const top = doc(path).querySelector('main > section')!;
@@ -163,18 +161,17 @@ describe('/ceni', () => {
     expect(island?.textContent).toContain('Какво местите?');
   });
 
-  it('калкулаторът и формата под него', () => {
+  it('след калкулатора са бутоните за връзка', () => {
     const ids = [...doc('/ceni').querySelectorAll('main > section')].map((s) => s.id);
-    expect(ids.indexOf('zapitvane')).toBe(ids.indexOf('kalkulator') + 1);
+    expect(ids.indexOf('kontakt')).toBe(ids.indexOf('kalkulator') + 1);
   });
 });
 
 describe('/kontakti', () => {
-  it('телефон, Viber, WhatsApp, имейл и място за формата', () => {
+  it('телефон, Viber, WhatsApp и имейл', () => {
     expect(links('/kontakti', 'main')).toEqual(
       expect.arrayContaining([contact.tel, contact.viber, contact.whatsapp, contact.email]),
     );
-    expect(doc('/kontakti').getElementById('zapitvane')).not.toBeNull();
   });
 
   it('картата е снимка, а не вграден Google Maps', () => {
@@ -183,30 +180,16 @@ describe('/kontakti', () => {
 });
 
 describe('/poveritelnost', () => {
-  it('казва кой, какво, защо, къде, колко време и какви права', () => {
+  it('казва кой, какво, защо, колко време и какви права', () => {
     const t = text('/poveritelnost');
-    for (const part of [site.legalName, site.eik, 'Web3Forms', site.dataRetention, 'бисквитки', 'Комисията за защита на личните данни']) {
+    for (const part of [site.legalName, site.eik, 'не събира лични данни', 'WhatsApp', site.dataRetention, 'бисквитки', 'Комисията за защита на личните данни']) {
       expect(t).toContain(part);
     }
   });
 });
 
-describe('/blagodarim', () => {
-  it('е noindex, а другите страници не са', () => {
-    for (const route of routes) {
-      const robots = doc(route.path).querySelector('meta[name="robots"]')?.getAttribute('content');
-      expect(robots).toBe(route.path === '/blagodarim' ? 'noindex' : undefined);
-    }
-  });
-
-  it('текстът от заданието', () => {
-    expect(text('/blagodarim')).toContain('Благодарим!');
-    expect(text('/blagodarim')).toMatch(/Ще ви се обадим до … минути в работно време\./);
-  });
-
-  it('няма линк към нея от менюто или от други страници', () => {
-    for (const route of routes) expect(links(route.path)).not.toContain('/blagodarim');
-  });
+it('нито една страница не е noindex', () => {
+  for (const route of routes) expect(doc(route.path).querySelector('meta[name="robots"]')).toBeNull();
 });
 
 describe('меню', () => {

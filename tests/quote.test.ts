@@ -1,10 +1,10 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { estimatePrice, type EstimateInput } from '../src/lib/estimate';
 import { formatFloor, formatPriceRange } from '../src/lib/format';
-import { describeQuote, getQuote, onQuote, setQuote } from '../src/lib/quote';
+import { describeQuote } from '../src/lib/quote';
 import { samplePricing as p } from './sample-pricing';
 
-const NBSP = ' ';
+const NBSP = '\u00A0';
 
 const move: EstimateInput = {
   job: 'twoRoom',
@@ -27,7 +27,7 @@ describe('formatPriceRange и formatFloor', () => {
   });
 });
 
-describe('describeQuote — текстът за скритото поле на формата', () => {
+describe('describeQuote — текстът за съобщението в WhatsApp', () => {
   it('преместване: тип, етажи, разстояние, допълнително и диапазон', () => {
     expect(describeQuote(move, estimatePrice(move, p), p)).toBe(
       `Двустаен; етаж${NBSP}4 без асансьор → етаж${NBSP}2 с асансьор; извън града, 30 км; ` +
@@ -52,19 +52,5 @@ describe('describeQuote — текстът за скритото поле на �
     expect(describeQuote(input, { kind: 'pending' }, p)).toBe(
       `Гарсониера; етаж${NBSP}4 без асансьор → етаж${NBSP}2 с асансьор; извън града, 30 км`,
     );
-  });
-});
-
-describe('споделеният избор между калкулатора и формата', () => {
-  it('формата получава последния избор и промените след това', () => {
-    setQuote('първи');
-    expect(getQuote()).toBe('първи');
-    const listener = vi.fn();
-    const off = onQuote(listener);
-    setQuote('втори');
-    expect(listener).toHaveBeenCalledWith('втори');
-    off();
-    setQuote('трети');
-    expect(listener).toHaveBeenCalledTimes(1);
   });
 });

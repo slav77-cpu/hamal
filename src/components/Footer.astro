@@ -1,6 +1,8 @@
 ---
 // Футър (design/DESIGN.md, т. 6.10): лого, контакт, работно време, къде работим —
 // плюс страниците, политиката и фирмените данни от т. 10 на заданието.
+import { Image } from 'astro:assets';
+import mark from '../assets/brand/mark.png';
 import Icon from './Icon.astro';
 import { site } from '../data/site';
 import { formatPhone, inCity } from '../lib/format';
@@ -26,10 +28,11 @@ const year = new Date().getFullYear();
     <div class="grid gap-x-12 gap-y-8 border-b border-white/10 pb-8 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr]">
       <div class="flex flex-col gap-4">
         <span class="flex items-center gap-3 text-white">
-          <span class="grid size-10 shrink-0 place-items-center rounded-[11px] bg-accent text-ink">
-            <Icon name="package" class="size-[22px]" />
+          <Image src={mark} alt="" width={96} height={96} class="size-12 shrink-0" />
+          <span class="flex flex-col gap-1 leading-none">
+            <span class="font-display text-xl font-black tracking-[0.03em] uppercase">{site.name}</span>
+            <span class="text-[13px] text-white/70">{site.brandLine}</span>
           </span>
-          <span class="font-display text-xl font-black tracking-[0.03em] uppercase">{site.name}</span>
         </span>
         <p class="max-w-[340px] leading-relaxed">Хамалски услуги и превоз с бус {inCity(site.city)}.</p>
       </div>

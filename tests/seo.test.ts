@@ -3,7 +3,6 @@ import { parseHTML } from 'linkedom';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import IndexPage from '../src/pages/index.astro';
 import ServicePage from '../src/pages/uslugi/[slug].astro';
-import BlagodarimPage from '../src/pages/blagodarim.astro';
 import { GET as robots } from '../src/pages/robots.txt';
 import { services } from '../src/data/services';
 import { site } from '../src/data/site';
@@ -69,18 +68,13 @@ describe('head на страниците', () => {
     });
   });
 
-  it('JSON-LD на фирмата е една и съща на всяка страница (снимката — на екипа)', async () => {
+  it('JSON-LD на фирмата е една и съща на всяка страница (снимката — логото)', async () => {
     const ld = async (doc: Document) => doc.querySelector('script[type="application/ld+json"]')?.textContent;
     const home = await render(IndexPage, '/');
     const svc = await render(ServicePage, `/uslugi/${service.slug}`, { service });
     expect(await ld(svc)).toBe(await ld(home));
-    expect(meta(svc, 'meta[property="og:image"]')).not.toBe(meta(home, 'meta[property="og:image"]'));
   });
 
-  it('/blagodarim е noindex', async () => {
-    const doc = await render(BlagodarimPage, '/blagodarim');
-    expect(meta(doc, 'meta[name="robots"]')).toBe('noindex');
-  });
 });
 
 describe('movingCompanySchema', () => {

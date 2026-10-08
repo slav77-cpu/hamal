@@ -37,9 +37,7 @@ export default defineConfig({
   ],
   integrations: [
     preact(),
-    sitemap({
-      filter: (page) => !page.includes('/blagodarim'),
-    }),
+    sitemap(),
   ],
   vite: {
     plugins: [tailwindcss()],

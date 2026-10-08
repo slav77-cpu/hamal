@@ -1,5 +1,5 @@
 // Калкулатор за ориентировъчна цена (т. 7). Цените идват от pricing.ts, формулата — от lib/estimate.ts.
-// Резултатът се смята при всяка промяна; „Изпрати запитване“ подава избора към формата под калкулатора.
+// Резултатът се смята при всяка промяна; „Прати сметката в WhatsApp“ отваря чат с готово съобщение.
 
 import { useRef, useState } from 'preact/hooks';
 import { pricing as defaultPricing, type ExtraKey, type Pricing } from '../data/pricing';
@@ -7,8 +7,8 @@ import { site } from '../data/site';
 import { track } from '../lib/analytics';
 import { estimatePrice, type EstimateInput, type JobType } from '../lib/estimate';
 import { formatHours, formatPrice, formatPriceRange } from '../lib/format';
-import { contact } from '../lib/links';
-import { describeQuote, jobLabel, setQuote } from '../lib/quote';
+import { contact, whatsappHref } from '../lib/links';
+import { describeQuote, jobLabel } from '../lib/quote';
 
 interface Props {
   pricing?: Pricing; // само за тестовете; на сайта е pricing.ts
@@ -214,11 +214,11 @@ export default function Calculator({ pricing = defaultPricing }: Props) {
             Обади се
           </a>
           <a
-            href="#zapitvane"
-            onClick={() => setQuote(describeQuote(input, estimate, pricing))}
+            href={whatsappHref(site.whatsapp, `Здравейте! Искам оферта: ${describeQuote(input, estimate, pricing)}`)}
             class="btn btn-ghost text-lg"
+            data-umami-event="whatsapp_click"
           >
-            Изпрати запитване
+            Прати сметката в WhatsApp
           </a>
         </div>
       </div>

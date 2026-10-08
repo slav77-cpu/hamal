@@ -2,6 +2,7 @@
 import { describe, expect, it } from 'vitest';
 import { site } from '../src/data/site';
 import { pricing } from '../src/data/pricing';
+import { packageFrom } from '../src/lib/estimate';
 import { services } from '../src/data/services';
 import { faq } from '../src/data/faq';
 import { reviews } from '../src/data/reviews';
@@ -43,6 +44,10 @@ describe('pricing.ts', () => {
   it.each(numbers)('%s е цяло число ≥ 0', (_, value) => {
     expect(Number.isInteger(value)).toBe(true);
     expect(value).toBeGreaterThanOrEqual(0);
+  });
+
+  it('„от“ цената на „Преместване на дом“ е същата като на пакета „Гарсониера“', () => {
+    expect(pricing.servicesFrom['premestvane-na-dom']).toBe(packageFrom('studio'));
   });
 
   it('часовете на всеки тип са „от ≤ до“', () => {

@@ -14,8 +14,9 @@ export const telHref = (phone: string) => `tel:${clean(phone)}`;
 export const viberHref = (phone: string) =>
   `viber://chat?number=${encodeURIComponent(clean(phone))}`;
 
-/** https://wa.me/359000000000 */
-export const whatsappHref = (phone: string) => `https://wa.me/${clean(phone).replace(/^\+/, '')}`;
+/** https://wa.me/359000000000; с text — съобщението е написано предварително */
+export const whatsappHref = (phone: string, text?: string) =>
+  `https://wa.me/${clean(phone).replace(/^\+/, '')}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
 
 export const contact = {
   tel: telHref(site.phone),

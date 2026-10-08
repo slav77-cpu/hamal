@@ -11,6 +11,7 @@ export function movingCompanySchema(imageUrl?: string) {
     telephone: site.phone,
     email: site.email,
     image: imageUrl,
+    logo: imageUrl,
     address: {
       '@type': 'PostalAddress',
       streetAddress: site.businessAddress,

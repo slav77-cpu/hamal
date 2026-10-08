@@ -5,15 +5,14 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import Calculator from '../src/components/Calculator';
 import { pricing } from '../src/data/pricing';
 import { buildPackages } from '../src/lib/price-list';
-import { getQuote, setQuote } from '../src/lib/quote';
+import { site } from '../src/data/site';
 import { samplePricing } from './sample-pricing';
 
-const NBSP = ' ';
-const norm = (text: string | null | undefined) => (text ?? '').replace(/ /g, ' ');
+const NBSP = '\u00A0';
+const norm = (text: string | null | undefined) => (text ?? '').replace(/\u00A0/g, ' ');
 const result = () => norm(screen.getByText(/Ориентировъчна цена$|Минимална поръчка$|Цените предстоят/).parentElement?.textContent);
 
 afterEach(cleanup);
-beforeEach(() => setQuote(''));
 
 const choose = (name: string) => fireEvent.click(screen.getByRole('radio', { name }));
 const tick = (name: string) => fireEvent.click(screen.getByRole('checkbox', { name }));
@@ -66,12 +65,14 @@ describe('калкулатор с примерни цени', () => {
     expect(screen.queryByText('4. Допълнително')).toBeNull();
   });
 
-  it('„Изпрати запитване“ води до формата и подава избора', () => {
+  it('„Прати сметката в WhatsApp“ отваря чат с готово съобщение с избора и цената', () => {
     choose('Гарсониера');
-    const link = screen.getByRole('link', { name: 'Изпрати запитване' });
-    expect(link.getAttribute('href')).toBe('#zapitvane');
-    fireEvent.click(link);
-    expect(norm(getQuote())).toBe('Гарсониера; партер → партер; в града; ориентировъчно между 110 и 165 €');
+    const href = screen.getByRole('link', { name: 'Прати сметката в WhatsApp' }).getAttribute('href') ?? '';
+    const [base, query] = href.split('?text=');
+    expect(base).toBe(`https://wa.me/${site.whatsapp.replace('+', '')}`);
+    expect(norm(decodeURIComponent(query))).toBe(
+      'Здравейте! Искам оферта: Гарсониера; партер → партер; в града; ориентировъчно между 110 и 165 €',
+    );
   });
 
   it('има „Обади се“ и бележката под резултата', () => {

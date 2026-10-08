@@ -1,21 +1,22 @@
 ---
 // Начална страница — секциите по реда от т. 4 на заданието, в дизайна от design/DESIGN.md.
 import { Picture } from 'astro:assets';
+import logo from '../assets/brand/logo.png';
 import Base from '../layouts/Base.astro';
+import Calculator from '../components/Calculator';
 import CallToAction from '../components/CallToAction.astro';
 import Faq from '../components/Faq.astro';
 import Gallery from '../components/Gallery.astro';
 import GoogleRating from '../components/GoogleRating.astro';
 import HourlyOffers from '../components/HourlyOffers.astro';
 import Icon from '../components/Icon.astro';
-import QuoteForm from '../components/QuoteForm';
 import Reviews from '../components/Reviews.astro';
 import Section from '../components/Section.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import Tape from '../components/Tape.astro';
 import WhyUs from '../components/WhyUs.astro';
 import { faq } from '../data/faq';
-import { gallery, heroPhoto } from '../data/photos';
+import { gallery } from '../data/photos';
 import { pricing } from '../data/pricing';
 import { services } from '../data/services';
 import { site } from '../data/site';
@@ -94,19 +95,20 @@ const steps = [
         </ul>
       </div>
 
-      <div class="relative min-h-[480px] min-w-0 flex-[1_1_420px] rounded-3xl bg-deep">
+      <!-- Логото — докато няма истинска снимка на буса и екипа; етикетът с цените е под него -->
+      <div class="flex min-w-0 flex-[1_1_420px] flex-col items-center">
         <Picture
-          src={heroPhoto.src}
-          alt={heroPhoto.alt}
+          src={logo}
+          alt={`${site.brandLine} „${site.name}“ — лого`}
           formats={['avif', 'webp']}
-          widths={[480, 800, 1200]}
-          sizes="(min-width: 1024px) 560px, 100vw"
+          widths={[360, 560, 840]}
+          sizes="(min-width: 1024px) 480px, 90vw"
           loading="eager"
           fetchpriority="high"
-          class="absolute inset-0 size-full rounded-3xl object-cover"
+          class="h-auto w-full max-w-[480px] drop-shadow-[0_24px_48px_rgb(0_0_0/0.45)]"
         />
         <div
-          class="absolute right-6 bottom-6 left-6 max-w-[360px] rounded-2xl bg-surface px-[22px] pt-[26px] pb-[18px] text-ink shadow-[0_24px_48px_rgb(0_0_0/0.35)]"
+          class="relative mt-4 w-full max-w-[380px] rounded-2xl bg-surface px-[22px] pt-[26px] pb-[18px] text-ink shadow-[0_24px_48px_rgb(0_0_0/0.35)]"
         >
           <span aria-hidden="true" class="absolute -top-[13px] left-1/2 -ml-[60px] h-[26px] w-[120px] -rotate-3 bg-accent/90"></span>
           <div class="flex items-center justify-between gap-3">
@@ -172,7 +174,7 @@ const steps = [
   >
     <HourlyOffers />
     <div class="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
-      <a href="/ceni#kalkulator" class="btn btn-secondary">
+      <a href="#kalkulator" class="btn btn-secondary">
         <Icon name="calculator" class="size-5" />
         Изчисли цена
       </a>
@@ -182,8 +184,19 @@ const steps = [
     <p class="mt-1 text-[15px] text-muted">{site.vatNote}</p>
   </Section>
 
+  <!-- Калкулатор — и тук, за да се види веднага (освен на /ceni) -->
+  <Section
+    id="kalkulator"
+    eyebrow="Калкулатор"
+    title="Колко ще ми струва?"
+    intro="Отговорете на четирите въпроса — ориентировъчната цена се смята веднага."
+    tone="ground"
+  >
+    <Calculator client:visible />
+  </Section>
+
   <!-- 5. Как работим -->
-  <Section id="kak-rabotim" eyebrow="Как работим" title="Четири стъпки до новото място" tone="ground">
+  <Section id="kak-rabotim" eyebrow="Как работим" title="Четири стъпки до новото място">
     <ol class="grid gap-x-6 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
       {
         steps.map((step, i) => {
@@ -212,27 +225,27 @@ const steps = [
   </Section>
 
   <!-- 6. Защо нас -->
-  <Section id="zashto-nas" eyebrow="Защо нас" title="Защо да ни се обадите">
+  <Section id="zashto-nas" eyebrow="Защо нас" title="Защо да ни се обадите" tone="ground">
     <WhyUs />
   </Section>
 
   <!-- 7. Снимки от реални обекти -->
-  <Section id="snimki" eyebrow="Снимки" title="Снимки от реални обекти" tone="ground">
+  <Section id="snimki" eyebrow="Снимки" title="Снимки от реални обекти">
     <Gallery photos={gallery} />
   </Section>
 
   <!-- 8. Отзиви -->
-  <Section id="otzivi" eyebrow="Отзиви" title="Какво казват клиентите">
+  <Section id="otzivi" eyebrow="Отзиви" title="Какво казват клиентите" tone="ground">
     <GoogleRating slot="action" />
     <Reviews />
   </Section>
 
   <!-- 9. Райони -->
-  <Section id="rayoni" eyebrow="Райони" title="Къде работим" tone="ground">
+  <Section id="rayoni" eyebrow="Райони" title="Къде работим">
     <ul class="flex flex-wrap gap-2.5">
       {
         site.areas.map((area) => (
-          <li class="flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2.5 font-semibold">
+          <li class="flex items-center gap-2 rounded-full border border-line bg-ground px-4 py-2.5 font-semibold">
             <Icon name="map-pin" class="size-4 text-accent-ink" />
             {area}
           </li>
@@ -243,7 +256,7 @@ const steps = [
   </Section>
 
   <!-- 10. Често задавани въпроси -->
-  <section id="vaprosi" aria-labelledby="vaprosi-title" class="section-y bg-surface">
+  <section id="vaprosi" aria-labelledby="vaprosi-title" class="section-y bg-ground">
     <div class="container-page grid items-start gap-x-14 gap-y-10 lg:grid-cols-[1fr_2fr]">
       <div class="flex flex-col gap-3.5">
         <span class="eyebrow">Въпроси</span>
@@ -262,8 +275,6 @@ const steps = [
     </div>
   </section>
 
-  <!-- 11. Финален призив и формата -->
-  <CallToAction>
-    <QuoteForm client:visible />
-  </CallToAction>
+  <!-- 11. Финален призив -->
+  <CallToAction />
 </Base>

@@ -1,7 +1,11 @@
 // Единственото място с цени (в евро, цели числа).
 // Ценоразписът, пакетите, картите на услугите и калкулаторът четат оттук.
-// Докато стойност е 0, на сайта вместо нея стои „… €“.
-// TODO: всички стойности идват от клиента
+// Ако стойност е 0, на сайта вместо нея стои „… €“.
+//
+// Примерни цени: насоките на бат Миро (хамалин 10–15 € на час, около 40 € за бус) и сравнение
+// с ценоразписите на фирми в София, октомври 2026 г.: хамалин 8–20 €/час, бус с шофьор 15–20 €/час,
+// двама хамали с бус ~50 €/час, извън града ~0,50 €/км в двете посоки, извозване ~40 € на курс,
+// минимум 2 часа. TODO: всяка цена да се потвърди с бат Миро
 
 export interface Job {
   label: string;
@@ -27,34 +31,34 @@ export interface Pricing {
 }
 
 export const pricing = {
-  porterPerHour: 0, // c_p — хамалин на час // TODO
-  vanPerHour: 0, // c_v — бус с шофьор на час, в града // TODO
-  minHours: 0, // h_min — минимална поръчка в часове // TODO
-  minOrderPorters: 0, // хамали за минималната поръчка // TODO
-  perFloor: 0, // c_f — на етаж без асансьор // TODO
-  perKm: 0, // c_d — на км извън града // TODO
+  porterPerHour: 12, // c_p — хамалин на час // TODO: примерна
+  vanPerHour: 25, // c_v — бус с шофьор на час, в града // TODO: примерна
+  minHours: 2, // h_min — минимална поръчка в часове // TODO: примерна
+  minOrderPorters: 2, // хамали за минималната поръчка // TODO: примерна
+  perFloor: 5, // c_f — на етаж без асансьор, за цялото преместване // TODO: примерна
+  perKm: 1, // c_d — на км извън града (≈ 0,50 € на км в двете посоки) // TODO: примерна
 
   // Пакетите в ценоразписа се смятат от тези стойности по формулата на калкулатора
   jobs: {
-    studio: { label: 'Гарсониера', porters: 0, hours: [0, 0] }, // TODO
-    twoRoom: { label: 'Двустаен', porters: 0, hours: [0, 0] }, // TODO
-    threeRoom: { label: 'Тристаен', porters: 0, hours: [0, 0] }, // TODO
-    house: { label: 'Къща', porters: 0, hours: [0, 0] }, // TODO
+    studio: { label: 'Гарсониера', porters: 2, hours: [2, 3] }, // TODO: примерна
+    twoRoom: { label: 'Двустаен', porters: 3, hours: [3, 5] }, // TODO: примерна
+    threeRoom: { label: 'Тристаен', porters: 4, hours: [4, 6] }, // TODO: примерна
+    house: { label: 'Къща', porters: 4, hours: [6, 9] }, // TODO: примерна
   },
 
   extras: {
-    assembly: { label: 'Демонтаж и монтаж', price: 0 }, // TODO
-    packing: { label: 'Опаковане', price: 0 }, // TODO
-    junkRemoval: { label: 'Извозване на стари мебели', price: 0 }, // TODO
+    assembly: { label: 'Демонтаж и монтаж', price: 20 }, // TODO: примерна
+    packing: { label: 'Опаковане', price: 15 }, // TODO: примерна
+    junkRemoval: { label: 'Извозване на стари мебели', price: 40 }, // TODO: примерна — „около 40 € за бус“
   },
 
   // Цена „от“ на картата и страницата на всяка услуга (ключът е slug от services.ts)
   servicesFrom: {
-    'premestvane-na-dom': 0, // TODO
-    'premestvane-na-ofis': 0, // TODO
-    'izvozvane-na-mebeli': 0, // TODO
-    'montazh-na-mebeli': 0, // TODO
-    'bus-s-hamali': 0, // TODO
+    'premestvane-na-dom': 95, // = пакет „Гарсониера“ // TODO: примерна
+    'premestvane-na-ofis': 100, // TODO: примерна
+    'izvozvane-na-mebeli': 40, // на курс // TODO: примерна
+    'montazh-na-mebeli': 20, // TODO: примерна
+    'bus-s-hamali': 37, // на час: бус с шофьор + 1 хамалин // TODO: примерна
   },
 } satisfies Pricing;
 
