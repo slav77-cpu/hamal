@@ -7,7 +7,7 @@ export const site = {
   brandLine: 'Хамалска и строителна бригада',
   // Домейнът на сайта; от него стават canonical адресите и sitemap
   url: 'https://hamal-ap4e.onrender.com', // TODO: временно адресът от Render — сменете с домейна на фирмата
-  city: '[ГРАД]', // TODO
+  city: 'Пловдив',
   // Цветова палитра на сайта (design/DESIGN.md): 'blue' — синьо + оранжево, 'graphite' — графит + жълто, 'forest' — зелено + горчица
   theme: 'graphite' as 'blue' | 'graphite' | 'forest', // черно + жълто, като логото
 
