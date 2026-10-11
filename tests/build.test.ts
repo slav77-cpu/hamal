@@ -16,6 +16,7 @@ const pages = [
   '/',
   '/uslugi',
   ...services.map((s) => `/uslugi/${s.slug}`),
+  '/stroitelni-uslugi',
   '/ceni',
   '/za-nas',
   '/kontakti',
@@ -39,7 +40,7 @@ function jpegSize(file: string) {
 }
 
 describe.skipIf(!built)('готовият сайт (dist/)', () => {
-  it('всички 11 страници са build-нати', () => {
+  it('всички 12 страници са build-нати', () => {
     for (const path of pages) expect(existsSync(fileOf(path)), path).toBe(true);
   });
 
@@ -59,9 +60,9 @@ describe.skipIf(!built)('готовият сайт (dist/)', () => {
       expect(jpegSize(file)).toEqual({ width: 1200, height: 630 });
     });
 
-    it('JSON-LD е валиден JSON с MovingCompany', () => {
+    it('JSON-LD е валиден JSON с MovingCompany и GeneralContractor', () => {
       const ld = doc(path).querySelector('script[type="application/ld+json"]')?.textContent ?? '';
-      expect(JSON.parse(ld)['@type']).toBe('MovingCompany');
+      expect(JSON.parse(ld)['@type']).toEqual(['MovingCompany', 'GeneralContractor']);
     });
 
     it('всички снимки имат alt и размери; под първия екран се зареждат отложено', () => {
@@ -110,7 +111,7 @@ describe.skipIf(!built)('готовият сайт (dist/)', () => {
     });
   });
 
-  it('sitemap: всички 11 страници, без наклонена черта в края', () => {
+  it('sitemap: всички 12 страници, без наклонена черта в края', () => {
     const xml = readFileSync(join(DIST, 'sitemap-0.xml'), 'utf8');
     const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]).sort();
     const expected = pages.map((p) => new URL(p, site.url).href).sort();

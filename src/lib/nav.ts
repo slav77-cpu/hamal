@@ -8,6 +8,7 @@ export const serviceLinks = services.map((s) => ({
 }));
 
 export const mainLinks = [
+  { href: '/stroitelni-uslugi', label: 'Строителство' },
   { href: '/ceni', label: 'Цени' },
   { href: '/za-nas', label: 'За нас' },
   { href: '/kontakti', label: 'Контакти' },

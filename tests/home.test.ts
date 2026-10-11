@@ -6,6 +6,7 @@ import IndexPage from '../src/pages/index.astro';
 import { contact } from '../src/lib/links';
 import { faq } from '../src/data/faq';
 import { reviews } from '../src/data/reviews';
+import { construction } from '../src/data/construction';
 import { services } from '../src/data/services';
 import { site } from '../src/data/site';
 
@@ -30,6 +31,7 @@ describe('начална страница', () => {
     expect(ids).toEqual([
       '', // първи екран
       'uslugi',
+      'stroitelstvo',
       'ceni',
       'kalkulator',
       'kak-rabotim',
@@ -54,6 +56,13 @@ describe('начална страница', () => {
   it('услуги: карта с линк за всяка услуга', () => {
     const links = hrefs(section('uslugi'));
     for (const s of services) expect(links).toContain(`/uslugi/${s.slug}`);
+  });
+
+  it('строителни услуги: всички от construction.ts, без цени, с линк към страницата им', () => {
+    const tiles = section('stroitelstvo').querySelectorAll('li');
+    expect(tiles).toHaveLength(construction.services.length);
+    expect(section('stroitelstvo').textContent).not.toMatch(/\d\s?€/);
+    expect(hrefs(section('stroitelstvo'))).toEqual(expect.arrayContaining(['/stroitelni-uslugi', contact.tel]));
   });
 
   it('цени накратко: 3–4 цени и бутон „Изчисли цена“ към калкулатора на страницата', () => {

@@ -3,6 +3,7 @@ import { createContainer } from './container';
 import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 import { parseHTML } from 'linkedom';
 import { beforeAll, describe, expect, it } from 'vitest';
+import { construction } from '../src/data/construction';
 import { services } from '../src/data/services';
 import { site } from '../src/data/site';
 import { contact } from '../src/lib/links';
@@ -19,6 +20,7 @@ const routes: { path: string; component: AstroComponentFactory; props?: Record<s
     component: page('uslugi/[slug].astro'),
     props: { service },
   })),
+  { path: '/stroitelni-uslugi', component: page('stroitelni-uslugi.astro') },
   { path: '/ceni', component: page('ceni.astro') },
   { path: '/za-nas', component: page('za-nas.astro') },
   { path: '/kontakti', component: page('kontakti.astro') },
@@ -62,6 +64,7 @@ it('всички страници от т. 3 съществуват (без /bla
     '../src/pages/index.astro',
     '../src/pages/kontakti.astro',
     '../src/pages/poveritelnost.astro',
+    '../src/pages/stroitelni-uslugi.astro',
     '../src/pages/uslugi/[slug].astro',
     '../src/pages/uslugi/index.astro',
     '../src/pages/za-nas.astro',
@@ -138,6 +141,21 @@ describe('страници за услуги', () => {
   it('текстът на всяка услуга е различен', () => {
     const bodies = services.map((s) => doc(`/uslugi/${s.slug}`).querySelector('#vklyucheno')?.textContent);
     expect(new Set(bodies).size).toBe(services.length);
+  });
+});
+
+describe('/stroitelni-uslugi', () => {
+  it('H1 с града, всички услуги от construction.ts и без цени в евро', () => {
+    expect(doc('/stroitelni-uslugi').querySelector('h1')?.textContent).toBe(`Строителни услуги в ${site.city}`);
+    const cards = doc('/stroitelni-uslugi').querySelectorAll('#kakvo-pravim li');
+    expect(cards).toHaveLength(construction.services.length);
+    for (const service of construction.services) expect(text('/stroitelni-uslugi')).toContain(service.title);
+    expect(text('/stroitelni-uslugi')).not.toMatch(/\d\s?€/);
+    expect(text('/stroitelni-uslugi')).toContain(construction.priceNote);
+  });
+
+  it('има линк към нея от менюто на всяка страница', () => {
+    for (const route of routes) expect(links(route.path, 'header')).toContain('/stroitelni-uslugi');
   });
 });
 

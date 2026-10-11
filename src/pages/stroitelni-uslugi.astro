@@ -1,0 +1,46 @@
+---
+// Строителни услуги (по желание на бат Миро): списък без цени — цена и оферта на място.
+import Base from '../layouts/Base.astro';
+import CallToAction from '../components/CallToAction.astro';
+import ConstructionGrid from '../components/ConstructionGrid.astro';
+import ContactButtons from '../components/ContactButtons.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
+import Steps from '../components/Steps.astro';
+import { construction } from '../data/construction';
+import { site } from '../data/site';
+import { inCity } from '../lib/format';
+
+const city = inCity(site.city);
+const titles = construction.services.map((s) => s.title.toLowerCase());
+
+const steps = [
+  { title: 'Обаждате се или пращате снимки', text: 'Кажете какво трябва да се направи или пратете снимки на обекта във Viber или WhatsApp.' },
+  { title: 'Идваме на оглед', text: 'Уговаряме удобен ден и час и идваме на място.' },
+  { title: 'Получавате оферта', text: 'Цената и сроковете ги казваме след огледа.' },
+  { title: 'Бригадата започва', text: 'В уговорения ден бригадата идва и започва работа.' },
+];
+---
+
+<Base
+  title={`Строителни услуги ${site.city} — гипсокартон, шпакловка, бани, плочки | ${site.name}`}
+  description={`Строителни услуги ${city}: ${titles.slice(0, 6).join(', ')} и още. ${construction.priceNote} Обадете се за оглед.`}
+>
+  <PageHeader title={`Строителни услуги ${city}`} intro={`${construction.intro} ${construction.priceNote}`} current="Строителни услуги">
+    <ContactButtons tone="dark" photosNote={false} class="mt-7 max-w-md" />
+  </PageHeader>
+
+  <Section id="kakvo-pravim" eyebrow="Строителство" title="Какво правим" tone="ground">
+    <ConstructionGrid variant="cards" />
+  </Section>
+
+  <Section id="kak-rabotim" eyebrow="Как работим" title="От огледа до готовия обект">
+    <Steps steps={steps} />
+  </Section>
+
+  <CallToAction
+    title="Обади се за оглед"
+    intro="Кажете какъв ремонт ви трябва — ще дойдем на място и ще ви дадем оферта."
+    photosNote="Пратете снимки на обекта във Viber или WhatsApp"
+  />
+</Base>

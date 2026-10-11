@@ -52,14 +52,14 @@ describe('head на страниците', () => {
     expect(meta(doc, 'meta[property="og:image:height"]')).toBe('630');
   });
 
-  it('JSON-LD MovingCompany с данните от site.ts', async () => {
+  it('JSON-LD MovingCompany + GeneralContractor с данните от site.ts', async () => {
     const doc = await render(IndexPage, '/');
     const scripts = doc.querySelectorAll('script[type="application/ld+json"]');
     expect(scripts).toHaveLength(1);
     const data = JSON.parse(scripts[0].textContent ?? '');
     expect(data).toMatchObject({
       '@context': 'https://schema.org',
-      '@type': 'MovingCompany',
+      '@type': ['MovingCompany', 'GeneralContractor'],
       name: site.name,
       url: site.url,
       telephone: site.phone,

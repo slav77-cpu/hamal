@@ -1,11 +1,12 @@
-// JSON-LD за търсачките (т. 9): MovingCompany с данните от site.ts.
+// JSON-LD за търсачките (т. 9): MovingCompany + GeneralContractor с данните от site.ts.
 
 import { site } from '../data/site';
 
 export function movingCompanySchema(imageUrl?: string) {
   return {
     '@context': 'https://schema.org',
-    '@type': 'MovingCompany',
+    // Хамалски и строителни услуги — и двата типа са LocalBusiness в schema.org
+    '@type': ['MovingCompany', 'GeneralContractor'],
     name: site.name,
     url: site.url,
     telephone: site.phone,

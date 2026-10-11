@@ -5,6 +5,7 @@ import logo from '../assets/brand/logo.png';
 import Base from '../layouts/Base.astro';
 import Calculator from '../components/Calculator';
 import CallToAction from '../components/CallToAction.astro';
+import ConstructionGrid from '../components/ConstructionGrid.astro';
 import Faq from '../components/Faq.astro';
 import Gallery from '../components/Gallery.astro';
 import GoogleRating from '../components/GoogleRating.astro';
@@ -13,8 +14,10 @@ import Icon from '../components/Icon.astro';
 import Reviews from '../components/Reviews.astro';
 import Section from '../components/Section.astro';
 import ServiceCard from '../components/ServiceCard.astro';
+import Steps from '../components/Steps.astro';
 import Tape from '../components/Tape.astro';
 import WhyUs from '../components/WhyUs.astro';
+import { construction } from '../data/construction';
 import { faq } from '../data/faq';
 import { gallery } from '../data/photos';
 import { pricing } from '../data/pricing';
@@ -165,6 +168,30 @@ const steps = [
     </ul>
   </Section>
 
+  <!-- Строителни услуги (по желание на бат Миро) — без цени, оферта на място -->
+  <Section
+    id="stroitelstvo"
+    eyebrow="Строителство"
+    title="Строителни услуги"
+    intro={`${construction.intro} ${construction.priceNote}`}
+    tone="ink"
+  >
+    <a href="/stroitelni-uslugi" slot="action" class="text-link text-white">
+      Всички строителни услуги <Icon name="arrow-right" class="size-[18px]" />
+    </a>
+    <ConstructionGrid />
+    <div class="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
+      <a href={contact.tel} class="btn btn-primary" data-umami-event="call_click">
+        <Icon name="phone" class="size-5" />
+        Обади се за оглед
+      </a>
+      <a href={contact.viber} class="btn btn-ghost" data-umami-event="viber_click">
+        <Icon name="viber" class="size-5" />
+        Пратете снимки на обекта
+      </a>
+    </div>
+  </Section>
+
   <!-- 4. Цени накратко -->
   <Section
     id="ceni"
@@ -197,31 +224,7 @@ const steps = [
 
   <!-- 5. Как работим -->
   <Section id="kak-rabotim" eyebrow="Как работим" title="Четири стъпки до новото място">
-    <ol class="grid gap-x-6 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
-      {
-        steps.map((step, i) => {
-          const last = i === steps.length - 1;
-          return (
-            <li class="flex flex-col gap-3">
-              <div class="flex items-center gap-3.5">
-                <span
-                  class:list={[
-                    'grid size-[60px] shrink-0 place-items-center rounded-full font-display text-[30px] leading-none font-black',
-                    last ? 'bg-ink text-accent' : 'bg-accent text-ink',
-                  ]}
-                  aria-hidden="true"
-                >
-                  {i + 1}
-                </span>
-                {!last && <span aria-hidden="true" class="flex-grow border-t-2 border-dashed border-muted/35" />}
-              </div>
-              <h3 class="mt-1.5 text-[21px] font-extrabold">{step.title}</h3>
-              <p class="text-base leading-normal text-muted">{step.text}</p>
-            </li>
-          );
-        })
-      }
-    </ol>
+    <Steps steps={steps} />
   </Section>
 
   <!-- 6. Защо нас -->
@@ -241,7 +244,7 @@ const steps = [
   </Section>
 
   <!-- 9. Райони -->
-  <Section id="rayoni" eyebrow="Райони" title="Къде работим">
+  <Section id="rayoni" eyebrow="Райони" title="Къде работим" intro={`Целият ${site.city} и близките градчета.`}>
     <ul class="flex flex-wrap gap-2.5">
       {
         site.areas.map((area) => (
@@ -252,7 +255,7 @@ const steps = [
         ))
       }
     </ul>
-    <p class="mt-6 text-muted">Не виждате вашия район? Обадете се — ще ви кажем дали идваме и на каква цена.</p>
+    <p class="mt-6 text-muted">Не сте сигурни дали идваме и при вас? Обадете се — ще ви кажем веднага.</p>
   </Section>
 
   <!-- 10. Често задавани въпроси -->

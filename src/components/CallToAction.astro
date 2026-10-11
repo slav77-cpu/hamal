@@ -8,12 +8,14 @@ interface Props {
   id?: string;
   title?: string;
   intro?: string;
+  photosNote?: string;
 }
 
 const {
   id = 'kontakt',
   title = 'Обади се сега',
   intro = 'Кажете какво местите и откъде докъде — ще ви кажем цената и свободните дни.',
+  photosNote = 'Пратете снимки на багажа за точна цена',
 } = Astro.props;
 ---
 
@@ -46,7 +48,7 @@ const {
     </div>
     <p class="flex items-center gap-2 text-[15px] font-semibold">
       <Icon name="camera" class="size-5" />
-      Пратете снимки на багажа за точна цена
+      {photosNote}
     </p>
   </div>
 </section>

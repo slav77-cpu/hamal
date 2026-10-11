@@ -1,5 +1,5 @@
 ---
-// Горна лента (design/DESIGN.md, т. 6.1): тъмна, лепкава, 76px. Меню над 900px; под 640px телефонът е само иконка.
+// Горна лента (design/DESIGN.md, т. 6.1): тъмна, лепкава, 76px. Меню над 1100px (иначе ☰); под 640px телефонът е само иконка.
 import { Image } from 'astro:assets';
 import mark from '../assets/brand/mark.png';
 import Icon from './Icon.astro';
@@ -11,7 +11,7 @@ const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const current = (href: string) => (path === href ? 'page' : undefined);
 const inServices = path === '/uslugi' || path.startsWith('/uslugi/');
 const inSection = (href: string) => path === href || path.startsWith(`${href}/`);
-const navLink = 'rounded-lg px-3 py-2 underline-offset-[10px] hover:text-white hover:underline';
+const navLink = 'rounded-lg px-3 py-2 whitespace-nowrap underline-offset-[10px] hover:text-white hover:underline';
 const active = 'text-white underline decoration-accent decoration-2';
 ---
 
@@ -26,7 +26,7 @@ const active = 'text-white underline decoration-accent decoration-2';
     </a>
 
     <nav
-      class="ml-auto hidden items-center gap-2 text-base font-semibold text-white/85 min-[900px]:flex"
+      class="ml-auto hidden items-center gap-2 text-base font-semibold text-white/85 min-[1100px]:flex"
       aria-label="Основно меню"
     >
       <div class="relative" data-dropdown>
@@ -75,7 +75,7 @@ const active = 'text-white underline decoration-accent decoration-2';
       }
     </nav>
 
-    <div class="ml-auto flex shrink-0 items-center gap-2 min-[900px]:ml-4">
+    <div class="ml-auto flex shrink-0 items-center gap-2 min-[1100px]:ml-4">
       <a
         href={contact.tel}
         class="btn btn-primary min-h-12 min-w-12 px-3 sm:px-4"
@@ -87,7 +87,7 @@ const active = 'text-white underline decoration-accent decoration-2';
       </a>
       <button
         type="button"
-        class="group grid size-12 place-items-center rounded-xl border-2 border-white/30 min-[900px]:hidden"
+        class="group grid size-12 place-items-center rounded-xl border-2 border-white/30 min-[1100px]:hidden"
         aria-expanded="false"
         aria-controls="mobile-menu"
         aria-label="Меню"
@@ -99,7 +99,7 @@ const active = 'text-white underline decoration-accent decoration-2';
     </div>
   </div>
 
-  <div id="mobile-menu" class="max-h-[calc(100dvh-76px)] overflow-y-auto border-t border-white/10 min-[900px]:hidden" hidden>
+  <div id="mobile-menu" class="max-h-[calc(100dvh-76px)] overflow-y-auto border-t border-white/10 min-[1100px]:hidden" hidden>
     <nav class="container-page py-4" aria-label="Меню">
       <p class="px-3 text-[13px] font-extrabold tracking-[0.1em] text-white/60 uppercase">Услуги</p>
       <ul class="mt-1">
